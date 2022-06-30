@@ -13,7 +13,9 @@ CREATE TABLE Game (
     Team_1      INT NOT NULL,
     Team_2      INT NOT NULL,
     League      INT NOT NULL,
-    /*Date        date,*/
+    Time        TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    Bets_t1     INT DEFAULT 1,
+    Bets_t2     INT DEFAULT 1,
     CHECK ( Team_1 <> Team_2 ),
     FOREIGN KEY (League) REFERENCES League(Id),
     FOREIGN KEY (Team_1) REFERENCES Team(Id),

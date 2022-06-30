@@ -3,12 +3,16 @@ package server
 import (
 	"log"
 	"net/http"
+
 	//"time"
 
 	"github.com/JorgeMG117/LolBets/backend/configs"
+	"github.com/JorgeMG117/LolBets/backend/models"
 	"github.com/JorgeMG117/LolBets/backend/routes"
 
-    "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
+    "fmt"
+    "os"
 )
 
 
@@ -34,9 +38,20 @@ func ExecServer() error {
 		//WriteTimeout:   10 * time.Second,
 		//MaxHeaderBytes: 1 << 20,
 	}
-    //http.HandleFunc("/", getRoot)
 
+    err = models.InitializeGames(s.Db)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "%s\n", err)
+    }
+    
+    chBets := make([]chan models.Bet, models.MaxGames) 
 
+    for i := 0; i < models.NumGames(); i++ {
+        chBets[i] = make(chan models.Bet)
+        go models.BetController(chBets[i], i) 
+    }
+    //TODO Añadimos el slice de chans a s
+    s.ChBets = chBets
 
 	log.Fatal(serv.ListenAndServe())
 
