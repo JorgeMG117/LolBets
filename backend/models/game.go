@@ -44,7 +44,9 @@ func BetController(chBets chan Bet, idxGame int){
             } else {
                 games[idxGame].Bets2 += bet.Value
             }
-        case <-time.After(1000):
+            fmt.Println(games)
+        case <-time.After(10 * time.Minute):
+            fmt.Println("Bet " + strconv.Itoa(idxGame)+ " is over")
             out = true
         }
     }

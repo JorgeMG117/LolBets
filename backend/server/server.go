@@ -50,7 +50,6 @@ func ExecServer() error {
         chBets[i] = make(chan models.Bet)
         go models.BetController(chBets[i], i) 
     }
-    //TODO Añadimos el slice de chans a s
     s.ChBets = chBets
 
 	log.Fatal(serv.ListenAndServe())
