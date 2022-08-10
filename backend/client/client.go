@@ -1,9 +1,12 @@
 package client
 
 import (
-    "log"
-    "net/url"
-    "github.com/gorilla/websocket"
+	"encoding/json"
+	"log"
+	"net/url"
+
+	"github.com/JorgeMG117/LolBets/backend/models"
+	"github.com/gorilla/websocket"
 )
 
 func Client(){
@@ -20,12 +23,33 @@ func Client(){
     //When the program closes close the connection
     defer c.Close()
 
-    t := "100"
-    err = c.WriteMessage(websocket.TextMessage, []byte(t))
+    go func() {
+        for {
+            _, message, err := c.ReadMessage()
+            if err != nil {
+                log.Println("{error:" + err.Error() + "}")
+
+            }
+            log.Printf("recv: %s", message)
+
+        }
+    }()
+
+    m := models.Bet{
+        100,
+        false,
+    }
+
+    // func Marshal(v interface{}) ([]byte, error)
+    b, _ := json.Marshal(&m)
+
+    err = c.WriteMessage(websocket.TextMessage, []byte(string(b)))
     if err != nil {
         log.Println("write:", err)
         return
     }
+
+    for{}
 
 
     /*

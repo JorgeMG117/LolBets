@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/websocket"
     "fmt"
     "strconv"
+    "encoding/json"
 )
 
 var upgrader = websocket.Upgrader{
@@ -14,32 +15,46 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-//TODO
+func isValid(msg []byte) (models.Bet, bool) {
+    var bet models.Bet
+    err := json.Unmarshal(msg, &bet)
+    if err != nil {
+        log.Println("{error:" + err.Error() + "}")
+        return bet, false
+    }
+    return bet, true
+}
+
 func userBetController(conn *websocket.Conn, chBets chan models.Bet) {
     defer conn.Close()
     for {
         mt, message, err := conn.ReadMessage()
+
 		if err != nil {
-			log.Println("read:", err)
-			break
+            log.Println("{error:" + err.Error() + "}")
+            err = conn.WriteMessage(mt, []byte("{error:" + err.Error() + "}"))
+		    if err != nil {
+                log.Println("{error:" + err.Error() + "}")
+                break
+            }
 		}
 
         log.Printf("recv: %s", message)
-        //Check if bets if bet is correct
-        correct := true
 
-        if correct {
-            val, err := strconv.Atoi(string(message))
+        if bet, ok := isValid(message); ok {
+
+            chBets <- bet
+            log.Println(`{"error":"success"}`)
+
+            err = conn.WriteMessage(mt, []byte(`{"error":"success"}`))
             if err != nil {
-                log.Println("write:", err)
+                log.Println("{error:" + err.Error() + "}")
                 break
             }
-            chBets <- models.Bet{val, false} 
         } else {
-            response := "There was an error in the bet" 
-            err = conn.WriteMessage(mt, []byte(response))
+            err = conn.WriteMessage(mt, []byte(`{"error":"bet is not correct"}`))
             if err != nil {
-                log.Println("write:", err)
+                log.Println("{error:" + err.Error() + "}")
                 break
             }
         }
