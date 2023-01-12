@@ -1,0 +1,3779 @@
+{
+    "data": {
+      "schedule": {
+        "pages": {
+          "older": "b2xkZXI6OjEwODE3NjY3MjI4NjY2MzgwNA==",
+          "newer": "bmV3ZXI6OjEwOTQ2NjUzNzcwNzMxNzAxOA=="
+        },
+        "events": [
+          {
+            "startTime": "2022-07-30T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 6",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663804",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Misfits Gaming",
+                  "code": "MSF",
+                  "image": "http://static.lolesports.com/teams/1592591419157_MisfitsMSF-01-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 8
+                  }
+                },
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-07-30T16:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 6",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286598206",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                },
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 7
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-07-30T17:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 6",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286598218",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-07-30T18:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 6",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663776",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                },
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 15
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-07-30T19:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 6",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663790",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                },
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 9,
+                    "losses": 10
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-05T16:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286598204",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Misfits Gaming",
+                  "code": "MSF",
+                  "image": "http://static.lolesports.com/teams/1592591419157_MisfitsMSF-01-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 8
+                  }
+                },
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-05T17:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729356",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 9,
+                    "losses": 10
+                  }
+                },
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 15
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-05T18:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663774",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                },
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-05T19:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663794",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 7
+                  }
+                },
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-05T20:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286598216",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-06T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286598212",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                },
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 9,
+                    "losses": 10
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-06T16:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663762",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 15
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-06T17:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663792",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Misfits Gaming",
+                  "code": "MSF",
+                  "image": "http://static.lolesports.com/teams/1592591419157_MisfitsMSF-01-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 8
+                  }
+                },
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-06T18:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663810",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                },
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 7
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-06T19:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 7",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663766",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-12T16:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663806",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 15
+                  }
+                },
+                {
+                  "name": "Misfits Gaming",
+                  "code": "MSF",
+                  "image": "http://static.lolesports.com/teams/1592591419157_MisfitsMSF-01-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 8
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-12T17:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729354",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                },
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 9,
+                    "losses": 10
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-12T18:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663758",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 7
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-12T19:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286598198",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                },
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-12T20:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663780",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                },
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-13T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729348",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 7
+                  }
+                },
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 15
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-13T16:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663760",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                },
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-13T17:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286598202",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                },
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-13T18:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663778",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 9,
+                    "losses": 10
+                  }
+                },
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-13T19:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663782",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                },
+                {
+                  "name": "Misfits Gaming",
+                  "code": "MSF",
+                  "image": "http://static.lolesports.com/teams/1592591419157_MisfitsMSF-01-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 8
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-14T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286598196",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                },
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-14T16:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663798",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                },
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 15
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-14T17:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663786",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 7,
+                    "losses": 11
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 12,
+                    "losses": 6
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-14T18:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729350",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 9,
+                    "losses": 10
+                  }
+                },
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 7
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-14T19:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286663770",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Misfits Gaming",
+                  "code": "MSF",
+                  "image": "http://static.lolesports.com/teams/1592591419157_MisfitsMSF-01-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 8
+                  }
+                },
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-14T20:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108822994175151128",
+              "flags": [
+                "hasVod",
+                "isSpoiler"
+              ],
+              "teams": [
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                },
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 9,
+                    "losses": 10
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-14T21:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Week 8",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108823019153567365",
+              "flags": [
+                "hasVod",
+                "isSpoiler"
+              ],
+              "teams": [
+                {
+                  "name": "Misfits Gaming",
+                  "code": "MSF",
+                  "image": "http://static.lolesports.com/teams/1592591419157_MisfitsMSF-01-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 11,
+                    "losses": 8
+                  }
+                },
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 10,
+                    "losses": 9
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-26T16:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Playoffs - Round 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729364",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 3
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 1
+                  }
+                },
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 2
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 2
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 5
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-27T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Playoffs - Round 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729358",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 3
+                  },
+                  "record": {
+                    "wins": 2,
+                    "losses": 1
+                  }
+                },
+                {
+                  "name": "Misfits Gaming",
+                  "code": "MSF",
+                  "image": "http://static.lolesports.com/teams/1592591419157_MisfitsMSF-01-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 2
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 5
+              }
+            }
+          },
+          {
+            "startTime": "2022-08-28T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Playoffs - Round 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729370",
+              "flags": [
+                "hasVod"
+              ],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 3
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 1
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 2
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 1
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 5
+              }
+            }
+          },
+          {
+            "startTime": "2022-09-02T16:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Playoffs - Round 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729382",
+              "flags": [
+                "hasVod",
+                "isSpoiler"
+              ],
+              "teams": [
+                {
+                  "name": "Misfits Gaming",
+                  "code": "MSF",
+                  "image": "http://static.lolesports.com/teams/1592591419157_MisfitsMSF-01-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 2
+                  }
+                },
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 3
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 1
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 5
+              }
+            }
+          },
+          {
+            "startTime": "2022-09-03T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Playoffs - Round 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729376",
+              "flags": [
+                "hasVod",
+                "isSpoiler"
+              ],
+              "teams": [
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 3
+                  },
+                  "record": {
+                    "wins": 2,
+                    "losses": 1
+                  }
+                },
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 1
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 5
+              }
+            }
+          },
+          {
+            "startTime": "2022-09-04T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Playoffs - Round 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729388",
+              "flags": [
+                "hasVod",
+                "isSpoiler"
+              ],
+              "teams": [
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 2
+                  }
+                },
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 3
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 1
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 5
+              }
+            }
+          },
+          {
+            "startTime": "2022-09-10T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Semifinals",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729394",
+              "flags": [
+                "hasVod",
+                "isSpoiler"
+              ],
+              "teams": [
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 3
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 1
+                  }
+                },
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 1
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 1
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 5
+              }
+            }
+          },
+          {
+            "startTime": "2022-09-11T15:00:00Z",
+            "state": "completed",
+            "type": "match",
+            "blockName": "Finals",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "108176672286729400",
+              "flags": [
+                "hasVod",
+                "isSpoiler"
+              ],
+              "teams": [
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": "loss",
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 2,
+                    "losses": 1
+                  }
+                },
+                {
+                  "name": "Rogue",
+                  "code": "RGE",
+                  "image": "http://static.lolesports.com/teams/1631819715136_rge-2021-worlds.png",
+                  "result": {
+                    "outcome": "win",
+                    "gameWins": 3
+                  },
+                  "record": {
+                    "wins": 3,
+                    "losses": 1
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 5
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-21T17:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707316992",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-21T18:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317026",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "KOI",
+                  "code": "KOI",
+                  "image": "http://static.lolesports.com/teams/1672933825498_KOI_29logo_square.webp",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-21T19:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382588",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Heretics",
+                  "code": "TH",
+                  "image": "http://static.lolesports.com/teams/1672933861879_Heretics-Full-Color.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-21T20:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382606",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-21T21:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382616",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-22T17:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382582",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-22T18:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382590",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-22T19:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382602",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Team Heretics",
+                  "code": "TH",
+                  "image": "http://static.lolesports.com/teams/1672933861879_Heretics-Full-Color.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-22T20:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707316994",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "KOI",
+                  "code": "KOI",
+                  "image": "http://static.lolesports.com/teams/1672933825498_KOI_29logo_square.webp",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-22T21:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317024",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-23T17:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382600",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Team Heretics",
+                  "code": "TH",
+                  "image": "http://static.lolesports.com/teams/1672933861879_Heretics-Full-Color.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-23T18:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707316996",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-23T19:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317014",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-23T20:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382574",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "KOI",
+                  "code": "KOI",
+                  "image": "http://static.lolesports.com/teams/1672933825498_KOI_29logo_square.webp",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-23T21:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 1",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382608",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-28T17:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382594",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-28T18:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382586",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-28T19:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382566",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Heretics",
+                  "code": "TH",
+                  "image": "http://static.lolesports.com/teams/1672933861879_Heretics-Full-Color.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "KOI",
+                  "code": "KOI",
+                  "image": "http://static.lolesports.com/teams/1672933825498_KOI_29logo_square.webp",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-28T20:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317020",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-28T21:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317002",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-29T17:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382576",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-29T18:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382612",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-29T19:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317016",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Heretics",
+                  "code": "TH",
+                  "image": "http://static.lolesports.com/teams/1672933861879_Heretics-Full-Color.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-29T20:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382568",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "KOI",
+                  "code": "KOI",
+                  "image": "http://static.lolesports.com/teams/1672933825498_KOI_29logo_square.webp",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-29T21:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317008",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-30T17:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707316998",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-30T18:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382580",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-30T19:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382570",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "KOI",
+                  "code": "KOI",
+                  "image": "http://static.lolesports.com/teams/1672933825498_KOI_29logo_square.webp",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-30T20:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317022",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-01-30T21:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 2",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382604",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Team Heretics",
+                  "code": "TH",
+                  "image": "http://static.lolesports.com/teams/1672933861879_Heretics-Full-Color.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-04T17:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382592",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-04T18:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317000",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Heretics",
+                  "code": "TH",
+                  "image": "http://static.lolesports.com/teams/1672933861879_Heretics-Full-Color.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-04T19:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317012",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-04T20:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382572",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "KOI",
+                  "code": "KOI",
+                  "image": "http://static.lolesports.com/teams/1672933825498_KOI_29logo_square.webp",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-04T21:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382610",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-05T17:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382578",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Heretics",
+                  "code": "TH",
+                  "image": "http://static.lolesports.com/teams/1672933861879_Heretics-Full-Color.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "Team BDS",
+                  "code": "BDS",
+                  "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-05T18:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317028",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Astralis",
+                  "code": "AST",
+                  "image": "http://static.lolesports.com/teams/AST-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "KOI",
+                  "code": "KOI",
+                  "image": "http://static.lolesports.com/teams/1672933825498_KOI_29logo_square.webp",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-05T19:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707382614",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Fnatic",
+                  "code": "FNC",
+                  "image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "SK Gaming",
+                  "code": "SK",
+                  "image": "http://static.lolesports.com/teams/1643979272144_SK_Monochrome.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-05T20:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317006",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "Team Vitality",
+                  "code": "VIT",
+                  "image": "http://static.lolesports.com/teams/Vitality-logo-color-outline-rgb.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "EXCEL",
+                  "code": "XL",
+                  "image": "http://static.lolesports.com/teams/Excel_FullColor2.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          },
+          {
+            "startTime": "2023-02-05T21:00:00Z",
+            "state": "unstarted",
+            "type": "match",
+            "blockName": "Week 3",
+            "league": {
+              "name": "LEC",
+              "slug": "lec"
+            },
+            "match": {
+              "id": "109466537707317018",
+              "flags": [],
+              "teams": [
+                {
+                  "name": "MAD Lions",
+                  "code": "MAD",
+                  "image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                },
+                {
+                  "name": "G2 Esports",
+                  "code": "G2",
+                  "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+                  "result": {
+                    "outcome": null,
+                    "gameWins": 0
+                  },
+                  "record": {
+                    "wins": 0,
+                    "losses": 0
+                  }
+                }
+              ],
+              "strategy": {
+                "type": "bestOf",
+                "count": 1
+              }
+            }
+          }
+        ]
+      }
+    }
+  }

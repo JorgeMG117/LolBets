@@ -9,7 +9,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
-var db *sql.DB
+
 
 func ConnectDB() *sql.DB {
 	// Capture connection properties.
@@ -22,8 +22,7 @@ func ConnectDB() *sql.DB {
 		AllowNativePasswords: true,
 	}
 	// Get a database handle.
-	var err error
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	db, err := sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
 		log.Fatal(err)
 	}
