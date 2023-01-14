@@ -11,67 +11,65 @@ import (
 	"github.com/JorgeMG117/LolBets/backend/models"
 )
 
-
 func (s *Server) Games(w http.ResponseWriter, r *http.Request) {
-    fmt.Println(r.Method)
-    switch r.Method {
-    case "GET":
-        var league string
-        var team string
-        
-        keys, exists := r.URL.Query()["league"]
+	fmt.Println(r.Method)
+	switch r.Method {
+	case "GET":
+		var league string
+		var team string
 
-        if exists {
-            league = keys[0]
-        } else {
-            league = "" 
-        }
+		keys, exists := r.URL.Query()["league"]
 
-        keys, exists = r.URL.Query()["team"]
+		if exists {
+			league = keys[0]
+		} else {
+			league = ""
+		}
 
-        if exists {
-            team = keys[0]
-        } else {
-            team = "" 
-        }
-        
-        games, err := models.GetGames(s.Db, league, team)
+		keys, exists = r.URL.Query()["team"]
 
-        if err != nil {
-            w.Write([]byte("{error:" + err.Error() + "}"))
-            return
-        }
+		if exists {
+			team = keys[0]
+		} else {
+			team = ""
+		}
 
-        //TODO
-        fmt.Println(games)
-    case "POST":
-        //Read body content
-        out := make([]byte, 1024)
-        bodyLen, err := r.Body.Read(out)
+		games, err := models.GetGames(s.Db, league, team)
 
-        if err != io.EOF {
-            //log.Println(err)
-            w.Write([]byte("{error:" + err.Error() + "}"))
-            return
-        }
+		if err != nil {
+			w.Write([]byte("{error:" + err.Error() + "}"))
+			return
+		}
 
-        var game models.Game 
+		//TODO
+		fmt.Println(games)
+	case "POST":
+		//Read body content
+		out := make([]byte, 1024)
+		bodyLen, err := r.Body.Read(out)
 
-        err = json.Unmarshal(out[:bodyLen],&game)
+		if err != io.EOF {
+			//log.Println(err)
+			w.Write([]byte("{error:" + err.Error() + "}"))
+			return
+		}
 
-        if err != nil {
-              w.Write([]byte("{error:" + err.Error() + "}"))
-              return
-        }
+		var game models.Game
 
-        err = models.AddGame(s.Db, &game)
+		err = json.Unmarshal(out[:bodyLen], &game)
 
-        if err != nil {
-              w.Write([]byte("{error:" + err.Error() + "}"))
-              return
-        }
+		if err != nil {
+			w.Write([]byte("{error:" + err.Error() + "}"))
+			return
+		}
 
-        w.Write([]byte(`{"error":"success"}`))
-    }
+		err = models.AddGame(s.Db, &game)
+
+		if err != nil {
+			w.Write([]byte("{error:" + err.Error() + "}"))
+			return
+		}
+
+		w.Write([]byte(`{"error":"success"}`))
+	}
 }
-

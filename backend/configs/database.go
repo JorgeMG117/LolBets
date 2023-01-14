@@ -4,12 +4,10 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-    "os"
+	"os"
 
 	"github.com/go-sql-driver/mysql"
 )
-
-
 
 func ConnectDB() *sql.DB {
 	// Capture connection properties.
@@ -17,7 +15,7 @@ func ConnectDB() *sql.DB {
 		User:                 os.Getenv("DBUSER"),
 		Passwd:               os.Getenv("DBPASS"),
 		Net:                  "tcp",
-		Addr:                 "127.0.0.1:3306",
+		Addr:                 os.Getenv("DBADDR"),
 		DBName:               os.Getenv("DBNAME"),
 		AllowNativePasswords: true,
 	}
@@ -32,5 +30,5 @@ func ConnectDB() *sql.DB {
 		log.Fatal(pingErr)
 	}
 	fmt.Println("Connected!")
-    return db
+	return db
 }

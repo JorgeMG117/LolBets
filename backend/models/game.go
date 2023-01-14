@@ -27,13 +27,6 @@ const MaxGames int = 50
 var games []Game
 var indexOfGame []int
 
-// TODO Moverlo a model.bet o algo asi
-type Bet struct {
-	Value int
-	Team  bool
-	//Usario???
-}
-
 // TODO
 func BetController(chBets chan Bet, idxGame int) {
 	out := false
@@ -42,6 +35,7 @@ func BetController(chBets chan Bet, idxGame int) {
 		case bet := <-chBets:
 			if bet.Team { //Team1
 				games[idxGame].Bets1 += bet.Value
+				//Añadir bet a la lista de betsActuales
 			} else {
 				games[idxGame].Bets2 += bet.Value
 			}
@@ -90,38 +84,50 @@ func InitializeGames(db *sql.DB) error {
 		indexOfGame = append(indexOfGame, game.Id)
 	}
 
+	initializeActiveBets()
+
 	fmt.Println(games)
 
 	return nil
 }
 
+// TODO: No se si habria que devolver mejor los guardados en memoria
 func GetGames(db *sql.DB, league string, team string) ([]Game, error) {
-	query := "SELECT t1.Name, t2.Name, l.Name FROM Game g, Team t1, Team t2, League l WHERE t1.Id = g.Team_1 AND t2.Id = g.Team_2 AND l.Id = g.League"
-	if league != "" {
-		query = query + " AND l.Name = " + league
-	}
-	if team != "" {
-		query = query + " AND (t1.Name = " + team + " OR t2.Name = " + team + ")"
-	}
+	// query := "SELECT t1.Name, t2.Name, l.Name FROM Game g, Team t1, Team t2, League l WHERE t1.Id = g.Team_1 AND t2.Id = g.Team_2 AND l.Id = g.League"
+	// if league != "" {
+	// 	query = query + " AND l.Name = " + league
+	// }
+	// if team != "" {
+	// 	query = query + " AND (t1.Name = " + team + " OR t2.Name = " + team + ")"
+	// }
 
-	rows, err := db.Query(query)
+	// rows, err := db.Query(query)
 
-	var games []Game
+	// var games []Game
 
-	if err != nil {
-		return games, err
-	}
+	// if err != nil {
+	// 	return games, err
+	// }
 
-	for rows.Next() {
-		var game Game
-		err = rows.Scan(&game.Team1, &game.Team2, &game.League)
-		if err != nil {
-			return games, err
+	// for rows.Next() {
+	// 	var game Game
+	// 	err = rows.Scan(&game.Team1, &game.Team2, &game.League)
+	// 	if err != nil {
+	// 		return games, err
+	// 	}
+	// 	games = append(games, game)
+	// }
+
+	// return games, nil
+
+	var response []Game
+
+	for _, val := range games {
+		if val.League == league && val.Team1 == team && val.Team2 == team {
+			response = append(response, val)
 		}
-		games = append(games, game)
 	}
-
-	return games, nil
+	return response, nil
 }
 
 func AddGame(db *sql.DB, newGame *Game) error {
@@ -133,6 +139,6 @@ func AddGame(db *sql.DB, newGame *Game) error {
 	return err
 }
 
-func GetUnfinishedGames() []Game {
+func GetUnfinishedGames(db *sql.DB) []Game {
 	return games
 }
