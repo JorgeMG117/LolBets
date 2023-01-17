@@ -9,15 +9,15 @@ import (
 )
 
 type Game struct {
-	Id        int    `json:"id"`
-	Team1     string `json:"team1"`
-	Team2     string `json:"team2"`
-	League    string `json:"league"`
-	Time      string `json:"time"`
-	Bets1     int    `json:"bets1"`
-	Bets2     int    `json:"bets2"`
-	Completed bool   `json:"completed"`
-	BlockName string `json:"blockName"`
+	Id        int       `json:"id"`
+	Team1     string    `json:"team1"`
+	Team2     string    `json:"team2"`
+	League    string    `json:"league"`
+	Time      time.Time `json:"time"`
+	Bets1     int       `json:"bets1"`
+	Bets2     int       `json:"bets2"`
+	Completed bool      `json:"completed"`
+	BlockName string    `json:"blockName"`
 }
 
 const MaxGames int = 50
@@ -31,17 +31,18 @@ var indexOfGame []int
 // TODO
 func BetController(chBets chan Bet, idxGame int) {
 	out := false
+	timeLeft := time.Until(games[idxGame].Time)
 	for !out {
 		select {
 		case bet := <-chBets:
 			if bet.Team { //Team1
 				games[idxGame].Bets1 += bet.Value
-				//Añadir bet a la lista de betsActuales
 			} else {
 				games[idxGame].Bets2 += bet.Value
 			}
+			activeBets[games[idxGame].Id] = append(activeBets[games[idxGame].Id], bet)
 			fmt.Println(games)
-		case <-time.After(10 * time.Minute):
+		case <-time.After(timeLeft * time.Minute):
 			fmt.Println("Bet " + strconv.Itoa(idxGame) + " is over")
 			out = true
 		}
@@ -66,7 +67,8 @@ func InitializeGames(db *sql.DB) error {
 	indexOfGame = make([]int, 0, MaxGames)
 
 	//Cojemos como mucho maxGames partidos
-	query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2 FROM Game g, Team t1, Team t2, League l WHERE t1.Id = g.Team_1 AND t2.Id = g.Team_2 AND l.Id = g.League"
+	//TODO: Quizas ordenar los resultados por los que se acaban antes
+	query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2 FROM Game g, Team t1, Team t2, League l WHERE t1.Id = g.Team_1 AND t2.Id = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
 	query = query + " LIMIT " + strconv.Itoa(MaxGames)
 
 	rows, err := db.Query(query)
@@ -124,7 +126,7 @@ func GetGames(db *sql.DB, league string, team string) ([]Game, error) {
 	var response []Game
 
 	for _, val := range games {
-		if val.League == league && val.Team1 == team && val.Team2 == team {
+		if val.League == league && (val.Team1 == team || val.Team2 == team) {
 			response = append(response, val)
 		}
 	}

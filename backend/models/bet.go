@@ -7,8 +7,8 @@ type Bet struct {
 	GameId int  `json:"gameId"`
 }
 
-var activeBets [][]Bet
+var activeBets map[int][]Bet
 
 func initializeActiveBets() {
-
+	activeBets = make(map[int][]Bet)
 }
