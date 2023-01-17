@@ -1,0 +1,8 @@
+POST localhost/league:8080
+content-type: application/json
+
+{
+    "name": "LEC",
+    "slug": "lec",
+    "image": "http://static.lolesports.com/leagues/1592516184297_LEC-01-FullonDark.png"
+}

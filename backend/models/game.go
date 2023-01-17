@@ -17,6 +17,7 @@ type Game struct {
 	Bets1     int    `json:"bets1"`
 	Bets2     int    `json:"bets2"`
 	Completed bool   `json:"completed"`
+	BlockName string `json:"blockName"`
 }
 
 const MaxGames int = 50
@@ -139,6 +140,25 @@ func AddGame(db *sql.DB, newGame *Game) error {
 	return err
 }
 
-func GetUnfinishedGames(db *sql.DB) []Game {
-	return games
+func GetUnfinishedGames(db *sql.DB) ([]Game, error) {
+	query := "SELECT t1.Name, t2.Name, l.Name, g.Time, g.Completed, g.BlockName FROM Game g, Team t1, Team t2, League l WHERE t1.Id = g.Team_1 AND t2.Id = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
+
+	rows, err := db.Query(query)
+
+	var games []Game
+
+	if err != nil {
+		return games, err
+	}
+
+	for rows.Next() {
+		var game Game
+		err = rows.Scan(&game.Team1, &game.Team2, &game.League, &game.Time, &game.Completed, &game.BlockName)
+		if err != nil {
+			return games, err
+		}
+		games = append(games, game)
+	}
+
+	return games, nil
 }

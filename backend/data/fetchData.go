@@ -66,8 +66,11 @@ func getApi(url string) []byte {
 	}
 
 	isValid := json.Valid(data)
-	fmt.Println(isValid)
-	fmt.Println(string(data))
+	if !isValid {
+		fmt.Println("Data not valid")
+	}
+	// fmt.Println(isValid)
+	// fmt.Println(string(data))
 
 	return data
 }
@@ -81,6 +84,7 @@ func getScheduleApi(db *sql.DB) map[string]game {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 	}
+	fmt.Println(leagues)
 
 	data := getApi("https://league-of-legends-esports.p.rapidapi.com/schedule")
 
@@ -109,41 +113,46 @@ func UpdateDatabase() {
 
 	// Pillar todos los resultados de la api
 	gamesAPI := getScheduleApi(db)
+	fmt.Println(gamesAPI)
 
 	// Pillar todos los partidos incompletos de la bd
-	unfinishedGames := models.GetUnfinishedGames(db)
+	unfinishedGames, err := models.GetUnfinishedGames(db)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+	}
+	fmt.Println(unfinishedGames)
 
 	db.Close()
 
-	for _, v := range unfinishedGames {
-		key := v.Team1 + v.Time
-		apiGame := gamesAPI[key]
-		if apiGame.State == "completed" {
-			//Change unfinishedGames
-			fmt.Println("Change unfinishedGames")
-		}
-		delete(gamesAPI, key)
-	}
+	// for _, v := range unfinishedGames {
+	// 	key := v.Team1 + v.Time
+	// 	apiGame := gamesAPI[key]
+	// 	if apiGame.State == "completed" {
+	// 		//Change unfinishedGames
+	// 		fmt.Println("Change unfinishedGames")
+	// 	}
+	// 	delete(gamesAPI, key)
+	// }
 
-	//go Modificar en la bd unfinishedGames
+	// //go Modificar en la bd unfinishedGames
 
-	for key, game := range gamesAPI {
-		if game.State == "completed" {
-			delete(gamesAPI, key)
-		} else {
-			//Añadir en la bd
-			fmt.Println("Añadir en la bd")
-		}
-	}
+	// for key, game := range gamesAPI {
+	// 	if game.State == "completed" {
+	// 		delete(gamesAPI, key)
+	// 	} else {
+	// 		//Añadir en la bd
+	// 		fmt.Println("Añadir en la bd")
+	// 	}
+	// }
 
-	// Recorriendo partidos de la bd
-	// Encontrar el correspondiente en la llamada a la api
-	// Si APIcompleted y BDcompleted no hacemos nada
-	//
-	// Ir eliminando de la api los que vas recorrienod
+	// // Recorriendo partidos de la bd
+	// // Encontrar el correspondiente en la llamada a la api
+	// // Si APIcompleted y BDcompleted no hacemos nada
+	// //
+	// // Ir eliminando de la api los que vas recorrienod
 
-	//Quitar de la api el resto de completed
-	//Añadir lo que queda en los de la api (uncompleted a la bd)
+	// //Quitar de la api el resto de completed
+	// //Añadir lo que queda en los de la api (uncompleted a la bd)
 
 }
 

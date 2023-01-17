@@ -1,29 +1,31 @@
 CREATE TABLE User (
     Id      INT AUTO_INCREMENT PRIMARY KEY,
     Name    VARCHAR(50) UNIQUE,
-    Coins   INT
+    Coins   INT DEFAULT 0
 );
 
 CREATE TABLE League (
     Id      INT AUTO_INCREMENT PRIMARY KEY,
-    Name    VARCHAR(50),
-    Slug    VARCHAR(50),
-    Image   VARCHAR(50)
+    Name    VARCHAR(50) NOT NULL,
+    Slug    VARCHAR(50) NOT NULL,
+    Image   VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Team (
     Id      INT AUTO_INCREMENT PRIMARY KEY,
-    Name    VARCHAR(50),
-    Code    VARCHAR(50),
-    Image   VARCHAR(50)
+    Name    VARCHAR(50) NOT NULL,
+    Code    VARCHAR(50) NOT NULL,
+    Image   VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Bet (
     Id      INT AUTO_INCREMENT PRIMARY KEY,
-    GameId  INT,
-    UserId  INT,
-    Value   INT,
-    Team    TINYINT
+    GameId  INT NOT NULL,
+    UserId  INT NOT NULL,
+    Value   INT NOT NULL,
+    Team    TINYINT NOT NULL,
+    FOREIGN KEY (GameId) REFERENCES Game(Id),
+    FOREIGN KEY (UserId) REFERENCES User(Id)
 );
 
 CREATE TABLE Game (
@@ -32,6 +34,8 @@ CREATE TABLE Game (
     Team_2      INT NOT NULL,
     League      INT NOT NULL,
     Time        TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    Completed   TINYINT DEFAULT 0 NOT NULL,
+    BlockName   VARCHAR(20) NOT NULL,
     CHECK ( Team_1 <> Team_2 ),
     FOREIGN KEY (League) REFERENCES League(Id),
     FOREIGN KEY (Team_1) REFERENCES Team(Id),
