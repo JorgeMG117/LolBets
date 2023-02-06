@@ -40,6 +40,14 @@ type game struct {
 	League    models.League `json:"league"`
 }
 
+type LeaguesData struct {
+	LeaguesData leagues `json:"data"`
+}
+
+type leagues struct {
+	Leagues []models.League `json:"leagues"`
+}
+
 func getApi(url string) []byte {
 	// // url := "https://league-of-legends-esports.p.rapidapi.com/schedule"
 
@@ -60,7 +68,7 @@ func getApi(url string) []byte {
 
 	// return body
 
-	data, err := os.ReadFile("lec-schedule.json")
+	data, err := os.ReadFile(url)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 	}
@@ -84,9 +92,9 @@ func getScheduleApi(db *sql.DB) map[string]game {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 	}
-	fmt.Println(leagues)
+	//fmt.Println(leagues)
 
-	data := getApi("https://league-of-legends-esports.p.rapidapi.com/schedule")
+	data := getApi("lec-schedule.json")
 
 	var values Data
 	fmt.Println("Error: ", json.Unmarshal(data, &values))
@@ -108,42 +116,79 @@ func getScheduleApi(db *sql.DB) map[string]game {
 	return scheduleM
 }
 
+func getLeaguesApi() []models.League {
+	data := getApi("leagues.json")
+
+	var values LeaguesData
+	fmt.Println("Error: ", json.Unmarshal(data, &values))
+
+	return values.LeaguesData.Leagues
+}
+
+// https://league-of-legends-esports.p.rapidapi.com/teams
+// There is no teams api, so I'm gonna get the schedule of each league on the database and add the teams of first week of competition
+// Actualmente esta hecho para probar otras cosas
+// TODO
+func getTeamsApi(leagues []models.League) []models.Team {
+	teams := make([]models.Team, 0)
+	data := getApi("lec-schedule.json")
+
+	var values Data
+	fmt.Println("Error: ", json.Unmarshal(data, &values))
+
+	// Slice of games
+	schedule := values.Data.Schedule.Events
+
+	i := 0
+	for _, game := range schedule {
+		if game.BlockName == "Week 1" {
+			teams = append(teams, game.Match.Teams[0])
+			teams = append(teams, game.Match.Teams[1])
+			i = i + 1
+			if i == 5 {
+				break
+			}
+		}
+	}
+	return teams
+}
+
 func UpdateDatabase() {
 	db := configs.ConnectDB()
 
 	// Pillar todos los resultados de la api
 	gamesAPI := getScheduleApi(db)
-	fmt.Println(gamesAPI)
+	//fmt.Println(gamesAPI)
 
 	// Pillar todos los partidos incompletos de la bd
 	unfinishedGames, err := models.GetUnfinishedGames(db)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 	}
-	fmt.Println(unfinishedGames)
+	//fmt.Println(unfinishedGames)
 
 	db.Close()
 
-	// for _, v := range unfinishedGames {
-	// 	key := v.Team1 + v.Time
-	// 	apiGame := gamesAPI[key]
-	// 	if apiGame.State == "completed" {
-	// 		//Change unfinishedGames
-	// 		fmt.Println("Change unfinishedGames")
-	// 	}
-	// 	delete(gamesAPI, key)
-	// }
+	// See what games stored in the db are completed to update them
+	for _, v := range unfinishedGames {
+		key := v.Team1 + v.Time.String()
+		apiGame := gamesAPI[key]
+		if apiGame.State == "completed" {
+			//Change unfinishedGames
+			fmt.Println("Change unfinishedGames")
+		}
+		delete(gamesAPI, key)
+	}
 
 	// //go Modificar en la bd unfinishedGames
 
-	// for key, game := range gamesAPI {
-	// 	if game.State == "completed" {
-	// 		delete(gamesAPI, key)
-	// 	} else {
-	// 		//Añadir en la bd
-	// 		fmt.Println("Añadir en la bd")
-	// 	}
-	// }
+	for key, game := range gamesAPI {
+		if game.State == "completed" {
+			delete(gamesAPI, key)
+		} else {
+			models.AddGame(db, &game)
+		}
+	}
 
 	// // Recorriendo partidos de la bd
 	// // Encontrar el correspondiente en la llamada a la api
@@ -156,11 +201,54 @@ func UpdateDatabase() {
 
 }
 
+func InitializeDatabase() {
+	db := configs.ConnectDB()
+
+	// Pillar todos las ligas de la api
+	leaguesAPI := getLeaguesApi()
+
+	for _, league := range leaguesAPI {
+		err := models.AddLeague(db, &league)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+		}
+	}
+
+	// Pillar todos los equipos
+	teamsAPI := getTeamsApi(leaguesAPI)
+	fmt.Println(teamsAPI)
+
+	for _, team := range teamsAPI {
+		err := models.AddTeam(db, &team)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+		}
+	}
+
+	db.Close()
+}
+
+// TODO
+func printUsage() {
+	fmt.Println("This display the usage of the populate database program")
+}
+
 func main() {
 	err := godotenv.Load(".env")
-
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
-	UpdateDatabase()
+
+	args := os.Args[1:]
+
+	if len(args) == 0 {
+		printUsage()
+	} else if args[0] == "--update" {
+		UpdateDatabase()
+	} else if args[0] == "--initialize" {
+		InitializeDatabase()
+	}
+
 }
