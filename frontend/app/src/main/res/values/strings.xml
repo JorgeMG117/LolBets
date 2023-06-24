@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">LolBets</string>
+
+    <string name="team_name_koi">KOI</string>
+    <string name="team_name_g2">G2 Esports</string>
+    <string name="team_name_fnatic">Fnatic</string>
+    <string name="team_name_heretics">Team Heretics</string>
+    <string name="team_name_madlions">MAD Lions</string>
+
+    <string name="team_name_excel">EXCEL</string>
+    <string name="team_name_sk">SK Gaming</string>
+    <string name="team_name_bds">Team BDS</string>
+    <string name="team_name_vitality">Team Vitality</string>
+    <string name="team_name_astralis">Astralis</string>
+
+</resources>
