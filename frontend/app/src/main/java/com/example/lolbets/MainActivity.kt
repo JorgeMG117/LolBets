@@ -3,6 +3,7 @@ package com.example.lolbets
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,10 +29,15 @@ import com.example.lolbets.model.League
 import com.example.lolbets.ui.theme.LolBetsTheme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import com.example.lolbets.model.Game
+import com.example.lolbets.model.Team
 
 
 class MainActivity : ComponentActivity() {
@@ -48,6 +54,132 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun GameCard(game : Game, modifier: Modifier = Modifier){
+    Column {
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+        ){
+            Row (
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = LocalContext.current.getString(game.league.stringResourceId),
+                    fontWeight = FontWeight.Bold
+                )
+                Image(
+                    painter = painterResource(game.league.imageResourceId),
+                    contentDescription = stringResource(game.league.stringResourceId),
+                    modifier = Modifier,
+                    //.fillMaxWidth()
+                    //.height(194.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Text(text = game.date, fontWeight = FontWeight.Bold)
+            }
+            Text(
+                text = "Best of 1",
+                //modifier = modifier.align(alignment = Alignment.End)
+            )
+
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                //.background(Color(0xffb0bfd9))
+                .fillMaxWidth()
+        ) {
+
+            Column(
+                //verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = LocalContext.current.getString(game.team1.stringResourceId)
+                            .replace(" ", "\n"),
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                    Image(
+                        painter = painterResource(game.team1.imageResourceId),
+                        contentDescription = stringResource(game.team1.stringResourceId),
+                        modifier = Modifier,
+                        //.fillMaxWidth()
+                        //.height(194.dp),
+                        contentScale = ContentScale.Crop
+                    )
+
+                }
+                Text(text = "10V-4D", fontWeight = FontWeight.Bold)
+
+                Text(
+                    text = "1.2",
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        //.background(Color(0xff78bbff))
+                        .border(BorderStroke(1.dp, Color.Black))
+                        .padding(
+                            horizontal = 20.dp,
+                            vertical = 15.dp
+                        )
+                )
+            }
+
+
+            Text(text = "VS", fontWeight = FontWeight.Bold)
+
+
+            Column(
+                //verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(game.team2.imageResourceId),
+                        contentDescription = stringResource(game.team2.stringResourceId),
+                        modifier = Modifier,
+                        //.fillMaxWidth()
+                        //.height(194.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                    Text(
+                        text = LocalContext.current.getString(game.team2.stringResourceId)
+                            .replace(" ", "\n"),
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                }
+                Text(text = "10V-4D", fontWeight = FontWeight.Bold)
+
+                Text(
+                    text = "1.8",
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        //.background(Color(0xff78bbff))
+                        .border(BorderStroke(1.dp, Color.Black))
+                        .padding(
+                            horizontal = 20.dp,
+                            vertical = 15.dp
+                        )
+                )
+            }
+
+
+        }
+
     }
 }
 
@@ -92,9 +224,11 @@ fun LeaguesList(leaguesList: List<League>, modifier: Modifier = Modifier) {
 
 @Composable
 fun LeaguesScreen(modifier: Modifier = Modifier) {
+    /*
     LeaguesList(
         leaguesList = LeagueData().loadLeagues()
-    )
+    )*/
+    GameCard(Game(Team(R.string.team_name_vitality, R.drawable.vitality), Team(R.string.team_name_heretics, R.drawable.heretics), League(R.string.league_name_lec, R.drawable.lec), "10 de junio"))
 }
 
 @Preview(showBackground = true)
