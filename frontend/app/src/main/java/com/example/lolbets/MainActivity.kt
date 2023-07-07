@@ -31,11 +31,27 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import com.example.lolbets.data.GamesData
 import com.example.lolbets.model.Game
 import com.example.lolbets.model.Team
 
@@ -63,11 +79,12 @@ fun GameCard(game : Game, modifier: Modifier = Modifier){
         Row (
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
+                .background(Color(0xffb0bfd9))
         ){
             Row (
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = LocalContext.current.getString(game.league.stringResourceId),
@@ -94,7 +111,7 @@ fun GameCard(game : Game, modifier: Modifier = Modifier){
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
-                //.background(Color(0xffb0bfd9))
+                .background(Color(0xffb0bfd9))
                 .fillMaxWidth()
         ) {
 
@@ -128,7 +145,7 @@ fun GameCard(game : Game, modifier: Modifier = Modifier){
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         //.background(Color(0xff78bbff))
-                        .border(BorderStroke(1.dp, Color.Black))
+                        //.border(BorderStroke(1.dp, Color.Black))
                         .padding(
                             horizontal = 20.dp,
                             vertical = 15.dp
@@ -169,7 +186,7 @@ fun GameCard(game : Game, modifier: Modifier = Modifier){
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         //.background(Color(0xff78bbff))
-                        .border(BorderStroke(1.dp, Color.Black))
+                        //.border(BorderStroke(1.dp, Color.Black))
                         .padding(
                             horizontal = 20.dp,
                             vertical = 15.dp
@@ -209,6 +226,46 @@ fun LeagueCard(league: League, modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun LolBetsTopAppBar(modifier: Modifier = Modifier) {
+    TopAppBar(
+        modifier = modifier,
+        title = {
+            Text(
+                stringResource(R.string.app_name),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowLeft,
+                    contentDescription = "Localized description"
+                )
+            }
+        },
+        actions = {
+            Text(text = "10$")
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(
+                    imageVector = Icons.Filled.AccountCircle,
+                    contentDescription = "Localized description"
+                )
+            }
+        }
+    )
+
+}
+
+@Composable
+internal fun LolBetsBottomAppBar(modifier: Modifier = Modifier) {
+    NavigationBar {
+
+    }
+}
+
 
 @Composable
 fun LeaguesList(leaguesList: List<League>, modifier: Modifier = Modifier) {
@@ -223,12 +280,83 @@ fun LeaguesList(leaguesList: List<League>, modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun GamesList(gamesList: List<Game>, contentPadding: PaddingValues, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier, contentPadding = contentPadding) {
+        items(gamesList) { game ->
+            GameCard(
+                game = game,
+                modifier = Modifier.padding(bottom = 30.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun UserCard(league: League, modifier: Modifier = Modifier) {
+    Card(modifier = modifier) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                .background(Color(0xffb0bfd9))
+                .fillMaxWidth()
+        ) {
+            Image(
+                painter = painterResource(league.imageResourceId),
+                contentDescription = stringResource(league.stringResourceId),
+                modifier = Modifier,
+                //.fillMaxWidth()
+                //.height(194.dp),
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = LocalContext.current.getString(league.stringResourceId),
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.headlineSmall
+            )
+        }
+    }
+}
+
+@Composable
+fun StandingScreen(usersList: List<Game>, contentPadding: PaddingValues, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier, contentPadding = contentPadding) {
+        items(usersList) { user ->
+            GameCard(
+                game = user,
+                modifier = Modifier.padding(bottom = 30.dp)
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun LeaguesScreen(modifier: Modifier = Modifier) {
+    Scaffold(
+        topBar = {
+            LolBetsTopAppBar(modifier)
+        },
+        bottomBar = {
+            LolBetsBottomAppBar(modifier)
+        }
+    ) { it ->
+        GamesList(
+            gamesList = GamesData().loadGames(),
+            contentPadding = it
+        )
+    }
+
     /*
     LeaguesList(
         leaguesList = LeagueData().loadLeagues()
+
+        GamesList(
+            gamesList = GamesData().loadGames(),
+            contentPadding = it
+        )
     )*/
-    GameCard(Game(Team(R.string.team_name_vitality, R.drawable.vitality), Team(R.string.team_name_heretics, R.drawable.heretics), League(R.string.league_name_lec, R.drawable.lec), "10 de junio"))
+
+
 }
 
 @Preview(showBackground = true)
