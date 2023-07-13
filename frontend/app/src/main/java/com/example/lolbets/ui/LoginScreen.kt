@@ -62,6 +62,32 @@ fun LoginScreen(clientIdtest: GoogleSignInClient, contentPadding: PaddingValues,
     /*Button(onClick = { result = (1..6).random() }) {
         Text(text = "Sign in")
     }*/
+
+
+
+    /*val startForResult =
+            rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val intent = result.data
+                    if (result.data != null) {
+                        val task: Task<GoogleSignInAccount> =
+                            GoogleSignIn.getSignedInAccountFromIntent(intent)
+                        //handleSignInResult(task)
+                    }
+                }
+            }
+
+        Button(
+            onClick = {
+                startForResult.launch(clientIdtest?.signInIntent)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp),
+            shape = RoundedCornerShape(6.dp),
+        ) {
+            Text(text = "Sign in with Google", modifier = Modifier.padding(6.dp))
+        }*/
 }
 @Preview(showBackground = true)
 @Composable

@@ -34,9 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BetScreen(contentPadding: PaddingValues, modifier: Modifier = Modifier) {
-    val game: Game = Game(Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100)
-
+fun BetScreen(game: Game, modifier: Modifier = Modifier) {
     Column (
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -63,5 +61,5 @@ fun BetScreen(contentPadding: PaddingValues, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun BetPreview() {
-    BetScreen(contentPadding = PaddingValues(10.dp))
+    BetScreen(Game(Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100))
 }

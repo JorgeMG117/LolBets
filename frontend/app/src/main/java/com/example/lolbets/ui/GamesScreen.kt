@@ -13,14 +13,18 @@ import com.example.lolbets.ui.components.GamesList
 
 
 @Composable
-fun GamesScreen(contentPadding: PaddingValues, modifier: Modifier = Modifier) {
+fun GamesScreen(contentPadding: PaddingValues, onGameClicked: () -> Unit, modifier: Modifier = Modifier) {
     GamesList(
         gamesList = GamesData().loadGames(),
-        contentPadding = contentPadding
+        contentPadding = contentPadding,
+        onGameClicked = onGameClicked,
     )
 }
 @Preview(showBackground = true)
 @Composable
 fun GamesPreview() {
-    GamesScreen(contentPadding = PaddingValues(10.dp))
+    GamesScreen(
+        contentPadding = PaddingValues(10.dp),
+        onGameClicked = {}
+    )
 }

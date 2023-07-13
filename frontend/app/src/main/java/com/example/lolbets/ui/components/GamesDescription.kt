@@ -2,6 +2,7 @@ package com.example.lolbets.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -119,7 +120,7 @@ fun MatchDescription(game : Game, modifier: Modifier = Modifier){
 
 @Composable
 fun GameCard(game : Game, modifier: Modifier = Modifier){
-    Column {
+    Column(modifier = modifier) {
         Row (
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -151,18 +152,20 @@ fun GameCard(game : Game, modifier: Modifier = Modifier){
 
         }
 
-        MatchDescription(game, modifier)
+        MatchDescription(game, Modifier)
 
     }
 }
 
 @Composable
-fun GamesList(gamesList: List<Game>, contentPadding: PaddingValues, modifier: Modifier = Modifier) {
+fun GamesList(gamesList: List<Game>, contentPadding: PaddingValues, onGameClicked: () -> Unit, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier, contentPadding = contentPadding) {
         items(gamesList) { game ->
             GameCard(
                 game = game,
-                modifier = Modifier.padding(bottom = 30.dp)
+                modifier = Modifier
+                    .padding(bottom = 30.dp)
+                    .clickable { onGameClicked() }
             )
         }
     }

@@ -36,6 +36,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.lolbets.model.BottomNavItem
+import com.example.lolbets.model.Game
+import com.example.lolbets.model.League
+import com.example.lolbets.model.Team
 import com.example.lolbets.model.User
 import com.example.lolbets.ui.BetScreen
 import com.example.lolbets.ui.HighlightScreen
@@ -44,12 +47,13 @@ import com.example.lolbets.ui.ProfileScreen
 enum class LolBetsScreen(){
     Highlight,
     Games,
-    Profile
+    Profile,
+    Bet,
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun LolBetsTopAppBar(modifier: Modifier = Modifier) {
+internal fun LolBetsTopAppBar(onProfileClicked: () -> Unit, onArrowBackClicked: () -> Unit, modifier: Modifier = Modifier) {
     TopAppBar(
         modifier = modifier,
         title = {
@@ -60,7 +64,7 @@ internal fun LolBetsTopAppBar(modifier: Modifier = Modifier) {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = { onArrowBackClicked() }) {
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowLeft,//Icons.Filled.ArrowBack
                     contentDescription = "Localized description"
@@ -69,7 +73,7 @@ internal fun LolBetsTopAppBar(modifier: Modifier = Modifier) {
         },
         actions = {
             Text(text = "10$")
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = { onProfileClicked() }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
                     contentDescription = "Localized description"
@@ -132,7 +136,7 @@ fun LolBetsApp(
 
     Scaffold(
         topBar = {
-            LolBetsTopAppBar(modifier)
+            LolBetsTopAppBar( onProfileClicked = { navController.navigate(LolBetsScreen.Profile.name) }, onArrowBackClicked = { navController.navigateUp() }, modifier)
         },
         bottomBar = {
             LolBetsBottomAppBar(items, modifier)
@@ -146,6 +150,7 @@ fun LolBetsApp(
             composable(route = LolBetsScreen.Games.name) {
                 GamesScreen(
                     contentPadding = innerPadding,
+                    onGameClicked = { navController.navigate(LolBetsScreen.Bet.name) },
                 )
             }
             composable(route = LolBetsScreen.Highlight.name) {
@@ -157,6 +162,11 @@ fun LolBetsApp(
                 ProfileScreen(
                     User(R.string.team_name_koi, R.drawable.koi, 10),
                     contentPadding = innerPadding,
+                )
+            }
+            composable(route = LolBetsScreen.Bet.name) {
+                BetScreen(
+                    Game(Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100)
                 )
             }
         }
