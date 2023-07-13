@@ -54,9 +54,24 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.example.lolbets.data.GamesData
 import com.example.lolbets.model.Game
 import com.example.lolbets.model.Team
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+
 
 
 class MainActivity : ComponentActivity() {
+
+    private fun getGoogleLoginAuth(): GoogleSignInClient {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            /*.requestIdToken("")
+            .requestId()
+            .requestProfile()*/
+            .build()
+        return GoogleSignIn.getClient(this, gso)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -66,7 +81,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LolBetsApp()
+                    val glogauth = getGoogleLoginAuth()
+                    LolBetsApp(glogauth)
                 }
             }
         }

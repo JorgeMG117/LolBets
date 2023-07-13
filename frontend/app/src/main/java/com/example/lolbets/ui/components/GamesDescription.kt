@@ -25,6 +25,99 @@ import androidx.compose.ui.unit.dp
 import com.example.lolbets.model.Game
 
 @Composable
+fun MatchDescription(game : Game, modifier: Modifier = Modifier){
+    Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .background(Color(0xffb0bfd9))
+            .fillMaxWidth()
+    ) {
+
+        Column(
+            //verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = LocalContext.current.getString(game.team1.stringResourceId)
+                        .replace(" ", "\n"),
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.headlineSmall
+                )
+                Image(
+                    painter = painterResource(game.team1.imageResourceId),
+                    contentDescription = stringResource(game.team1.stringResourceId),
+                    modifier = Modifier,
+                    //.fillMaxWidth()
+                    //.height(194.dp),
+                    contentScale = ContentScale.Crop
+                )
+
+            }
+            Text(text = "10V-4D", fontWeight = FontWeight.Bold)
+
+            Text(
+                text = "1.2",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    //.background(Color(0xff78bbff))
+                    //.border(BorderStroke(1.dp, Color.Black))
+                    .padding(
+                        horizontal = 20.dp,
+                        vertical = 15.dp
+                    )
+            )
+        }
+
+
+        Text(text = "VS", fontWeight = FontWeight.Bold)
+
+
+        Column(
+            //verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(game.team2.imageResourceId),
+                    contentDescription = stringResource(game.team2.stringResourceId),
+                    modifier = Modifier,
+                    //.fillMaxWidth()
+                    //.height(194.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Text(
+                    text = LocalContext.current.getString(game.team2.stringResourceId)
+                        .replace(" ", "\n"),
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.headlineSmall
+                )
+            }
+            Text(text = "10V-4D", fontWeight = FontWeight.Bold)
+
+            Text(
+                text = "1.8",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    //.background(Color(0xff78bbff))
+                    //.border(BorderStroke(1.dp, Color.Black))
+                    .padding(
+                        horizontal = 20.dp,
+                        vertical = 15.dp
+                    )
+            )
+        }
+
+
+    }
+}
+
+@Composable
 fun GameCard(game : Game, modifier: Modifier = Modifier){
     Column {
         Row (
@@ -58,95 +151,7 @@ fun GameCard(game : Game, modifier: Modifier = Modifier){
 
         }
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .background(Color(0xffb0bfd9))
-                .fillMaxWidth()
-        ) {
-
-            Column(
-                //verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = LocalContext.current.getString(game.team1.stringResourceId)
-                            .replace(" ", "\n"),
-                        modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                    Image(
-                        painter = painterResource(game.team1.imageResourceId),
-                        contentDescription = stringResource(game.team1.stringResourceId),
-                        modifier = Modifier,
-                        //.fillMaxWidth()
-                        //.height(194.dp),
-                        contentScale = ContentScale.Crop
-                    )
-
-                }
-                Text(text = "10V-4D", fontWeight = FontWeight.Bold)
-
-                Text(
-                    text = "1.2",
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        //.background(Color(0xff78bbff))
-                        //.border(BorderStroke(1.dp, Color.Black))
-                        .padding(
-                            horizontal = 20.dp,
-                            vertical = 15.dp
-                        )
-                )
-            }
-
-
-            Text(text = "VS", fontWeight = FontWeight.Bold)
-
-
-            Column(
-                //verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(game.team2.imageResourceId),
-                        contentDescription = stringResource(game.team2.stringResourceId),
-                        modifier = Modifier,
-                        //.fillMaxWidth()
-                        //.height(194.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                    Text(
-                        text = LocalContext.current.getString(game.team2.stringResourceId)
-                            .replace(" ", "\n"),
-                        modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                }
-                Text(text = "10V-4D", fontWeight = FontWeight.Bold)
-
-                Text(
-                    text = "1.8",
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        //.background(Color(0xff78bbff))
-                        //.border(BorderStroke(1.dp, Color.Black))
-                        .padding(
-                            horizontal = 20.dp,
-                            vertical = 15.dp
-                        )
-                )
-            }
-
-
-        }
+        MatchDescription(game, modifier)
 
     }
 }
