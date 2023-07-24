@@ -1,7 +1,9 @@
 package com.example.lolbets.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,16 +27,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.lolbets.R
 import com.example.lolbets.model.Game
+import com.example.lolbets.model.League
+import com.example.lolbets.model.Team
+import com.example.lolbets.ui.BetScreen
+import com.example.lolbets.ui.GamesScreen
 
 @Composable
-fun MatchDescription(game : Game, modifier: Modifier = Modifier){
+fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Unit, bet2ButtonColor: Long, onBet2Clicked: () -> Unit, modifier: Modifier = Modifier){
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .background(Color(0xffb0bfd9))
+            //.background(Color(0xffb0bfd9))
             .fillMaxWidth()
     ) {
 
@@ -51,7 +62,7 @@ fun MatchDescription(game : Game, modifier: Modifier = Modifier){
                 Image(
                     painter = painterResource(game.team1.imageResourceId),
                     contentDescription = stringResource(game.team1.stringResourceId),
-                    modifier = Modifier,
+                    modifier = Modifier.background(Color.Black),
                     //.fillMaxWidth()
                     //.height(194.dp),
                     contentScale = ContentScale.Crop
@@ -60,17 +71,29 @@ fun MatchDescription(game : Game, modifier: Modifier = Modifier){
             }
             Text(text = "10V-4D", fontWeight = FontWeight.Bold)
 
-            Text(
-                text = "1.2",
-                fontWeight = FontWeight.Bold,
+            Button(
                 modifier = Modifier
-                    //.background(Color(0xff78bbff))
-                    //.border(BorderStroke(1.dp, Color.Black))
                     .padding(
                         horizontal = 20.dp,
                         vertical = 15.dp
-                    )
-            )
+                    ),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(bet1ButtonColor)
+                ),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 15.dp,
+                    disabledElevation = 0.dp
+                ),
+                onClick = { onBet1Clicked() }
+            ) {
+                Text(
+                    text = "1.8",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            }
         }
 
 
@@ -87,10 +110,10 @@ fun MatchDescription(game : Game, modifier: Modifier = Modifier){
                 Image(
                     painter = painterResource(game.team2.imageResourceId),
                     contentDescription = stringResource(game.team2.stringResourceId),
-                    modifier = Modifier,
+                    modifier = Modifier.background(Color.Black),
                     //.fillMaxWidth()
                     //.height(194.dp),
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
                 )
                 Text(
                     text = LocalContext.current.getString(game.team2.stringResourceId)
@@ -101,17 +124,29 @@ fun MatchDescription(game : Game, modifier: Modifier = Modifier){
             }
             Text(text = "10V-4D", fontWeight = FontWeight.Bold)
 
-            Text(
-                text = "1.8",
-                fontWeight = FontWeight.Bold,
+            Button(
                 modifier = Modifier
-                    //.background(Color(0xff78bbff))
-                    //.border(BorderStroke(1.dp, Color.Black))
                     .padding(
                         horizontal = 20.dp,
                         vertical = 15.dp
-                    )
-            )
+                    ),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(bet2ButtonColor)
+                ),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 15.dp,
+                    disabledElevation = 0.dp
+                ),
+                onClick = { onBet2Clicked() }
+            ) {
+                Text(
+                    text = "1.8",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            }
         }
 
 
@@ -119,14 +154,14 @@ fun MatchDescription(game : Game, modifier: Modifier = Modifier){
 }
 
 @Composable
-fun GameCard(game : Game, modifier: Modifier = Modifier){
+fun GameCard(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Unit, bet2ButtonColor: Long, onBet2Clicked: () -> Unit, modifier: Modifier = Modifier){
     Column(modifier = modifier) {
         Row (
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xffb0bfd9))
+                //.background(Color(0xffb0bfd9))
         ){
             Row (
                 verticalAlignment = Alignment.CenterVertically,
@@ -152,21 +187,34 @@ fun GameCard(game : Game, modifier: Modifier = Modifier){
 
         }
 
-        MatchDescription(game, Modifier)
+        MatchDescription(game, bet1ButtonColor, onBet1Clicked, bet2ButtonColor, onBet2Clicked, Modifier)
 
     }
 }
 
 @Composable
-fun GamesList(gamesList: List<Game>, contentPadding: PaddingValues, onGameClicked: () -> Unit, modifier: Modifier = Modifier) {
+fun GamesList(gamesList: List<Game>, contentPadding: PaddingValues, onGameClicked: (Game) -> Unit, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier, contentPadding = contentPadding) {
         items(gamesList) { game ->
             GameCard(
                 game = game,
+                bet1ButtonColor = 0xffffffff,
+                onBet1Clicked = {},
+                bet2ButtonColor = 0xffffffff,
+                onBet2Clicked = {},
                 modifier = Modifier
                     .padding(bottom = 30.dp)
-                    .clickable { onGameClicked() }
+                    .clickable { onGameClicked(game) }
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GameDescription() {
+    GameCard(Game(
+        Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(
+            R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100), 0xffffffff, {}, 0xffffffff, {})
+
 }
