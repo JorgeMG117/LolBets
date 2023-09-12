@@ -11,6 +11,9 @@ import (
 	"github.com/JorgeMG117/LolBets/backend/models"
 )
 
+func UpdateGames(){
+}
+
 func (s *Server) Games(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Method)
 	switch r.Method {

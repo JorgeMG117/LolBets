@@ -6,8 +6,8 @@ import (
 )
 
 type League struct {
+    ApiID  string `json:"id"`
 	Name   string `json:"name"`
-	Slug   string `json:"slug"`
 	Region string `json:"region"`
 	Image  string `json:"image"`
 }
@@ -36,7 +36,7 @@ func GetLeaguesName(db *sql.DB) ([]string, error) {
 }
 
 func AddLeague(db *sql.DB, newLeague *League) error {
-	result, err := db.Exec("INSERT INTO League(Name, Slug, Region, Image) VALUES (?, ?, ?, ?)", newLeague.Name, newLeague.Slug, newLeague.Region, newLeague.Image)
+	result, err := db.Exec("INSERT INTO League(Name, Region, Image) VALUES (?, ?, ?)", newLeague.Name, newLeague.Region, newLeague.Image)
 
 	if err != nil {
 		return err

@@ -37,7 +37,7 @@ type leagues struct {
 }
 */
 
-type Welcome struct {
+type ApiSchedule struct {
 	Data Data `json:"data"`
 }
 

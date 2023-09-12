@@ -8,9 +8,9 @@ import (
     "os"
     "github.com/joho/godotenv"
 
-	"github.com/JorgeMG117/LolBets/backend/models"
+	//"github.com/JorgeMG117/LolBets/backend/models"
     "github.com/JorgeMG117/LolBets/backend/data"
-    "github.com/JorgeMG117/LolBets/backend/configs"
+    //"github.com/JorgeMG117/LolBets/backend/configs"
 )
 
 func createDBtables(db *sql.DB) {
@@ -27,6 +27,7 @@ func createDBtables(db *sql.DB) {
     }
 }
 
+/*
 func UpdateDatabase() {
 	db := configs.ConnectDB()
 
@@ -106,6 +107,7 @@ func InitializeDatabase() {
 
 	db.Close()
 }
+*/
 
 // TODO
 func printUsage() {
@@ -123,7 +125,7 @@ func main() {
 	if len(args) == 0 {
 		printUsage()
 	} else if args[0] == "--update" {
-		UpdateDatabase()
+		//UpdateDatabase()
 	} else if args[0] == "--initialize" {
 		InitializeDatabase()
 	}
