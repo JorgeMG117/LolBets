@@ -1,52 +1,160 @@
-package main
+package data
 
 import (
-	"database/sql"
+	//"database/sql"
 	"encoding/json"
 	"fmt"
-	"log"
+	//"log"
 	"os"
-	"time"
+	//"time"
+    "net/http"
+    "io/ioutil"
 
-	"github.com/JorgeMG117/LolBets/backend/configs"
-	"github.com/JorgeMG117/LolBets/backend/models"
-	"github.com/joho/godotenv"
+	//"github.com/JorgeMG117/LolBets/backend/configs"
+	//"github.com/JorgeMG117/LolBets/backend/models"
+	//"github.com/joho/godotenv"
 )
 
-type Data struct {
-	Data schedule `json:"data"`
+
+
+func fetchDataAndSaveToFile(url string, headers map[string]string, filename string) error {
+	// Create a new HTTP request
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return err
+	}
+
+	// Set the request headers
+	for key, value := range headers {
+		req.Header.Set(key, value)
+	}
+
+	// Make the HTTP request
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	// Check if the response status code is not in the 200 range (e.g., 404 Not Found)
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("HTTP request failed with status code: %d", resp.StatusCode)
+	}
+    fmt.Println(resp)
+
+	// Read the response body
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+    fmt.Println(string(body))
+
+	var values Welcome
+	fmt.Println("Error: ", json.Unmarshal(body, &values))
+
+    fmt.Println(values)
+
+	// Create or open the file for writing
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// Write the response body to the file
+	_, err = file.Write(body)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Data saved to %s\n", filename)
+	return nil
 }
 
-type schedule struct {
-	Schedule events `json:"schedule"`
+//curl 'https://esports-api.lolesports.com/persisted/gw/getLeagues?hl=es-ES' --compressed 
+//-H 'TE: trailers'
+
+
+func Prueba() {
+    url := "https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=es-ES&leagueId=98767975604431411%2C110988878756156222"
+	filename := "output.json"
+
+	headers := map[string]string{
+		//"User-Agent":      "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0",
+		"Accept":          "*/*",
+		"Accept-Language": "en-US,en;q=0.5",
+		//"Accept-Encoding": "gzip, deflate, br",
+		"Referer":         "https://lolesports.com/",
+		"x-api-key":       "0TvQnueqKa5mxJntVWt0w4LpLfEkrV1Ta8rQBb9Z",
+		"Origin":          "https://lolesports.com",
+		"DNT":             "1",
+		//"Connection":      "keep-alive",
+		"Sec-Fetch-Dest":  "empty",
+		"Sec-Fetch-Mode":  "cors",
+		"Sec-Fetch-Site":  "same-site",
+	}
+
+    err := fetchDataAndSaveToFile(url, headers, filename)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	}
 }
 
-type events struct {
-	Events []game `json:"events"`
+func getApi(url string) []byte {
+	headers := map[string]string{
+		//"User-Agent":      "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/117.0",
+		"Accept":          "*/*",
+		"Accept-Language": "en-US,en;q=0.5",
+		//"Accept-Encoding": "gzip, deflate, br",
+		"Referer":         "https://lolesports.com/",
+		"x-api-key":       "0TvQnueqKa5mxJntVWt0w4LpLfEkrV1Ta8rQBb9Z",
+		"Origin":          "https://lolesports.com",
+		"DNT":             "1",
+		//"Connection":      "keep-alive",
+		"Sec-Fetch-Dest":  "empty",
+		"Sec-Fetch-Mode":  "cors",
+		"Sec-Fetch-Site":  "same-site",
+	}
+
+	// Create a new HTTP request
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	}
+
+	// Set the request headers
+	for key, value := range headers {
+		req.Header.Set(key, value)
+	}
+
+	// Make the HTTP request
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	}
+	defer resp.Body.Close()
+
+	// Check if the response status code is not in the 200 range (e.g., 404 Not Found)
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		fmt.Printf("HTTP request failed with status code: %d", resp.StatusCode)
+	}
+    fmt.Println(resp)
+
+	// Read the response body
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	}
+    fmt.Println(string(body))
+
 }
 
-type match struct {
-	Teams [2]models.Team `json:"teams"`
-}
+// func mapLeagueApi(leagueApi) { models.League {
+// func getLeaguesApi() []models.League {
 
-type game struct {
-	Id int `json:"id"`
-
-	StartTime time.Time     `json:"startTime"`
-	BlockName string        `json:"blockName"`
-	State     string        `json:"state"`
-	Type      string        `json:"type"`
-	Match     match         `json:"match"`
-	League    models.League `json:"league"`
-}
-
-type LeaguesData struct {
-	LeaguesData leagues `json:"data"`
-}
-
-type leagues struct {
-	Leagues []models.League `json:"leagues"`
-}
+//func getScheduleApi(db *sql.DB, leagues []string) map[string]game {
 
 func getApi(url string) []byte {
 	// // url := "https://league-of-legends-esports.p.rapidapi.com/schedule"
@@ -153,102 +261,3 @@ func getTeamsApi(leagues []models.League) []models.Team {
 	return teams
 }
 
-func UpdateDatabase() {
-	db := configs.ConnectDB()
-
-	// Pillar todos los resultados de la api
-	gamesAPI := getScheduleApi(db)
-	//fmt.Println(gamesAPI)
-
-	// Pillar todos los partidos incompletos de la bd
-	unfinishedGames, err := models.GetUnfinishedGames(db)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-	}
-	//fmt.Println(unfinishedGames)
-
-	db.Close()
-
-	// See what games stored in the db are completed to update them
-	for _, v := range unfinishedGames {
-		key := v.Team1 + v.Time.String()
-		apiGame := gamesAPI[key]
-		if apiGame.State == "completed" {
-			//Change unfinishedGames
-			fmt.Println("Change unfinishedGames")
-		}
-		delete(gamesAPI, key)
-	}
-
-	// //go Modificar en la bd unfinishedGames
-
-	for key, game := range gamesAPI {
-		if game.State == "completed" {
-			delete(gamesAPI, key)
-		} else {
-			models.AddGame(db, &game)
-		}
-	}
-
-	// // Recorriendo partidos de la bd
-	// // Encontrar el correspondiente en la llamada a la api
-	// // Si APIcompleted y BDcompleted no hacemos nada
-	// //
-	// // Ir eliminando de la api los que vas recorrienod
-
-	// //Quitar de la api el resto de completed
-	// //Añadir lo que queda en los de la api (uncompleted a la bd)
-
-}
-
-func InitializeDatabase() {
-	db := configs.ConnectDB()
-
-	// Pillar todos las ligas de la api
-	leaguesAPI := getLeaguesApi()
-
-	for _, league := range leaguesAPI {
-		err := models.AddLeague(db, &league)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
-		}
-	}
-
-	// Pillar todos los equipos
-	teamsAPI := getTeamsApi(leaguesAPI)
-	fmt.Println(teamsAPI)
-
-	for _, team := range teamsAPI {
-		err := models.AddTeam(db, &team)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
-		}
-	}
-
-	db.Close()
-}
-
-// TODO
-func printUsage() {
-	fmt.Println("This display the usage of the populate database program")
-}
-
-func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	args := os.Args[1:]
-
-	if len(args) == 0 {
-		printUsage()
-	} else if args[0] == "--update" {
-		UpdateDatabase()
-	} else if args[0] == "--initialize" {
-		InitializeDatabase()
-	}
-
-}
