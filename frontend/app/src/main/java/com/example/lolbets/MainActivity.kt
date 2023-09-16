@@ -1,63 +1,22 @@
 package com.example.lolbets
 
+import android.R
+import android.content.ContentValues.TAG
+import android.content.IntentSender.SendIntentException
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-
-import androidx.compose.foundation.lazy.items
-
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.lolbets.data.LeagueData
-import com.example.lolbets.model.League
 import com.example.lolbets.ui.theme.LolBetsTheme
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import com.example.lolbets.data.GamesData
-import com.example.lolbets.model.Game
-import com.example.lolbets.model.Team
+import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-
 
 
 class MainActivity : ComponentActivity() {
@@ -72,6 +31,32 @@ class MainActivity : ComponentActivity() {
         return GoogleSignIn.getClient(this, gso)
     }
 
+    private val REQUEST_CODE_GOOGLE_SIGN_IN = 1 /* unique request id */
+
+    private fun signIn() {
+        val request = GetSignInIntentRequest.builder()
+            .setServerClientId("")
+            .build()
+        Identity.getSignInClient(this)
+            .getSignInIntent(request)
+            .addOnSuccessListener { result ->
+                try {
+                    startIntentSenderForResult(
+                        result.getIntentSender(),
+                        REQUEST_CODE_GOOGLE_SIGN_IN,  /* fillInIntent= */
+                        null,  /* flagsMask= */
+                        0,  /* flagsValue= */
+                        0,  /* extraFlags= */
+                        0,  /* options= */
+                        null
+                    )
+                } catch (e: SendIntentException) {
+                    Log.e(TAG, "Google Sign-in failed")
+                }
+            }
+            .addOnFailureListener { e -> Log.e(TAG, "Google Sign-in failed", e) }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -81,8 +66,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val glogauth = getGoogleLoginAuth()
-                    LolBetsApp(glogauth)
+                    //val glogauth = getGoogleLoginAuth()
+                    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .build()
+                    val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+                    //signIn()
+                    LolBetsApp(mGoogleSignInClient)
                 }
             }
         }

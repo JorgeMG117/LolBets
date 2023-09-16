@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -31,28 +32,48 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import com.example.lolbets.data.BetUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BetScreen(game: Game, modifier: Modifier = Modifier) {
+fun BetScreen(betState: BetUiState, modifier: Modifier = Modifier) {
     Column (
         verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxHeight()
     ) {
         //Row (verticalAlignment = Alignment.CenterVertically,
         //horizontalArrangement = Arrangement.SpaceBetween,)
 
-        GameCard(game, modifier)
+        var button1BackgroundColor by remember { mutableStateOf(0xffffffff) }
+        var button2BackgroundColor by remember { mutableStateOf(0xffffffff) }
+
+        //TODO: Añadir mas padding en esta pantalla
+        GameCard(
+            betState.game,
+            button1BackgroundColor,
+            {
+                button1BackgroundColor = 0xff78bbff
+                button2BackgroundColor = 0xffffffff
+                //betState.teamChoice = 1
+            },
+            button2BackgroundColor,
+            {
+                button2BackgroundColor = 0xff78bbff
+                button1BackgroundColor = 0xffffffff
+            },
+            modifier
+        )
 
         var text by remember { mutableStateOf("") }
 
         OutlinedTextField(
             value = text,
             onValueChange = { text = it },
-            label = { Text("Label") }
+            label = { Text("Place your bet") }
         )
 
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {  }) {
             Text(text = "Place my bet")
         }
     }
@@ -61,5 +82,5 @@ fun BetScreen(game: Game, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun BetPreview() {
-    BetScreen(Game(Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100))
+    BetScreen(BetUiState(Game(Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100),0 ))
 }

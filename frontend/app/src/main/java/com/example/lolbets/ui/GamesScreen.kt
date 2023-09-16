@@ -9,11 +9,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lolbets.data.GamesData
+import com.example.lolbets.model.Game
 import com.example.lolbets.ui.components.GamesList
 
 
 @Composable
-fun GamesScreen(contentPadding: PaddingValues, onGameClicked: () -> Unit, modifier: Modifier = Modifier) {
+fun GamesScreen(contentPadding: PaddingValues, onGameClicked: (Game) -> Unit, modifier: Modifier = Modifier) {
     GamesList(
         gamesList = GamesData().loadGames(),
         contentPadding = contentPadding,
@@ -24,7 +25,7 @@ fun GamesScreen(contentPadding: PaddingValues, onGameClicked: () -> Unit, modifi
 @Composable
 fun GamesPreview() {
     GamesScreen(
-        contentPadding = PaddingValues(10.dp),
+        contentPadding = PaddingValues(0.dp),
         onGameClicked = {}
     )
 }

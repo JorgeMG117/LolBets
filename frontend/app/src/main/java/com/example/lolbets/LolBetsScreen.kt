@@ -1,38 +1,37 @@
 package com.example.lolbets
 
+import android.content.Intent
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
-import com.example.lolbets.data.GamesData
-import com.example.lolbets.ui.GamesScreen
-import com.example.lolbets.ui.LoginScreen
-import com.example.lolbets.ui.components.GamesList
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.navigation.compose.NavHost
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.lolbets.model.BottomNavItem
@@ -41,8 +40,13 @@ import com.example.lolbets.model.League
 import com.example.lolbets.model.Team
 import com.example.lolbets.model.User
 import com.example.lolbets.ui.BetScreen
+import com.example.lolbets.ui.FocusedGameViewModel
+import com.example.lolbets.ui.GamesScreen
 import com.example.lolbets.ui.HighlightScreen
 import com.example.lolbets.ui.ProfileScreen
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 enum class LolBetsScreen(){
     Highlight,
@@ -112,8 +116,9 @@ internal fun LolBetsBottomAppBar(items: List<BottomNavItem>, modifier: Modifier 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LolBetsApp(
-    clientIdtest: GoogleSignInClient,
+    mGoogleSignInClient: GoogleSignInClient,
     modifier: Modifier = Modifier,
+    viewModel: FocusedGameViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
     val items = listOf(
@@ -142,6 +147,8 @@ fun LolBetsApp(
             LolBetsBottomAppBar(items, modifier)
         }
     ) { innerPadding ->
+        val uiState by viewModel.uiState.collectAsState()
+
         NavHost(
             navController = navController,
             startDestination = LolBetsScreen.Games.name,
@@ -150,7 +157,9 @@ fun LolBetsApp(
             composable(route = LolBetsScreen.Games.name) {
                 GamesScreen(
                     contentPadding = innerPadding,
-                    onGameClicked = { navController.navigate(LolBetsScreen.Bet.name) },
+                    onGameClicked = {
+                        viewModel.setGame(it)
+                        navController.navigate(LolBetsScreen.Bet.name) },
                 )
             }
             composable(route = LolBetsScreen.Highlight.name) {
@@ -166,10 +175,38 @@ fun LolBetsApp(
             }
             composable(route = LolBetsScreen.Bet.name) {
                 BetScreen(
-                    Game(Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100)
+                    betState = uiState
                 )
             }
         }
+
+
+        /*val startForResult =
+            rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val intent = result.data
+                    if (result.data != null) {
+                        val task: Task<GoogleSignInAccount> =
+                            GoogleSignIn.getSignedInAccountFromIntent(intent)
+                        task.result
+                        handleSignInResult(task)
+                    }
+                }
+            }*/
+
+        /*Button(
+            /*onClick = {
+                val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
+                startActivityForResult(signInIntent, RC_SIGN_IN)
+            },*/
+            onClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding),
+            shape = RoundedCornerShape(6.dp),
+        ) {
+            Text(text = "Sign in with Google", modifier = Modifier.padding(6.dp))
+        }*/
 
         //LoginScreen(clientIdtest, innerPadding)
         //BetScreen(innerPadding)
