@@ -6,7 +6,7 @@ import (
 	"fmt"
 	//"log"
 	//"os"
-	//"time"
+	"time"
     "net/http"
     "io/ioutil"
 
@@ -68,13 +68,73 @@ func getApi(url string) []byte {
 }
 
 
-func GetScheduleApi() {
+// Gets the schedule from the API
+// timeFromWhich is the time from which we want to get the games
+// Returns a map where key of games is team1:date
+// Return a map of games and a map of teams
+func GetScheduleApi(timeFromWhich time.Time) (map[string]models.Game, map[string]models.Team) {
     result := getApi("https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=es-ES&leagueId=98767975604431411%2C110988878756156222")
 
 	var values ApiSchedule
 	fmt.Println("Error: ", json.Unmarshal(result, &values))
 
     fmt.Println(values)
+
+    gamesApi := make(map[string]models.Game)
+    teamsApi := make(map[string]models.Team)
+
+    for _, event := range values.Data.Schedule.Events {
+        // Check if the game is before the timeFromWhich, that means we already have it in the database with all the info
+        /*
+        if event.StartTime < timeFromWhich {
+            continue
+        }
+        */
+
+        // Check if there is 2 teams
+        teams := event.Match.Teams
+        if len(teams) != 2 {
+            fmt.Println("Error: ", "There is not 2 teams in the game")
+        }
+
+
+        // Safe every team just in case the game can't be created
+        teamsApi[teams[0].Name] = 
+            models.Team {
+                Name: teams[0].Name,
+                Image: teams[0].Image,
+                Code: teams[0].Code,
+            }
+        teamsApi[teams[1].Name] = 
+            models.Team {
+                Name: teams[1].Name,
+                Image: teams[1].Image,
+                Code: teams[1].Code,
+            }
+
+
+        // Check what team has won
+        gameResult := 0
+        completed := event.State == "completed"
+        if completed && *teams[0].Result.Outcome == "win" {//First team won
+            gameResult = 1
+        } else {//Second team won
+            gameResult = 2
+        }
+
+
+        gamesApi[teams[0].Name+event.StartTime.String()] = 
+            models.Game {
+                Time: event.StartTime,
+                Team1: teams[0].Name,
+                Team2: teams[1].Name,
+                League: event.League.Name,
+                BlockName: "best of " + string(event.Match.Strategy.Count),
+                Completed: gameResult,
+            }
+    }
+
+    return gamesApi, teamsApi
 }
 
 func GetLeaguesApi() []models.League {

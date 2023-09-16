@@ -10,6 +10,7 @@ import (
 )
 
 func ConnectDB() *sql.DB {
+    fmt.Println("Connecting to DB")
 	// Capture connection properties.
 	cfg := mysql.Config{
 		User:                 os.Getenv("DBUSER"),

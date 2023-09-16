@@ -12,6 +12,26 @@ type League struct {
 	Image  string `json:"image"`
 }
 
+// Print leagues from DB
+func PrintLeagues(db *sql.DB) error {
+    rows, err := db.Query("SELECT * FROM League")
+
+    if err != nil {
+        return err
+    }
+
+    for rows.Next() {
+        var league League
+        err = rows.Scan(&league.ApiID, &league.Name, &league.Region, &league.Image)
+        if err != nil {
+            return err
+        }
+        fmt.Println(league)
+    }
+
+    return nil
+}
+
 func GetLeaguesName(db *sql.DB) ([]string, error) {
 	query := "SELECT Name FROM League"
 
@@ -36,7 +56,7 @@ func GetLeaguesName(db *sql.DB) ([]string, error) {
 }
 
 func AddLeague(db *sql.DB, newLeague *League) error {
-	result, err := db.Exec("INSERT INTO League(Name, Region, Image) VALUES (?, ?, ?)", newLeague.Name, newLeague.Region, newLeague.Image)
+	result, err := db.Exec("INSERT INTO League(ApiID, Name, Region, Image) VALUES (?, ?, ?, ?)", newLeague.ApiID, newLeague.Name, newLeague.Region, newLeague.Image)
 
 	if err != nil {
 		return err

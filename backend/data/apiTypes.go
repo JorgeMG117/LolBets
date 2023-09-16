@@ -1,5 +1,7 @@
 package data
 
+import "time"
+
 /*
 type Data struct {
 	Data schedule `json:"data"`
@@ -51,7 +53,7 @@ type Schedule struct {
 }
 
 type Event struct {
-	StartTime string     `json:"startTime"`
+	StartTime time.Time  `json:"startTime"`
 	State     State      `json:"state"`
 	Type      EventType  `json:"type"`
 	BlockName BlockName  `json:"blockName"`
@@ -60,7 +62,7 @@ type Event struct {
 }
 
 type League struct {
-	Name Name `json:"name"`
+	Name string `json:"name"`
 	Slug Slug `json:"slug"`
 }
 

@@ -16,7 +16,7 @@ type Game struct {
 	Time      time.Time `json:"time"`
 	Bets1     int       `json:"bets1"`
 	Bets2     int       `json:"bets2"`
-	Completed bool      `json:"completed"`
+	Completed int       `json:"completed"`
 	BlockName string    `json:"blockName"`
 }
 
@@ -142,6 +142,31 @@ func AddGame(db *sql.DB, newGame *Game) error {
 	return err
 }
 
+func AddMultipleGames(db *sql.DB, newGames []Game) error {
+    for _, val := range newGames {
+        err := AddGame(db, &val)
+        if err != nil {
+            return err
+        }
+    }
+    return nil
+}
+
+func UpdateMultipleGames(db *sql.DB, games []Game) error {
+    for _, val := range games {
+        err := UpdateGame(db, &val)
+        if err != nil {
+            return err
+        }
+    }
+    return nil
+}
+
+func UpdateGame(db *sql.DB, game *Game) error {
+    _, err := db.Exec("UPDATE Game SET Bets_t1 = ?, Bets_t2 = ?, Completed = ? WHERE Id = ?", game.Bets1, game.Bets2, game.Completed, game.Id)
+    return err
+}
+
 func GetUnfinishedGames(db *sql.DB) ([]Game, error) {
 	query := "SELECT t1.Name, t2.Name, l.Name, g.Time, g.Completed, g.BlockName FROM Game g, Team t1, Team t2, League l WHERE t1.Id = g.Team_1 AND t2.Id = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
 
@@ -164,3 +189,27 @@ func GetUnfinishedGames(db *sql.DB) ([]Game, error) {
 
 	return games, nil
 }
+
+func GetLastCompletedGameTime(db *sql.DB) (*time.Time, error) {
+    var lastGameTime time.Time
+    err := db.QueryRow("SELECT Time FROM Game WHERE Completed = 1 ORDER BY Time DESC LIMIT 1").Scan(&lastGameTime)
+    if err != nil {
+        return nil, err
+    }
+    return &lastGameTime, nil
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
