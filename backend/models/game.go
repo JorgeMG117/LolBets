@@ -133,6 +133,7 @@ func GetGames(db *sql.DB, league string, team string) ([]Game, error) {
 	return response, nil
 }
 
+/*
 func AddGame(db *sql.DB, newGame *Game) error {
 	result, err := db.Exec("INSERT INTO Game(Team_1, Team_2, League) SELECT t1.Id, t2.Id, l.Id FROM Team t1, Team t2, League l WHERE t1.Name = ? AND t2.Name = ? AND l.Name = ?", newGame.Team1, newGame.Team2, newGame.League)
 	if val, _ := result.RowsAffected(); val != 1 {
@@ -140,6 +141,18 @@ func AddGame(db *sql.DB, newGame *Game) error {
 		fmt.Println(newGame)
 	}
 	return err
+}
+*/
+func AddGame(db *sql.DB, newGame *Game) error {
+    result, err := db.Exec("INSERT INTO Game(Team_1, Team_2, League, Time, Bets_t1, Bets_t2, Completed, BlockName) SELECT t1.Id, t2.Id, l.Id, ?, ?, ?, ?, ? FROM Team t1, Team t2, League l WHERE t1.Name = ? AND t2.Name = ? AND l.Name = ?", newGame.Time, newGame.Bets1, newGame.Bets2, newGame.Completed, newGame.BlockName, newGame.Team1, newGame.Team2, newGame.League)
+    if err != nil {
+        return err
+    }
+    if val, _ := result.RowsAffected(); val != 1 {
+        fmt.Println("No se ha insertado nada o se ha insertado mas de un valor")
+        fmt.Println(newGame)
+    }
+    return nil
 }
 
 func AddMultipleGames(db *sql.DB, newGames []Game) error {
@@ -190,13 +203,13 @@ func GetUnfinishedGames(db *sql.DB) ([]Game, error) {
 	return games, nil
 }
 
-func GetLastCompletedGameTime(db *sql.DB) (*time.Time, error) {
+func GetLastCompletedGameTime(db *sql.DB) (time.Time, error) {
     var lastGameTime time.Time
     err := db.QueryRow("SELECT Time FROM Game WHERE Completed = 1 ORDER BY Time DESC LIMIT 1").Scan(&lastGameTime)
     if err != nil {
-        return nil, err
+        return time.Now(), err
     }
-    return &lastGameTime, nil
+    return lastGameTime, nil
 }
 
 

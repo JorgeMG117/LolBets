@@ -73,28 +73,31 @@ func getApi(url string) []byte {
 // Returns a map where key of games is team1:date
 // Return a map of games and a map of teams
 func GetScheduleApi(timeFromWhich time.Time) (map[string]models.Game, map[string]models.Team) {
-    result := getApi("https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=es-ES&leagueId=98767975604431411%2C110988878756156222")
+    result := getApi("https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=en-US&leagueId=98767975604431411%2C110988878756156222")
 
 	var values ApiSchedule
 	fmt.Println("Error: ", json.Unmarshal(result, &values))
 
-    fmt.Println(values)
+    //fmt.Println(values)
 
     gamesApi := make(map[string]models.Game)
     teamsApi := make(map[string]models.Team)
 
     for _, event := range values.Data.Schedule.Events {
         // Check if the game is before the timeFromWhich, that means we already have it in the database with all the info
-        /*
-        if event.StartTime < timeFromWhich {
+        if event.StartTime.Before(timeFromWhich) {
             continue
         }
-        */
 
         // Check if there is 2 teams
         teams := event.Match.Teams
         if len(teams) != 2 {
             fmt.Println("Error: ", "There is not 2 teams in the game")
+        }
+
+        // Check if either of 2 teams name is TBD
+        if teams[0].Name == "TBD" || teams[1].Name == "TBD" {
+            continue
         }
 
 
@@ -118,7 +121,7 @@ func GetScheduleApi(timeFromWhich time.Time) (map[string]models.Game, map[string
         completed := event.State == "completed"
         if completed && *teams[0].Result.Outcome == "win" {//First team won
             gameResult = 1
-        } else {//Second team won
+        } else if completed {//Second team won
             gameResult = 2
         }
 
@@ -138,7 +141,7 @@ func GetScheduleApi(timeFromWhich time.Time) (map[string]models.Game, map[string
 }
 
 func GetLeaguesApi() []models.League {
-    result := getApi("https://esports-api.lolesports.com/persisted/gw/getLeagues?hl=es-ES")
+    result := getApi("https://esports-api.lolesports.com/persisted/gw/getLeagues?hl=en-US")
 
 	var values ApiLeague 
 	fmt.Println("Error: ", json.Unmarshal(result, &values))

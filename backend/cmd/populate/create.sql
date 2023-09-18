@@ -19,6 +19,22 @@ CREATE TABLE Team (
     Image   VARCHAR(150) NOT NULL
 );
 
+CREATE TABLE Game (
+    Id          INT AUTO_INCREMENT PRIMARY KEY,
+    Team_1      INT NOT NULL,
+    Team_2      INT NOT NULL,
+    League      INT NOT NULL,
+    Time        TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    Bets_t1     INT DEFAULT 0 NOT NULL,
+    Bets_t2     INT DEFAULT 0 NOT NULL,
+    Completed   TINYINT DEFAULT 0 NOT NULL,
+    BlockName   VARCHAR(20) NOT NULL,
+    CHECK ( Team_1 <> Team_2 ),
+    FOREIGN KEY (League) REFERENCES League(Id),
+    FOREIGN KEY (Team_1) REFERENCES Team(Id),
+    FOREIGN KEY (Team_2) REFERENCES Team(Id)
+);
+
 CREATE TABLE Bet (
     Id      INT AUTO_INCREMENT PRIMARY KEY,
     GameId  INT NOT NULL,
@@ -29,16 +45,4 @@ CREATE TABLE Bet (
     FOREIGN KEY (UserId) REFERENCES User(Id)
 );
 
-CREATE TABLE Game (
-    Id          INT AUTO_INCREMENT PRIMARY KEY,
-    Team_1      INT NOT NULL,
-    Team_2      INT NOT NULL,
-    League      INT NOT NULL,
-    Time        TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    Completed   TINYINT DEFAULT 0 NOT NULL,
-    BlockName   VARCHAR(20) NOT NULL,
-    CHECK ( Team_1 <> Team_2 ),
-    FOREIGN KEY (League) REFERENCES League(Id),
-    FOREIGN KEY (Team_1) REFERENCES Team(Id),
-    FOREIGN KEY (Team_2) REFERENCES Team(Id)
-);
+
