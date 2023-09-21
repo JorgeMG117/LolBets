@@ -18,6 +18,7 @@ type Game struct {
 	Bets2     int       `json:"bets2"`
 	Completed int       `json:"completed"`
 	BlockName string    `json:"blockName"`
+    Strategy  string    `json:"strategy"`
 }
 
 const MaxGames int = 50
@@ -32,6 +33,11 @@ var indexOfGame []int
 func BetController(chBets chan Bet, idxGame int) {
 	out := false
 	timeLeft := time.Until(games[idxGame].Time)
+    /*
+    fmt.Println("Game " + games[idxGame].Team1 + " vs " + games[idxGame].Team2)
+    fmt.Println(idxGame)
+    fmt.Println("Time left: " + strconv.Itoa(int(timeLeft.Minutes())) + " minutes")
+    */
 	for !out {
 		select {
 		case bet := <-chBets:
@@ -42,7 +48,7 @@ func BetController(chBets chan Bet, idxGame int) {
 			}
 			activeBets[games[idxGame].Id] = append(activeBets[games[idxGame].Id], bet)
 			fmt.Println(games)
-		case <-time.After(timeLeft * time.Minute):
+        case <-time.After(timeLeft):
 			fmt.Println("Bet " + strconv.Itoa(idxGame) + " is over")
 			out = true
 		}
@@ -67,8 +73,8 @@ func InitializeGames(db *sql.DB) error {
 	indexOfGame = make([]int, 0, MaxGames)
 
 	//Cojemos como mucho maxGames partidos
-	//TODO: Quizas ordenar los resultados por los que se acaban antes
-	query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2 FROM Game g, Team t1, Team t2, League l WHERE t1.Id = g.Team_1 AND t2.Id = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
+	query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2, g.BlockName, g.Strategy FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
+    query = query + " ORDER BY g.Time ASC"
 	query = query + " LIMIT " + strconv.Itoa(MaxGames)
 
 	rows, err := db.Query(query)
@@ -79,16 +85,23 @@ func InitializeGames(db *sql.DB) error {
 
 	for rows.Next() {
 		var game Game
-		err = rows.Scan(&game.Id, &game.Team1, &game.Team2, &game.League, &game.Time, &game.Bets1, &game.Bets2)
+        var horario string
+		err = rows.Scan(&game.Id, &game.Team1, &game.Team2, &game.League, &horario, &game.Bets1, &game.Bets2, &game.BlockName, &game.Strategy)
 		if err != nil {
 			return err
 		}
+        game.Time, err = time.Parse("2006-01-02 15:04:05", horario)
+		if err != nil {
+			return err
+		}
+
 		games = append(games, game)
 		indexOfGame = append(indexOfGame, game.Id)
 	}
 
 	initializeActiveBets()
 
+    fmt.Println("Games initialized")
 	fmt.Println(games)
 
 	return nil
@@ -133,18 +146,10 @@ func GetGames(db *sql.DB, league string, team string) ([]Game, error) {
 	return response, nil
 }
 
+
 /*
 func AddGame(db *sql.DB, newGame *Game) error {
-	result, err := db.Exec("INSERT INTO Game(Team_1, Team_2, League) SELECT t1.Id, t2.Id, l.Id FROM Team t1, Team t2, League l WHERE t1.Name = ? AND t2.Name = ? AND l.Name = ?", newGame.Team1, newGame.Team2, newGame.League)
-	if val, _ := result.RowsAffected(); val != 1 {
-		fmt.Println("No se ha insertado nada o se ha insertado mas de un valor")
-		fmt.Println(newGame)
-	}
-	return err
-}
-*/
-func AddGame(db *sql.DB, newGame *Game) error {
-    result, err := db.Exec("INSERT INTO Game(Team_1, Team_2, League, Time, Bets_t1, Bets_t2, Completed, BlockName) SELECT t1.Id, t2.Id, l.Id, ?, ?, ?, ?, ? FROM Team t1, Team t2, League l WHERE t1.Name = ? AND t2.Name = ? AND l.Name = ?", newGame.Time, newGame.Bets1, newGame.Bets2, newGame.Completed, newGame.BlockName, newGame.Team1, newGame.Team2, newGame.League)
+    result, err := db.Exec("INSERT INTO Game(Team_1, Team_2, League, Time, Bets_t1, Bets_t2, Completed, BlockName) SELECT t1.Code, t2.Code, l.Id, ?, ?, ?, ?, ? FROM Team t1, Team t2, League l WHERE t1.Name = ? AND t2.Name = ? AND l.Name = ?", newGame.Time, newGame.Bets1, newGame.Bets2, newGame.Completed, newGame.BlockName, newGame.Team1, newGame.Team2, newGame.League)
     if err != nil {
         return err
     }
@@ -154,6 +159,20 @@ func AddGame(db *sql.DB, newGame *Game) error {
     }
     return nil
 }
+*/
+func AddGame(db *sql.DB, newGame *Game) error {
+    result, err := db.Exec("INSERT INTO Game(Team_1, Team_2, League, Time, Bets_t1, Bets_t2, Completed, BlockName, Strategy) SELECT t1.Code, t2.Code, l.Id, ?, ?, ?, ?, ?, ? FROM Team t1, Team t2, League l WHERE t1.Name = ? AND t2.Name = ? AND l.Name = ?", newGame.Time, newGame.Bets1, newGame.Bets2, newGame.Completed, newGame.BlockName, newGame.Strategy, newGame.Team1, newGame.Team2, newGame.League)
+    if err != nil {
+        return err
+    }
+    if val, _ := result.RowsAffected(); val != 1 {
+        fmt.Println("No se ha insertado nada o se ha insertado mas de un valor")
+        fmt.Println(newGame)
+    }
+    return nil
+}
+
+
 
 func AddMultipleGames(db *sql.DB, newGames []Game) error {
     for _, val := range newGames {
@@ -181,7 +200,7 @@ func UpdateGame(db *sql.DB, game *Game) error {
 }
 
 func GetUnfinishedGames(db *sql.DB) ([]Game, error) {
-	query := "SELECT t1.Name, t2.Name, l.Name, g.Time, g.Completed, g.BlockName FROM Game g, Team t1, Team t2, League l WHERE t1.Id = g.Team_1 AND t2.Id = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
+	query := "SELECT t1.Name, t2.Name, l.Name, g.Time, g.Completed, g.BlockName FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
 
 	rows, err := db.Query(query)
 

@@ -9,6 +9,7 @@ import (
 	"time"
     "net/http"
     "io/ioutil"
+    "strconv"
 
 	//"github.com/JorgeMG117/LolBets/backend/configs"
 	"github.com/JorgeMG117/LolBets/backend/models"
@@ -67,12 +68,83 @@ func getApi(url string) []byte {
     return body
 }
 
+func GetScheduleApi() (ApiSchedule) {
+    result := getApi("https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=en-US&leagueId=98767975604431411%2C110988878756156222")
+
+	var values ApiSchedule
+	fmt.Println("Error: ", json.Unmarshal(result, &values))
+
+    return values
+}
+
+func CleanApiData(apiData ApiSchedule, timeFromWhich time.Time) (map[string]models.Game, map[string]models.Team) {
+    gamesApi := make(map[string]models.Game)
+    teamsApi := make(map[string]models.Team)
+
+    for _, event := range apiData.Data.Schedule.Events {
+        // Check if the game is before the timeFromWhich, that means we already have it in the database with all the info
+        if event.StartTime.Before(timeFromWhich) {
+            continue
+        }
+
+        // Check if there is 2 teams
+        teams := event.Match.Teams
+        if len(teams) != 2 {
+            fmt.Println("Error: ", "There is not 2 teams in the game")
+        }
+
+        // Check if either of 2 teams name is TBD
+        if teams[0].Name == "TBD" || teams[1].Name == "TBD" {
+            continue
+        }
+
+
+        // Safe every team just in case the game can't be created
+        teamsApi[teams[0].Name] = 
+            models.Team {
+                Name: teams[0].Name,
+                Image: teams[0].Image,
+                Code: teams[0].Code,
+            }
+        teamsApi[teams[1].Name] = 
+            models.Team {
+                Name: teams[1].Name,
+                Image: teams[1].Image,
+                Code: teams[1].Code,
+            }
+
+
+        // Check what team has won
+        gameResult := 0
+        completed := event.State == "completed"
+        if completed && *teams[0].Result.Outcome == "win" {//First team won
+            gameResult = 1
+        } else if completed {//Second team won
+            gameResult = 2
+        }
+
+
+        // TODO: Cambiar primary key de game a team1:date en db
+        gamesApi[teams[0].Name+event.StartTime.String()] = 
+            models.Game {
+                Time: event.StartTime,
+                Team1: teams[0].Name,
+                Team2: teams[1].Name,
+                League: event.League.Name,
+                BlockName: string(event.BlockName),
+                Strategy: "best of " + strconv.FormatInt(event.Match.Strategy.Count, 10),
+                Completed: gameResult,
+            }
+    }
+
+    return gamesApi, teamsApi
+}
 
 // Gets the schedule from the API
 // timeFromWhich is the time from which we want to get the games
 // Returns a map where key of games is team1:date
 // Return a map of games and a map of teams
-func GetScheduleApi(timeFromWhich time.Time) (map[string]models.Game, map[string]models.Team) {
+func GetCleanScheduleApi(timeFromWhich time.Time) (map[string]models.Game, map[string]models.Team) {
     result := getApi("https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=en-US&leagueId=98767975604431411%2C110988878756156222")
 
 	var values ApiSchedule
@@ -126,13 +198,15 @@ func GetScheduleApi(timeFromWhich time.Time) (map[string]models.Game, map[string
         }
 
 
+        // TODO: Cambiar primary key de game a team1:date en db
         gamesApi[teams[0].Name+event.StartTime.String()] = 
             models.Game {
                 Time: event.StartTime,
                 Team1: teams[0].Name,
                 Team2: teams[1].Name,
                 League: event.League.Name,
-                BlockName: "best of " + string(event.Match.Strategy.Count),
+                BlockName: string(event.BlockName),
+                Strategy: "best of " + strconv.FormatInt(event.Match.Strategy.Count, 10),
                 Completed: gameResult,
             }
     }

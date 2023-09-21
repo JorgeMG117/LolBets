@@ -37,25 +37,27 @@ func createDBtables(db *sql.DB) {
             Image   VARCHAR(150) NOT NULL
         );`,
         `CREATE TABLE Team (
-            Id      INT AUTO_INCREMENT PRIMARY KEY,
             Name    VARCHAR(50) NOT NULL,
-            Code    VARCHAR(50) NOT NULL,
+            Code    VARCHAR(50) PRIMARY KEY,
             Image   VARCHAR(150) NOT NULL
         );`,
         `CREATE TABLE Game (
             Id          INT AUTO_INCREMENT PRIMARY KEY,
-            Team_1      INT NOT NULL,
-            Team_2      INT NOT NULL,
+            Team_1      VARCHAR(50) NOT NULL,
+            Team_2      VARCHAR(50) NOT NULL,
             League      INT NOT NULL,
             Time        TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL,
             Bets_t1     INT DEFAULT 0 NOT NULL,
             Bets_t2     INT DEFAULT 0 NOT NULL,
             Completed   TINYINT DEFAULT 0 NOT NULL,
             BlockName   VARCHAR(20) NOT NULL,
+            Strategy    VARCHAR(50) NOT NULL,
+            CHECK ( Completed IN (0, 1, 2) ),
             CHECK ( Team_1 <> Team_2 ),
             FOREIGN KEY (League) REFERENCES League(Id),
-            FOREIGN KEY (Team_1) REFERENCES Team(Id),
-            FOREIGN KEY (Team_2) REFERENCES Team(Id)
+            FOREIGN KEY (Team_1) REFERENCES Team(Code),
+            FOREIGN KEY (Team_2) REFERENCES Team(Code),
+            UNIQUE (Team_1, Time)
         );`,
         `CREATE TABLE Bet (
             Id      INT AUTO_INCREMENT PRIMARY KEY,
@@ -110,6 +112,91 @@ func dropDBtables(db *sql.DB) {
 
 }
 
+func UpdateApiToDatabase(db *sql.DB, apiData data.ApiSchedule) {
+    // Get last already completed game from DB
+    lastGameTime, err := models.GetLastCompletedGameTime(db)
+    if err != nil {
+        //fmt.Println("There si no already completed last game:", err)
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+    }
+
+	// Pillar todos los resultados de la api
+    gamesApi, teamsApi := data.CleanApiData(apiData, lastGameTime)
+
+	// Pillar todos los partidos incompletos de la bd
+	unfinishedGames, err := models.GetUnfinishedGames(db)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+	}
+	fmt.Println(unfinishedGames)
+
+	// See what games stored in the db are completed to update them
+	for _, v := range unfinishedGames {
+		key := v.Team1 + v.Time.String()
+		apiGame := gamesApi[key]
+		if apiGame.Completed == 1 {//Game has been played and team 1 won
+            v.Completed = 1
+		} else if apiGame.Completed == 2 {//Game has been played and team 2 won
+            v.Completed = 2
+        }
+		delete(gamesApi, key)
+        // If the game already exists in the db, the teams are already in the db
+        delete(teamsApi, v.Team1)
+        delete(teamsApi, v.Team2)
+	}
+
+	// Modificar en la bd unfinishedGames
+    //go models.UpdateMultipleGames(db, unfinishedGames)
+    err = models.UpdateMultipleGames(db, unfinishedGames)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "UpdateMultipleGames: %s\n", err)
+    }
+
+    // Now on apiGames we have only the games that are not in the db yet
+    var newGames []models.Game
+	for key, game := range gamesApi {
+		if game.Completed > 0 {
+			delete(gamesApi, key)
+            delete(teamsApi, game.Team1)
+            delete(teamsApi, game.Team2)
+		} else {
+            newGames = append(newGames, game)
+		}
+	}
+
+    // Add new teams to the db, they might already exist
+    for _, team := range teamsApi {
+        err := models.AddTeam(db, &team)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, "%s\n", err)
+        }
+    }
+
+    //go models.AddMultipleGames(db, newGames)
+    /*
+    err = models.AddMultipleGames(db, newGames)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "AddMultipleGames: %s\n", err)
+    }
+    */
+    fmt.Println("Adding new games...")
+    for _, game := range newGames {
+        fmt.Println(game)
+        err := models.AddGame(db, &game)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, "%s\n", err)
+        }
+    }
+}
+
+func UpdateDatabase2(db *sql.DB) {
+	// Pillar todos los resultados de la api
+    apiData := data.GetScheduleApi()
+
+    UpdateApiToDatabase(db, apiData)
+}
+
+
 func UpdateDatabase(db *sql.DB) {
     // Get last already completed game from DB
     lastGameTime, err := models.GetLastCompletedGameTime(db)
@@ -119,7 +206,7 @@ func UpdateDatabase(db *sql.DB) {
     }
 
 	// Pillar todos los resultados de la api
-    gamesApi, teamsApi := data.GetScheduleApi(lastGameTime)
+    gamesApi, teamsApi := data.GetCleanScheduleApi(lastGameTime)
 	fmt.Println(gamesApi)
 
 	// Pillar todos los partidos incompletos de la bd
