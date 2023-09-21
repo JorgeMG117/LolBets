@@ -1,14 +1,12 @@
 package test
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
-	"time"
-    "fmt"
 
 	"github.com/JorgeMG117/LolBets/backend/configs"
-	"github.com/JorgeMG117/LolBets/backend/models"
-	//"github.com/JorgeMG117/LolBets/backend/data"
+	"github.com/JorgeMG117/LolBets/backend/data"
 )
 
 /*
@@ -19,39 +17,27 @@ This tests if the data we get from the api and is correctly added to the databas
 //func initializeDbGames(db, games) {
 
 func TestDbEmpty(t *testing.T) {
+	// Create connection to DB
 	db := configs.ConnectDB()
-    defer db.Close()
+	defer db.Close()
 
-    // Initialize database
+	// Initialize database
+	data.InitializeDatabase(db)
 
-    // Empty database
+	// Create returned games from the Api
+	gamesInApi := data.ApiSchedule{}
+	fmt.Println(gamesInApi)
 
-    // Create returned games from the Api
-    gamesInApi := []models.Game {
-        {
-            Id: 1,
-            Team1: "G2",
-            Team2: "FNC",
-            League: "LEC",
-            Time: time.Now(),
-            Bets1: 0,
-            Bets2: 0,
-            BlockName: "Finals",
-            Strategy: "best of 5",
-        },
-    }
-    fmt.Println(gamesInApi)
+	// Call function update games to database
+	data.UpdateApiToDatabase(db, gamesInApi)
 
-    // Call function update games to database
-    //data.UpdateGames(db, gamesInApi)
+	// Get games from the database
 
-    // Get games from the database
-
-    // Check if database has the correct values
-    /*
-    expectedGames := []models.Game {
-    }
-    */
+	// Check if database has the correct values
+	/*
+	   expectedGames := []models.Game {
+	   }
+	*/
 }
 
 func TestFetchGophers(t *testing.T) {
