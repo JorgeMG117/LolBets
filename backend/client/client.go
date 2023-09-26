@@ -9,8 +9,20 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-func Client() {
-	gameId := "1"
+// Send the message of the bet
+func makeBet(conn *websocket.Conn, bet models.Bet) {
+
+	b, _ := json.Marshal(&bet)
+
+    err := conn.WriteMessage(websocket.TextMessage, []byte(string(b)))
+	if err != nil {
+		log.Println("write:", err)
+		return
+	}
+}
+
+func Client(chStop chan bool, chBet chan models.Bet) {
+    gameId := "1"
 	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/bets", RawQuery: "game=" + gameId}
 	log.Printf("connecting to %s", u.String())
 
@@ -35,22 +47,19 @@ func Client() {
 		}
 	}()
 
-	m := models.Bet{
-		100,
-		false,
-	}
 
-	// func Marshal(v interface{}) ([]byte, error)
-	b, _ := json.Marshal(&m)
+    for {
+        select {
+        case <-chStop:
+            return
+        case b := <-chBet:
+            makeBet(c, b)
+        //case return games
+        }
 
-	err = c.WriteMessage(websocket.TextMessage, []byte(string(b)))
-	if err != nil {
-		log.Println("write:", err)
-		return
-	}
+    }
 
-	for {
-	}
+
 
 	/*
 	    messageOut := make(chan string)

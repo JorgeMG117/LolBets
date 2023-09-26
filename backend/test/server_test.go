@@ -1,26 +1,72 @@
-package main
+package test
 
 import (
-	//"fmt"
 	"fmt"
 	"testing"
+    "os"
 	"time"
 
 	"github.com/JorgeMG117/LolBets/backend/client"
 	"github.com/JorgeMG117/LolBets/backend/server"
+    "github.com/JorgeMG117/LolBets/backend/models"
 )
+
+type configDeploy struct {
+	t           *testing.T
+    numClients  int
+}
+
+// Crear una configuracion de despliegue
+func makeCfgDespliegue(t *testing.T, numClients int) *configDeploy {
+	cfg := &configDeploy{}
+    cfg.t = t
+    cfg.numClients = numClients
+
+	return cfg
+}
+
+// Pruebas a realizar:
+// . Comprobar que el cliente ve los partidos
+// . Un cliente hace una apuesta el otro pide los partidos y puede la apuesta
 
 func startServer(){
 }
 
+
 func TestBackend(t *testing.T) {
-    fmt.Println("Lanzando servidor")
-    go server.ExecServer() //Comprobar error
+    // Inizializar BD
+    // Añadir partidos predeterminados
+    // Lanzar servidor
+    go func() {
+        if err := server.ExecServer(); err != nil {
+            fmt.Fprintf(os.Stderr, "%s\n", err)
+            os.Exit(1)
+        }
+        fmt.Println("Lanzando servidor")
+    }()
     time.Sleep(5 * time.Second)
-    fmt.Println("Lanzando cliente")
-    go client.Client()
-    for {}
+
+    //chOrders[]
+    // Lanzar numero de clientes predefinidos
+        // Cada cliente tiene definida las acciones (apuestas) que debe realizar
+    var stop chan bool
+    var chBet chan models.Bet
+    for i := 0; i < 2; i++ {
+        go func(i int) {
+            fmt.Println("Lanzando cliente: ", i)
+            client.Client(stop, chBet)
+        }(i)
+    }
+
+    time.Sleep(15 * time.Second)
+    stop <- true
+
+    //<- "Apostar"
+    //<- "Pedir partidos"
+
+
 }
+
 
 
 /*type configDespliegue struct {

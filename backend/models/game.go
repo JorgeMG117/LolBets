@@ -147,6 +147,41 @@ func GetGames(db *sql.DB, league string, team string) ([]Game, error) {
 }
 
 
+func GetGamesDb(db *sql.DB, league string, team string) ([]Game, error) {
+    query := "SELECT t1.Name, t2.Name, l.Name, g.Time, g.Completed, g.BlockName, g.Strategy FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League"
+    if league != "" {
+        query = query + " AND l.Name = " + league
+    }
+    if team != "" {
+        query = query + " AND (t1.Name = " + team + " OR t2.Name = " + team + ")"
+    }
+
+    rows, err := db.Query(query)
+
+    var games []Game
+
+    if err != nil {
+        return games, err
+    }
+
+    for rows.Next() {
+        var game Game
+        var horario string
+        err = rows.Scan(&game.Team1, &game.Team2, &game.League, &horario, &game.Completed, &game.BlockName, &game.Strategy)
+        if err != nil {
+            return games, err
+        }
+        game.Time, err = time.Parse("2006-01-02 15:04:05", horario)
+        if err != nil {
+            return games, err
+        }
+        games = append(games, game)
+    }
+
+    return games, nil
+}
+
+
 /*
 func AddGame(db *sql.DB, newGame *Game) error {
     result, err := db.Exec("INSERT INTO Game(Team_1, Team_2, League, Time, Bets_t1, Bets_t2, Completed, BlockName) SELECT t1.Code, t2.Code, l.Id, ?, ?, ?, ?, ? FROM Team t1, Team t2, League l WHERE t1.Name = ? AND t2.Name = ? AND l.Name = ?", newGame.Time, newGame.Bets1, newGame.Bets2, newGame.Completed, newGame.BlockName, newGame.Team1, newGame.Team2, newGame.League)

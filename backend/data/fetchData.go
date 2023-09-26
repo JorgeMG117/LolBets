@@ -11,11 +11,37 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+    "os"
 
 	//"github.com/JorgeMG117/LolBets/backend/configs"
 	"github.com/JorgeMG117/LolBets/backend/models"
 	//"github.com/joho/godotenv"
 )
+
+
+// Reads an api_schedule.json file and returns the games in it
+func ReadApiSchedule(filename string) ApiSchedule {
+    // Open our jsonFile
+    jsonFile, err := os.Open(filename)
+    // if we os.Open returns an error then handle it
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println("Successfully Opened api_schedule.json")
+    // defer the closing of our jsonFile so that we can parse it later on
+    defer jsonFile.Close()
+
+    // read our opened jsonFile as a byte array.
+    byteValue, _ := ioutil.ReadAll(jsonFile)
+
+    var apiSchedule ApiSchedule
+    err = json.Unmarshal(byteValue, &apiSchedule)
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    return apiSchedule
+}
 
 func getApi(url string) []byte {
 	headers := map[string]string{

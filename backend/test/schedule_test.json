@@ -1,0 +1,432 @@
+{
+	"data": {
+		"schedule": {
+			"pages": {
+				"older": "b2xkZXI6OjEwOTkxOTIyNjM3ODc5MTg4NA==",
+				"newer": null
+			},
+			"events": [
+				{
+					"startTime": "2023-09-02T16:00:00Z",
+					"state": "completed",
+					"type": "match",
+					"blockName": "Knockouts",
+					"league": {
+						"name": "LEC",
+						"slug": "lec"
+					},
+					"match": {
+						"id": "110848560875705979",
+						"flags": [
+							"hasVod",
+							"isSpoiler"
+						],
+						"teams": [
+							{
+								"name": "Team BDS",
+								"code": "BDS",
+								"image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+								"result": {
+									"outcome": "loss",
+									"gameWins": 2
+								},
+								"record": {
+									"wins": 1,
+									"losses": 2
+								}
+							},
+							{
+								"name": "Fnatic",
+								"code": "FNC",
+								"image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+								"result": {
+									"outcome": "win",
+									"gameWins": 3
+								},
+								"record": {
+									"wins": 3,
+									"losses": 1
+								}
+							}
+						],
+						"strategy": {
+							"type": "bestOf",
+							"count": 5
+						}
+					}
+				},
+				{
+					"startTime": "2023-09-03T16:00:00Z",
+					"state": "completed",
+					"type": "match",
+					"blockName": "Knockouts",
+					"league": {
+						"name": "LEC",
+						"slug": "lec"
+					},
+					"match": {
+						"id": "110848560875705961",
+						"flags": [
+							"hasVod",
+							"isSpoiler"
+						],
+						"teams": [
+							{
+								"name": "G2 Esports",
+								"code": "G2",
+								"image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+								"result": {
+									"outcome": "win",
+									"gameWins": 3
+								},
+								"record": {
+									"wins": 3,
+									"losses": 0
+								}
+							},
+							{
+								"name": "MAD Lions",
+								"code": "MAD",
+								"image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+								"result": {
+									"outcome": "loss",
+									"gameWins": 1
+								},
+								"record": {
+									"wins": 1,
+									"losses": 2
+								}
+							}
+						],
+						"strategy": {
+							"type": "bestOf",
+							"count": 5
+						}
+					}
+				},
+				{
+					"startTime": "2023-09-09T16:00:00Z",
+					"state": "completed",
+					"type": "match",
+					"blockName": "Knockouts",
+					"league": {
+						"name": "LEC",
+						"slug": "lec"
+					},
+					"match": {
+						"id": "110848560875705985",
+						"flags": [
+							"hasVod",
+							"isSpoiler"
+						],
+						"teams": [
+							{
+								"name": "MAD Lions",
+								"code": "MAD",
+								"image": "http://static.lolesports.com/teams/1631819614211_mad-2021-worlds.png",
+								"result": {
+									"outcome": "loss",
+									"gameWins": 2
+								},
+								"record": {
+									"wins": 1,
+									"losses": 2
+								}
+							},
+							{
+								"name": "Fnatic",
+								"code": "FNC",
+								"image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+								"result": {
+									"outcome": "win",
+									"gameWins": 3
+								},
+								"record": {
+									"wins": 3,
+									"losses": 1
+								}
+							}
+						],
+						"strategy": {
+							"type": "bestOf",
+							"count": 5
+						}
+					}
+				},
+				{
+					"startTime": "2023-09-10T16:00:00Z",
+					"state": "completed",
+					"type": "match",
+					"blockName": "Finals",
+					"league": {
+						"name": "LEC",
+						"slug": "lec"
+					},
+					"match": {
+						"id": "110848560875705991",
+						"flags": [
+							"hasVod",
+							"isSpoiler"
+						],
+						"teams": [
+							{
+								"name": "G2 Esports",
+								"code": "G2",
+								"image": "http://static.lolesports.com/teams/G2-FullonDark.png",
+								"result": {
+									"outcome": "win",
+									"gameWins": 3
+								},
+								"record": {
+									"wins": 3,
+									"losses": 0
+								}
+							},
+							{
+								"name": "Fnatic",
+								"code": "FNC",
+								"image": "http://static.lolesports.com/teams/1631819669150_fnc-2021-worlds.png",
+								"result": {
+									"outcome": "loss",
+									"gameWins": 1
+								},
+								"record": {
+									"wins": 3,
+									"losses": 1
+								}
+							}
+						],
+						"strategy": {
+							"type": "bestOf",
+							"count": 5
+						}
+					}
+				},
+				{
+					"startTime": "2023-10-09T04:00:00Z",
+					"state": "unstarted",
+					"type": "match",
+					"blockName": "Finals",
+					"league": {
+						"name": "Worlds Qualifying Series",
+						"slug": "wqs"
+					},
+					"match": {
+						"id": "110988896197645123",
+						"flags": [],
+						"teams": [
+							{
+								"name": "Team BDS",
+								"code": "BDS",
+								"image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+								"result": {
+									"outcome": null,
+									"gameWins": 0
+								},
+								"record": {
+									"wins": 0,
+									"losses": 0
+								}
+							},
+							{
+								"name": "Golden Guardians",
+								"code": "GG",
+								"image": "http://static.lolesports.com/teams/1592590586919_GoldenGuardiansGGS-01-FullonDark.png",
+								"result": {
+									"outcome": null,
+									"gameWins": 0
+								},
+								"record": {
+									"wins": 0,
+									"losses": 0
+								}
+							}
+						],
+						"strategy": {
+							"type": "bestOf",
+							"count": 5
+						}
+					}
+				},
+				{
+					"startTime": "2023-10-10T07:00:00Z",
+					"state": "unstarted",
+					"type": "match",
+					"blockName": "Play In Groups",
+					"league": {
+						"name": "Worlds",
+						"slug": "worlds"
+					},
+					"match": {
+						"id": "110852960170020343",
+						"flags": [],
+						"teams": [
+							{
+								"name": "Movistar R7",
+								"code": "R7",
+								"image": "http://static.lolesports.com/teams/1673451007201_IMG_3488.png",
+								"result": {
+									"outcome": null,
+									"gameWins": 0
+								},
+								"record": {
+									"wins": 0,
+									"losses": 0
+								}
+							},
+							{
+								"name": "PSG Talon",
+								"code": "PSG",
+								"image": "http://static.lolesports.com/teams/1644501567410_PSG_3.png",
+								"result": {
+									"outcome": null,
+									"gameWins": 0
+								},
+								"record": {
+									"wins": 0,
+									"losses": 0
+								}
+							}
+						],
+						"strategy": {
+							"type": "bestOf",
+							"count": 3
+						}
+					}
+				},
+				{
+					"startTime": "2023-10-10T10:00:00Z",
+					"state": "unstarted",
+					"type": "match",
+					"blockName": "Play In Groups",
+					"league": {
+						"name": "Worlds",
+						"slug": "worlds"
+					},
+					"match": {
+						"id": "110852960170020339",
+						"flags": [],
+						"teams": [
+							{
+								"name": "LOUD",
+								"code": "LLL",
+								"image": "http://static.lolesports.com/teams/Logo-LOUD-Esports_Original.png",
+								"result": {
+									"outcome": null,
+									"gameWins": 0
+								},
+								"record": {
+									"wins": 0,
+									"losses": 0
+								}
+							},
+							{
+								"name": "GAM Esports",
+								"code": "GAM",
+								"image": "http://static.lolesports.com/teams/1643263093448_GAMyellow.png",
+								"result": {
+									"outcome": null,
+									"gameWins": 0
+								},
+								"record": {
+									"wins": 0,
+									"losses": 0
+								}
+							}
+						],
+						"strategy": {
+							"type": "bestOf",
+							"count": 3
+						}
+					}
+				},
+				{
+					"startTime": "2023-10-11T07:00:00Z",
+					"state": "unstarted",
+					"type": "match",
+					"blockName": "Play In Groups",
+					"league": {
+						"name": "Worlds",
+						"slug": "worlds"
+					},
+					"match": {
+						"id": "110852981983875670",
+						"flags": [],
+						"teams": [
+							{
+								"name": "DetonatioN FocusMe",
+								"code": "DFM",
+								"image": "http://static.lolesports.com/teams/1673415140442_dfm.png",
+								"result": {
+									"outcome": null,
+									"gameWins": 0
+								},
+								"record": {
+									"wins": 0,
+									"losses": 0
+								}
+							},
+							{
+								"name": "CTBC Flying Oyster",
+								"code": "CFO",
+								"image": "http://static.lolesports.com/teams/1656307849320_CFO_Logo.png",
+								"result": {
+									"outcome": null,
+									"gameWins": 0
+								},
+								"record": {
+									"wins": 0,
+									"losses": 0
+								}
+							}
+						],
+						"strategy": {
+							"type": "bestOf",
+							"count": 3
+						}
+					}
+				},
+				{
+					"startTime": "2023-10-11T10:00:00Z",
+					"state": "unstarted",
+					"type": "match",
+					"blockName": "Play In Groups",
+					"league": {
+						"name": "Worlds",
+						"slug": "worlds"
+					},
+					"match": {
+						"id": "110852981983875666",
+						"flags": [],
+						"teams": [
+							{
+								"name": "TBD",
+								"code": "TBD",
+								"image": "http://assets.lolesports.com/watch/team-tbd.png",
+								"result": null,
+								"record": null
+							},
+							{
+								"name": "TEAM WHALES",
+								"code": "TW",
+								"image": "http://static.lolesports.com/teams/1674646643550_TEAMWHALE_LOGO_VERSIONS_W_fullwhite-06-svg.png",
+								"result": {
+									"outcome": null,
+									"gameWins": 0
+								},
+								"record": {
+									"wins": 0,
+									"losses": 0
+								}
+							}
+						],
+						"strategy": {
+							"type": "bestOf",
+							"count": 3
+						}
+					}
+				},
+			]
+		}
+	}
+}
