@@ -3,7 +3,7 @@ name: CI Checks
 on:
   push:
     branches: # <1>
-      - main
+      - master
 jobs:
   build:
     name: Build App
