@@ -16,11 +16,11 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     - name: Run Test
-      run: make test
+      run: make -C backend/ test
     - name: Coverage Check
-      run: make coverage
+      run: make -C backend/ coverage
     - name: Generate Report
-      run: make report
+      run: make -C backend/ report
     - name: Copy Files
       run: |
           mkdir reports
