@@ -1,6 +1,6 @@
 GO_VERSION := 1.17  # <1>
 
-.PHONY: install-go init-go
+.PHONY: install-go init-go test
 
 setup: install-go init-go # <2>
 

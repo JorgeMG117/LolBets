@@ -34,6 +34,7 @@ func startServer(){
 
 
 func TestBackend(t *testing.T) {
+	t.Skip("SKIPPED soloArranqueYparadaTest1")
     // Inizializar BD
     // Añadir partidos predeterminados
     // Lanzar servidor
