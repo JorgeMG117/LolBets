@@ -27,3 +27,6 @@ test:
 
 coverage:
 	go tool cover -html=coverage.out
+
+report:
+	go tool cover -html=coverage.out -o cover.html

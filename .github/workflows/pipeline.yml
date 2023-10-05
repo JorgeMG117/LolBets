@@ -24,10 +24,10 @@ jobs:
     - name: Copy Files
       run: |
           mkdir reports
-          cp cover.html reports/.
+          cp backend/cover.html reports/.
 
     - name: Archive
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: reports
         path: reports
