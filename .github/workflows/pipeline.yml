@@ -116,7 +116,7 @@ jobs:
 
     - name: Build
       run: |
-        docker build -t ghcr.io/JorgeMG117/minimal-go-app .
-        docker run ghcr.io/JorgeMG117/minimal-go-app
-        docker push ghcr.io/JorgeMG117/minimal-go-app
+        docker build -t ghcr.io/lolbets/minimal-go-app .
+        docker run ghcr.io/lolbets/minimal-go-app
+        docker push ghcr.io/lolbets/minimal-go-app
 
