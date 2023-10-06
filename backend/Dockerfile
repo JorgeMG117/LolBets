@@ -7,7 +7,7 @@ WORKDIR /app
 ADD *.mod *.sum ./
 RUN go mod download
 ADD . .
-ADD .env .
+ADD backend/.env .
 
 # Copy the Go source code into the container
 COPY cmd/server/main.go .
