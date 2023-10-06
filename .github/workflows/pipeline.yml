@@ -115,7 +115,6 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build
-      run: pack build gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-api:latest --builder gcr.io/buildpacks/builder:v1
       run: |
         docker build -t ghcr.io/JorgeMG117/minimal-go-app .
         docker run ghcr.io/JorgeMG117/minimal-go-app
