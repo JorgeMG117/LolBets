@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Set up Go 1.x
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v4
       with:
         go-version: ^1.17
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Run Test
       run: make -C backend/ test
     - name: Coverage Check
@@ -67,7 +67,7 @@ jobs:
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Download binary # <4>
         uses: actions/download-artifact@v2
         with:
@@ -96,3 +96,28 @@ jobs:
           asset_path: backend
           asset_name: backend
           asset_content_type: application/octet-stream
+
+
+
+
+  containerize-buildpack:
+    name: Build Container
+    runs-on: ubuntu-latest #
+    needs: test #<6>
+    steps:
+    - name: Check out code into the Go module directory #
+      uses: actions/checkout@v2
+    - name: Log in to the GHCR
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build
+      run: pack build gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-api:latest --builder gcr.io/buildpacks/builder:v1
+      run: |
+        docker build -t ghcr.io/JorgeMG117/minimal-go-app .
+        docker run ghcr.io/JorgeMG117/minimal-go-app
+        docker push ghcr.io/JorgeMG117/minimal-go-app
+
