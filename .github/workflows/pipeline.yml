@@ -117,5 +117,5 @@ jobs:
     - name: Build
       run: |
         cd backend
-        docker build -t your-image-name .
+        docker build -t ghcr.io/lolbets/your-image-name .
 
