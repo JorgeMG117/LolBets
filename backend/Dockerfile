@@ -4,17 +4,12 @@ FROM golang:alpine
 # Set the working directory inside the container
 WORKDIR /app
 
-ADD *.mod *.sum ./
-RUN go mod download
-ADD . .
-
-COPY .env .
-
-# Copy the Go source code into the container
-COPY cmd/server/main.go .
+COPY . .
 
 # Build the Go program inside the container
-RUN go build -o backend main.go
+RUN go build -o backend cmd/server/main.go
+
+EXPOSE 8080
 
 # Set the command to run the executable
 CMD ["./backend"]
