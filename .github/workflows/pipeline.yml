@@ -117,7 +117,5 @@ jobs:
     - name: Build
       run: |
         cd backend
-        docker build -t ghcr.io/lolbets/minimal-go-app .
-        docker run ghcr.io/lolbets/minimal-go-app 
-        docker push ghcr.io/lolbets/minimal-go-app
+        docker build -t your-image-name .
 
