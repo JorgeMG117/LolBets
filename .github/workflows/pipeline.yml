@@ -118,5 +118,5 @@ jobs:
       run: |
         cd backend
         docker build -t ghcr.io/lolbets/your-image-name .
-        docker run ghcr.io/lolbets/your-image-name
+        docker run -p 8080:8080 ghcr.io/lolbets/your-image-name
 
