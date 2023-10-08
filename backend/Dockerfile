@@ -6,6 +6,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN ls -la
+
 # Build the Go program inside the container
 RUN go build -o backend cmd/server/main.go
 
