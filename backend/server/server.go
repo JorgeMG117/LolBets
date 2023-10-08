@@ -19,8 +19,8 @@ import (
 func ExecServer() error {
 	//mux := http.NewServeMux()
 	//mux.Handle("/", getRoot)
-
-    if _, githubActions := os.LookupEnv("GITHUB_ACTIONS"); githubActions {
+    //Check if CI env variable is set
+    if os.Getenv("CI") == "true" {
         fmt.Println("Running on Github Actions")
     } else {
         // Load environment variables from .env file for local development
