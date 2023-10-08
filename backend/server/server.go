@@ -20,10 +20,13 @@ func ExecServer() error {
 	//mux := http.NewServeMux()
 	//mux.Handle("/", getRoot)
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
+    if os.Getenv("GITHUB_ACTIONS") == "true" {
+    } else {
+        // Load environment variables from .env file for local development
+        if err := godotenv.Load(".env"); err != nil {
+            log.Fatalf("Error loading .env file: %s", err)
+        }
+    }
 
 	s := routes.Server{
 		Db: configs.ConnectDB(),
@@ -39,7 +42,7 @@ func ExecServer() error {
 		//MaxHeaderBytes: 1 << 20,
 	}
 
-	err = models.InitializeGames(s.Db)
+    err := models.InitializeGames(s.Db)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 	}
