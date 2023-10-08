@@ -25,7 +25,7 @@ func ExecServer() error {
     } else {
         // Load environment variables from .env file for local development
         if err := godotenv.Load(".env"); err != nil {
-            log.Fatalf("Error loading .env file: %s", err)
+            log.Fatalf("Error loading .env file for server: %s", err)
         }
     }
 
