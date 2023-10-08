@@ -115,6 +115,8 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build
+      env: 
+        DBADDR: ${{ secrets.DBADDR }}
       run: |
         cd backend
         docker build -t ghcr.io/lolbets/your-image-name .

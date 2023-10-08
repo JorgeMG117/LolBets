@@ -20,7 +20,8 @@ func ExecServer() error {
 	//mux := http.NewServeMux()
 	//mux.Handle("/", getRoot)
 
-    if os.Getenv("GITHUB_ACTIONS") == "true" {
+    if _, githubActions := os.LookupEnv("GITHUB_ACTIONS"); githubActions {
+        fmt.Println("Running on Github Actions")
     } else {
         // Load environment variables from .env file for local development
         if err := godotenv.Load(".env"); err != nil {
