@@ -22,6 +22,9 @@ upgrade-go: # <5>
 build:
 	go build -o backend cmd/server/main.go
 
+build-populate:
+	go build -o populate cmd/populate/main.go
+
 test:
 	go test -v ./... -coverprofile=coverage.out
 

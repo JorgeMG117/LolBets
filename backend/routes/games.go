@@ -39,13 +39,39 @@ func (s *Server) Games(w http.ResponseWriter, r *http.Request) {
 
 		games, err := models.GetGames(s.Db, league, team)
 
+        /*
 		if err != nil {
 			w.Write([]byte("{error:" + err.Error() + "}"))
 			return
 		}
+        */
 
-		//TODO
-		fmt.Println(games)
+        if err != nil {
+            // Handle the error and return it as a JSON response
+            errorResponse := map[string]string{"error": err.Error()}
+            jsonResponse, _ := json.Marshal(errorResponse)
+            w.Header().Set("Content-Type", "application/json")
+            w.WriteHeader(http.StatusInternalServerError)
+            w.Write(jsonResponse)
+            return
+        }
+
+        // Convert 'games' into JSON
+        jsonResponse, err := json.Marshal(games)
+        if err != nil {
+            // Handle JSON marshaling error
+            errorResponse := map[string]string{"error": "Failed to marshal JSON"}
+            jsonResponse, _ := json.Marshal(errorResponse)
+            w.Header().Set("Content-Type", "application/json")
+            w.WriteHeader(http.StatusInternalServerError)
+            w.Write(jsonResponse)
+            return
+        }
+
+        // Set response content type and send JSON response
+        w.Header().Set("Content-Type", "application/json")
+        w.WriteHeader(http.StatusOK)
+        w.Write(jsonResponse)
 	case "POST":
 		//Read body content
 		out := make([]byte, 1024)
@@ -74,5 +100,7 @@ func (s *Server) Games(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.Write([]byte(`{"error":"success"}`))
-	}
+    default:
+        w.WriteHeader(http.StatusMethodNotAllowed)
+    }
 }

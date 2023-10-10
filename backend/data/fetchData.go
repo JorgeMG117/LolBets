@@ -109,6 +109,7 @@ func CleanApiData(apiData ApiSchedule, timeFromWhich time.Time) (map[string]mode
 
 	for _, event := range apiData.Data.Schedule.Events {
 		// Check if the game is before the timeFromWhich, that means we already have it in the database with all the info
+        // If timeFromWhich contains time of first uncompleted game we have to use the equal to pass that game
 		if event.StartTime.Before(timeFromWhich) {
 			continue
 		}
@@ -147,8 +148,7 @@ func CleanApiData(apiData ApiSchedule, timeFromWhich time.Time) (map[string]mode
 			gameResult = 2
 		}
 
-		// TODO: Cambiar primary key de game a team1:date en db
-		gamesApi[teams[0].Name+event.StartTime.String()] =
+		gamesApi[event.League.Name+event.StartTime.String()] =
 			models.Game{
 				Time:      event.StartTime,
 				Team1:     teams[0].Name,

@@ -70,32 +70,24 @@ func AddLeague(db *sql.DB, newLeague *League) error {
 	return err
 }
 
-func GetLeagues(db *sql.DB, league string, team string) ([]Game, error) {
-	return nil, nil
-	// query := "SELECT t1.Name, t2.Name, l.Name FROM Game g, Team t1, Team t2, League l WHERE t1.Id = g.Team_1 AND t2.Id = g.Team_2 AND l.Id = g.League"
-	// if league != "" {
-	// 	query = query + " AND l.Name = " + league
-	// }
-	// if team != "" {
-	// 	query = query + " AND (t1.Name = " + team + " OR t2.Name = " + team + ")"
-	// }
+// Get all leagues from the database
+func GetLeagues(db *sql.DB) ([]League, error) {
+    rows, err := db.Query("SELECT Name, Region, Image FROM League")
 
-	// rows, err := db.Query(query)
+    if err != nil {
+        return nil, err
+    }
 
-	// var games []Game
+    var leagues []League
 
-	// if err != nil {
-	// 	return games, err
-	// }
-
-	// for rows.Next() {
-	// 	var game Game
-	// 	err = rows.Scan(&game.Team1, &game.Team2, &game.League)
-	// 	if err != nil {
-	// 		return games, err
-	// 	}
-	// 	games = append(games, game)
-	// }
-
-	// return games, nil
+    for rows.Next() {
+        var league League
+        err = rows.Scan(&league.Name, &league.Region, &league.Image)
+        if err != nil {
+            return nil, err
+        }
+        leagues = append(leagues, league)
+    }
+        
+	return leagues, nil
 }

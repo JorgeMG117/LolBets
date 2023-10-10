@@ -55,6 +55,20 @@ func BetController(chBets chan Bet, idxGame int) {
 	}
 }
 
+func Scan_game(rows *sql.Rows) (Game, error) {
+    var game Game
+    var horario string
+    err := rows.Scan(&game.Id, &game.Team1, &game.Team2, &game.League, &horario, &game.Bets1, &game.Bets2, &game.Completed, &game.BlockName, &game.Strategy)
+    if err != nil {
+        return game, err
+    }
+    game.Time, err = time.Parse("2006-01-02 15:04:05", horario)
+    if err != nil {
+        return game, err
+    }
+    return game, nil
+}
+
 func NumGames() int {
 	return len(games)
 }
@@ -73,7 +87,7 @@ func InitializeGames(db *sql.DB) error {
 	indexOfGame = make([]int, 0, MaxGames)
 
 	//Cojemos como mucho maxGames partidos
-	query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2, g.BlockName, g.Strategy FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
+	query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2, g.Completed, g.BlockName, g.Strategy FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
     query = query + " ORDER BY g.Time ASC"
 	query = query + " LIMIT " + strconv.Itoa(MaxGames)
 
@@ -84,13 +98,7 @@ func InitializeGames(db *sql.DB) error {
 	}
 
 	for rows.Next() {
-		var game Game
-        var horario string
-		err = rows.Scan(&game.Id, &game.Team1, &game.Team2, &game.League, &horario, &game.Bets1, &game.Bets2, &game.BlockName, &game.Strategy)
-		if err != nil {
-			return err
-		}
-        game.Time, err = time.Parse("2006-01-02 15:04:05", horario)
+        game, err := Scan_game(rows)
 		if err != nil {
 			return err
 		}
@@ -139,7 +147,7 @@ func GetGames(db *sql.DB, league string, team string) ([]Game, error) {
 	var response []Game
 
 	for _, val := range games {
-		if val.League == league && (val.Team1 == team || val.Team2 == team) {
+		if (league == "" || val.League == league) && (team == "" || val.Team1 == team || val.Team2 == team) {
 			response = append(response, val)
 		}
 	}
@@ -148,7 +156,7 @@ func GetGames(db *sql.DB, league string, team string) ([]Game, error) {
 
 
 func GetGamesDb(db *sql.DB, league string, team string) ([]Game, error) {
-    query := "SELECT t1.Name, t2.Name, l.Name, g.Time, g.Completed, g.BlockName, g.Strategy FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League"
+    query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2, g.Completed, g.BlockName, g.Strategy FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League"
     if league != "" {
         query = query + " AND l.Name = " + league
     }
@@ -165,13 +173,7 @@ func GetGamesDb(db *sql.DB, league string, team string) ([]Game, error) {
     }
 
     for rows.Next() {
-        var game Game
-        var horario string
-        err = rows.Scan(&game.Team1, &game.Team2, &game.League, &horario, &game.Completed, &game.BlockName, &game.Strategy)
-        if err != nil {
-            return games, err
-        }
-        game.Time, err = time.Parse("2006-01-02 15:04:05", horario)
+        game, err := Scan_game(rows)
         if err != nil {
             return games, err
         }
@@ -219,8 +221,12 @@ func AddMultipleGames(db *sql.DB, newGames []Game) error {
     return nil
 }
 
+// TODO: Maybe just update those who have changed, completed <> 0
 func UpdateMultipleGames(db *sql.DB, games []Game) error {
     for _, val := range games {
+        if val.Completed == 0 {
+            continue
+        }
         err := UpdateGame(db, &val)
         if err != nil {
             return err
@@ -230,12 +236,15 @@ func UpdateMultipleGames(db *sql.DB, games []Game) error {
 }
 
 func UpdateGame(db *sql.DB, game *Game) error {
+    fmt.Println("Updating game: ", game)
+    fmt.Println("Completed: ", game.Completed)
+    fmt.Println("Id: ", game.Id)
     _, err := db.Exec("UPDATE Game SET Bets_t1 = ?, Bets_t2 = ?, Completed = ? WHERE Id = ?", game.Bets1, game.Bets2, game.Completed, game.Id)
     return err
 }
 
 func GetUnfinishedGames(db *sql.DB) ([]Game, error) {
-	query := "SELECT t1.Name, t2.Name, l.Name, g.Time, g.Completed, g.BlockName FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
+	query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2, g.Completed, g.BlockName, g.Strategy FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
 
 	rows, err := db.Query(query)
 
@@ -246,11 +255,10 @@ func GetUnfinishedGames(db *sql.DB) ([]Game, error) {
 	}
 
 	for rows.Next() {
-		var game Game
-		err = rows.Scan(&game.Team1, &game.Team2, &game.League, &game.Time, &game.Completed, &game.BlockName)
-		if err != nil {
-			return games, err
-		}
+        game, err := Scan_game(rows)
+        if err != nil {
+            return games, err
+        }
 		games = append(games, game)
 	}
 
@@ -258,25 +266,21 @@ func GetUnfinishedGames(db *sql.DB) ([]Game, error) {
 }
 
 func GetLastCompletedGameTime(db *sql.DB) (time.Time, error) {
+    var horario string
     var lastGameTime time.Time
-    err := db.QueryRow("SELECT Time FROM Game WHERE Completed = 1 ORDER BY Time DESC LIMIT 1").Scan(&lastGameTime)
+    err := db.QueryRow("SELECT Time FROM Game WHERE Completed <> 0 ORDER BY Time DESC LIMIT 1").Scan(&horario)
     if err != nil {
-        return time.Now(), err
+        //Get the earliest game that is not completed
+        err = db.QueryRow("SELECT Time FROM Game WHERE Completed = 0 ORDER BY Time ASC LIMIT 1").Scan(&horario)
+        if err != nil {
+            return time.Now(), nil 
+        }
+    }
+    lastGameTime, err = time.Parse("2006-01-02 15:04:05", horario)
+    if err != nil {
+        return lastGameTime, err
     }
     return lastGameTime, nil
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -13,7 +13,21 @@ func (s *Server) Leagues(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Method)
 	switch r.Method {
 	case "GET":
-		fmt.Println("GET /leagues")
+        leagues, err := models.GetLeagues(s.Db)
+        if err != nil {
+            // Handle the error and return it as a JSON response
+            errorResponse := map[string]string{"error": err.Error()}
+            jsonResponse, _ := json.Marshal(errorResponse)
+            w.Header().Set("Content-Type", "application/json")
+            w.WriteHeader(http.StatusInternalServerError)
+            w.Write(jsonResponse)
+            return
+        }
+        jsonResponse, _ := json.Marshal(leagues)
+        w.Header().Set("Content-Type", "application/json")
+        w.WriteHeader(http.StatusOK)
+        w.Write(jsonResponse)
+
 	case "POST":
 		//Read body content
 		out := make([]byte, 1024)
