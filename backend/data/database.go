@@ -118,6 +118,7 @@ func UpdateApiToDatabase(db *sql.DB, apiData ApiSchedule) {
     fmt.Println("Games from DB before last completed game:", lastGameTime)
 
 	// Pillar todos los resultados de la api
+    //TODO: Problema: Al limpiar partidos el ultimo que ya esta completado es el de la hora entonces no se limpia y se intenta volver a añadir
 	gamesApi, teamsApi := CleanApiData(apiData, lastGameTime)
     fmt.Println("Games from API:", gamesApi)
 
@@ -128,6 +129,7 @@ func UpdateApiToDatabase(db *sql.DB, apiData ApiSchedule) {
 	}
     fmt.Println("Unfinished games:", unfinishedGames)
 
+    //TODO: maybe change it for an updateGames list that appends the ones that have to be updated
 	// See what games stored in the db are completed to update them
 	for i := range unfinishedGames {
         v := &unfinishedGames[i]
@@ -136,9 +138,18 @@ func UpdateApiToDatabase(db *sql.DB, apiData ApiSchedule) {
 		apiGame := gamesApi[key]
         fmt.Println("Api game:", apiGame)
 		if apiGame.Completed == 1 { //Game has been played and team 1 won
-			v.Completed = 1
+            // Comprobar si estan en el mismo orden
+            if v.Team1 == apiGame.Team1 {
+			    v.Completed = 1
+            } else {
+                v.Completed = 2
+            }
 		} else if apiGame.Completed == 2 { //Game has been played and team 2 won
-			v.Completed = 2
+            if v.Team1 == apiGame.Team1 {
+			    v.Completed = 2
+            } else {
+                v.Completed = 1
+            }
 		}
 		delete(gamesApi, key)
 		// If the game already exists in the db, the teams are already in the db
@@ -149,7 +160,7 @@ func UpdateApiToDatabase(db *sql.DB, apiData ApiSchedule) {
     fmt.Println("Unfinished games:", unfinishedGames)
 	// Modificar en la bd unfinishedGames
 	//go models.UpdateMultipleGames(db, unfinishedGames)
-    err = models.UpdateMultipleGames(db, unfinishedGames)//TODO: Ojo con que al leer de la api los equipos esten al reves y actualize el resultado mal
+    err = models.UpdateMultipleGames(db, unfinishedGames)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "UpdateMultipleGames: %s\n", err)
 	}
@@ -174,6 +185,7 @@ func UpdateApiToDatabase(db *sql.DB, apiData ApiSchedule) {
 	}
 
 	// Add new teams to the db, they might already exist
+    fmt.Println("Adding new teams, they might already exist...", teamsApi)
 	for _, team := range teamsApi {
 		err := models.AddTeam(db, &team)
 		if err != nil {
