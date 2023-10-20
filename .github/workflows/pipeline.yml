@@ -119,9 +119,10 @@ jobs:
       with:
         file: .env
         variables:
-          DBNAME: ${{ secrets.DBNAME }}
-          DBUSER: ${{ secrets.DBUSER }}
-          DBADDR: ${{ secrets.DBADDR }}
+          - key: DBNAME
+            value: ${{ secrets.DBNAME }}
+          - key: DBUSER
+            value: ${{ secrets.DBUSER }}
 
       #run: |
         #export CI="true"
