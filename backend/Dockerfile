@@ -6,8 +6,6 @@ WORKDIR /app
 
 COPY . .
 
-COPY env.sh .
-
 RUN ls -la
 
 # Build the Go program inside the container

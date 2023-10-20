@@ -115,9 +115,17 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up environment variables
-      run: |
-        export CI="true"
-        export DBUSER=$DBUSER
+      uses: cardinalby/create-env-file@v2
+      with:
+        file: .env
+        variables:
+          DBNAME: ${{ secrets.DBNAME }}
+          DBUSER: ${{ secrets.DBUSER }}
+          DBADDR: ${{ secrets.DBADDR }}
+
+      #run: |
+        #export CI="true"
+        #export DBUSER=$DBUSER
 
     - name: Build
       env: 
