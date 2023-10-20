@@ -8,8 +8,6 @@ COPY . .
 
 RUN ls -la
 
-RUN echo "The ARG variable value is $CI"
-
 # Build the Go program inside the container
 RUN go build -o backend cmd/server/main.go
 
