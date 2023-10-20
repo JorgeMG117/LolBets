@@ -114,6 +114,10 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Set up environment variables
+      run: |
+        export CI="true"
+        export DBUSER=$DBUSER
 
     - name: Build
       env: 
@@ -121,6 +125,5 @@ jobs:
       run: |
         cd backend
         docker build -t ghcr.io/lolbets/your-image-name .
-        source env.sh
         docker run -p 8080:8080 ghcr.io/lolbets/your-image-name
 
