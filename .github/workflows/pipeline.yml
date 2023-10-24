@@ -123,7 +123,11 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Push Docker image to GHCR
-      run: docker push ghcr.io/lolbets/your-image-name
+      run: |
+        echo ${{ secrets.GITHUB_TOKEN }}
+        echo ${{ github.actor }}
+        docker push ghcr.io/lolbets/your-image-name
+
 
       #run: |
         #export CI="true"
