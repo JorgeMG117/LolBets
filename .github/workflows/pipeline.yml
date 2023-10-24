@@ -113,7 +113,7 @@ jobs:
         DBADDR: ${{ secrets.DBADDR }}
       run: |
         cd backend
-        docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:min .
+        docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} .
         #docker build -t ghcr.io/lolbets/your-image-name .
         #docker run -p 8080:8080 -e "CI=true" ghcr.io/lolbets/your-image-name
 
@@ -128,7 +128,7 @@ jobs:
       run: |
         echo ${{ secrets.GITHUB_TOKEN }}
         echo ${{ github.actor }}
-        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:min
+        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         #docker push ghcr.io/lolbets/your-image-name
 
 
