@@ -29,6 +29,10 @@ func timeHandler(format string) http.HandlerFunc {
 }*/
 
 func main() {
+    //Launch update games program
+    //go 
+
+    //Launch server
     if err := server.ExecServer(); err != nil {
         fmt.Fprintf(os.Stderr, "%s\n", err)
         os.Exit(1)

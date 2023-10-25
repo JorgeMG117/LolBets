@@ -43,7 +43,9 @@ func ExecServer() error {
 		//MaxHeaderBytes: 1 << 20,
 	}
 
-    err := models.InitializeGames(s.Db)
+    chUpdateGames := make(chan int, models.MaxGames)
+
+    err := models.InitializeGames(s.Db, chUpdateGames)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 	}
@@ -52,7 +54,7 @@ func ExecServer() error {
 
 	for i := 0; i < models.NumGames(); i++ {
 		chBets[i] = make(chan models.Bet)
-		go models.BetController(chBets[i], i)
+		go models.BetController(chBets[i], i, chUpdateGames)
 	}
 	s.ChBets = chBets
 

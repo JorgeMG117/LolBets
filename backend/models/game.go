@@ -30,7 +30,7 @@ var games []Game
 var indexOfGame []int
 
 // TODO
-func BetController(chBets chan Bet, idxGame int) {
+func BetController(chBets chan Bet, idxGame int, chUpdateGame chan int) {
 	out := false
 	timeLeft := time.Until(games[idxGame].Time)
     /*
@@ -51,7 +51,34 @@ func BetController(chBets chan Bet, idxGame int) {
         case <-time.After(timeLeft):
 			fmt.Println("Bet " + strconv.Itoa(idxGame) + " is over")
 			out = true
+            chUpdateGame<-idxGame
 		}
+	}
+}
+
+//updateActiveGames updates the games slice with the new games
+//espero a que me avisen por un canal que game hay que quitar
+//lo quito
+//si hay hueco mayor que 10 
+//llamo a funcion para intentar rellenar hueco
+
+//Param 
+func updateActiveGames(chUpdateGame chan int) {
+	out := false
+	for !out {
+        idxGame := <-chUpdateGame
+        //TODO Update to db activeBets[games[idxGame].Id]
+        fmt.Println("Removing game " + strconv.Itoa(games[idxGame].Id))
+        games = append(games[:idxGame], games[idxGame+1:]...)
+        indexOfGame = append(indexOfGame[:idxGame], indexOfGame[idxGame+1:]...)//TODO Check if this works
+        fmt.Println("Num games: " + strconv.Itoa(len(games)))
+        if len(games) < MaxGames - 10 {
+            fmt.Println("Trying to fill games")
+            //TODO Fetch db to see if there are more games
+        }
+        for _, game := range games {
+            fmt.Println(game)
+        }
 	}
 }
 
@@ -82,7 +109,7 @@ func GetIdxOfGame(id int) int {
 	return -1
 }
 
-func InitializeGames(db *sql.DB) error {
+func InitializeGames(db *sql.DB, chUpdateGames chan int) error {
 	games = make([]Game, 0, MaxGames)
 	indexOfGame = make([]int, 0, MaxGames)
 
@@ -110,7 +137,14 @@ func InitializeGames(db *sql.DB) error {
 	initializeActiveBets()
 
     fmt.Println("Games initialized")
-	fmt.Println(games)
+    for _, game := range games {
+	    fmt.Println(game)
+    }
+    fmt.Println("Num games: " + strconv.Itoa(len(games)))
+
+    //TODO Find a way to update the game slice for when games are over
+    go updateActiveGames(chUpdateGames)
+
 
 	return nil
 }
