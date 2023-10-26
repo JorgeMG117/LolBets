@@ -63,18 +63,28 @@ func BetController(chBets chan Bet, idxGame int, chUpdateGame chan int) {
 //llamo a funcion para intentar rellenar hueco
 
 //Param 
-func updateActiveGames(chUpdateGame chan int) {
+func updateActiveGames(db *sql.DB, chUpdateGame chan int) {
 	out := false
 	for !out {
         idxGame := <-chUpdateGame
-        //TODO Update to db activeBets[games[idxGame].Id]
+        // Update to db activeBets[games[idxGame].Id]
+        err := AddBets(db, activeBets[games[idxGame].Id])
+        if err != nil {
+            fmt.Println("Error AddBets: ", err)
+        }
+
         fmt.Println("Removing game " + strconv.Itoa(games[idxGame].Id))
         games = append(games[:idxGame], games[idxGame+1:]...)
-        indexOfGame = append(indexOfGame[:idxGame], indexOfGame[idxGame+1:]...)//TODO Check if this works
+        //TODO: Why do we need indexOfGame
+        indexOfGame = append(indexOfGame[:idxGame], indexOfGame[idxGame+1:]...)
         fmt.Println("Num games: " + strconv.Itoa(len(games)))
         if len(games) < MaxGames - 10 {
             fmt.Println("Trying to fill games")
-            //TODO Fetch db to see if there are more games
+            // Fetch db to see if there are more games
+            err := addMoreActiveGames(db)
+            if err != nil {
+                fmt.Println("Error addMoreActiveGames: ", err)
+            }
         }
         for _, game := range games {
             fmt.Println(game)
@@ -109,11 +119,46 @@ func GetIdxOfGame(id int) int {
 	return -1
 }
 
+//Adds more games to the active games slice
+func addMoreActiveGames(db *sql.DB) error {
+    //Get the last game time
+    lastTime := time.Now()
+    for _, game := range games {
+        if game.Time.After(lastTime) {
+            lastTime = game.Time
+        }
+    }
+
+	query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2, g.Completed, g.BlockName, g.Strategy FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
+    query = query + " AND g.Time > '" + lastTime.Format("2006-01-02 15:04:05") + "'"
+    query = query + " ORDER BY g.Time ASC"
+	query = query + " LIMIT " + strconv.Itoa(MaxGames - len(games))
+
+	rows, err := db.Query(query)
+
+	if err != nil {
+		return err
+	}
+
+	for rows.Next() {
+        game, err := Scan_game(rows)
+		if err != nil {
+			return err
+		}
+
+		games = append(games, game)
+		indexOfGame = append(indexOfGame, game.Id)
+	}
+
+    return nil
+}
+
 func InitializeGames(db *sql.DB, chUpdateGames chan int) error {
 	games = make([]Game, 0, MaxGames)
 	indexOfGame = make([]int, 0, MaxGames)
 
 	//Cojemos como mucho maxGames partidos
+    //TODO Ver si habria que cojer los no completados cuya fecha de inicio sea superior al ultimo partido completado
 	query := "SELECT g.Id, t1.Name, t2.Name, l.Name, g.Time, g.Bets_t1, g.Bets_t2, g.Completed, g.BlockName, g.Strategy FROM Game g, Team t1, Team t2, League l WHERE t1.Code = g.Team_1 AND t2.Code = g.Team_2 AND l.Id = g.League AND g.Completed = 0"
     query = query + " ORDER BY g.Time ASC"
 	query = query + " LIMIT " + strconv.Itoa(MaxGames)
@@ -143,7 +188,7 @@ func InitializeGames(db *sql.DB, chUpdateGames chan int) error {
     fmt.Println("Num games: " + strconv.Itoa(len(games)))
 
     //TODO Find a way to update the game slice for when games are over
-    go updateActiveGames(chUpdateGames)
+    go updateActiveGames(db, chUpdateGames)
 
 
 	return nil

@@ -9,9 +9,11 @@ import (
 	"github.com/JorgeMG117/LolBets/backend/configs"
 	"github.com/JorgeMG117/LolBets/backend/models"
 	"github.com/JorgeMG117/LolBets/backend/routes"
+    "github.com/JorgeMG117/LolBets/backend/data"
 
 	"fmt"
 	"os"
+    "time"   
 
 	"github.com/joho/godotenv"
 )
@@ -33,6 +35,19 @@ func ExecServer() error {
 		Db: configs.ConnectDB(),
 	}
 	defer s.Db.Close()
+
+
+    //Launch update games program
+    go func() {
+        for {
+	        data.UpdateDatabase(s.Db)
+            time.Sleep(time.Hour)
+        }
+    }()
+
+    fmt.Println("Waiting for database to update")
+    time.Sleep(time.Second * 30)
+
 
 	//setup thigs
 	serv := &http.Server{
