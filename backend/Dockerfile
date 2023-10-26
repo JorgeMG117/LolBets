@@ -1,12 +1,11 @@
 # Use a minimal base image, like Alpine Linux
 FROM golang:alpine
 
+
 # Set the working directory inside the container
 WORKDIR /app
 
 COPY . .
-
-RUN ls -la
 
 # Build the Go program inside the container
 RUN go build -o backend cmd/server/main.go
