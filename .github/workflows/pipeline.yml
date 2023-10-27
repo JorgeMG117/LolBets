@@ -107,12 +107,10 @@ jobs:
       # Builds the Docker image
       - name: Build the Docker image
         run: docker build -t lolbets:dev backend/.
-      # Publishes the Docker image to DockerHub
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@v4
-        with:
-          name: jorgemg117/lolbets
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-          tags: "dev"
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Push Docker image
+        run: docker push lolbets:dev
 
