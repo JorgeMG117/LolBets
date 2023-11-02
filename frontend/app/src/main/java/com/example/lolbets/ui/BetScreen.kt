@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.input.KeyboardType
 import com.example.lolbets.data.BetUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,14 +56,26 @@ fun BetScreen(betState: BetUiState, modifier: Modifier = Modifier) {
             betState.game,
             button1BackgroundColor,
             {
-                button1BackgroundColor = 0xff78bbff
-                button2BackgroundColor = 0xffffffff
+                if (button1BackgroundColor == 0xff78bbff) {
+                    button1BackgroundColor = 0xffffffff
+                    button2BackgroundColor = 0xffffffff
+                }
+                else {
+                    button1BackgroundColor = 0xff78bbff
+                    button2BackgroundColor = 0xffffffff
+                }
                 //betState.teamChoice = 1
             },
             button2BackgroundColor,
             {
-                button2BackgroundColor = 0xff78bbff
-                button1BackgroundColor = 0xffffffff
+                if (button2BackgroundColor == 0xff78bbff) {
+                    button1BackgroundColor = 0xffffffff
+                    button2BackgroundColor = 0xffffffff
+                }
+                else {
+                    button2BackgroundColor = 0xff78bbff
+                    button1BackgroundColor = 0xffffffff
+                }
             },
             modifier
         )
@@ -70,7 +85,8 @@ fun BetScreen(betState: BetUiState, modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = text,
             onValueChange = { text = it },
-            label = { Text("Place your bet") }
+            label = { Text("Place your bet") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
         Button(onClick = {  }) {

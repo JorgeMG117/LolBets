@@ -46,6 +46,8 @@ import com.example.lolbets.ui.HighlightScreen
 import com.example.lolbets.ui.ProfileScreen
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lolbets.ui.GamesViewModel
+import com.example.lolbets.ui.HomeScreen
 
 
 enum class LolBetsScreen(){
@@ -115,7 +117,7 @@ internal fun LolBetsBottomAppBar(items: List<BottomNavItem>, modifier: Modifier 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LolBetsApp(
+fun LolBetsApp2(
     mGoogleSignInClient: GoogleSignInClient,
     modifier: Modifier = Modifier,
     viewModel: FocusedGameViewModel = viewModel(),
@@ -211,4 +213,15 @@ fun LolBetsApp(
         //LoginScreen(clientIdtest, innerPadding)
         //BetScreen(innerPadding)
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LolBetsApp(
+    mGoogleSignInClient: GoogleSignInClient,
+    modifier: Modifier = Modifier,
+    //viewModel: GamesViewModel = viewModel()
+) {
+    val viewModel: GamesViewModel = viewModel()
+    HomeScreen(gameUiState = viewModel.gameUiState)
 }
