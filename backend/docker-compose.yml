@@ -1,0 +1,18 @@
+version: '3'
+services:
+  your-app:
+    image: jorgemg117/lolbets:dev
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - my-network
+networks:
+  my-network:
+

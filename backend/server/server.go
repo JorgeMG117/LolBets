@@ -18,7 +18,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func ExecServer() error {
+func ExecServer(intializeDB bool) error {
 	//mux := http.NewServeMux()
 	//mux.Handle("/", getRoot)
     //Check if CI env variable is set
@@ -36,14 +36,23 @@ func ExecServer() error {
 	}
 	defer s.Db.Close()
 
-
-    //Launch update games program
-    go func() {
-        for {
-	        data.UpdateDatabase(s.Db)
-            time.Sleep(time.Hour)
-        }
-    }()
+    if intializeDB {
+        go func(){
+            data.InitializeDatabase(s.Db)
+            for {
+                time.Sleep(time.Hour)
+                data.UpdateDatabase(s.Db)
+            }
+        }()
+    } else {
+        //Launch update games program
+        go func() {
+            for {
+                data.UpdateDatabase(s.Db)
+                time.Sleep(time.Hour)
+            }
+        }()
+    }
 
     fmt.Println("Waiting for database to update")
     time.Sleep(time.Second * 30)
