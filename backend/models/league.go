@@ -71,8 +71,22 @@ func AddLeague(db *sql.DB, newLeague *League) error {
 }
 
 // Get all leagues from the database
-func GetLeagues(db *sql.DB) ([]League, error) {
-    rows, err := db.Query("SELECT Name, Region, Image FROM League")
+func GetLeagues(db *sql.DB, leaguesReq []string) ([]League, error) {
+    sql := "SELECT Name, Region, Image FROM League"
+
+    if len(leaguesReq) > 0 {
+        sql += " WHERE Name IN ("
+        for i := 0; i < len(leaguesReq); i++ {
+            sql += "'" + leaguesReq[i] + "'"
+            if i < len(leaguesReq)-1 {
+                sql += ","
+            }
+        }
+        sql += ")"
+    }
+
+    
+    rows, err := db.Query(sql)
 
     if err != nil {
         return nil, err

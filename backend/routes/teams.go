@@ -10,20 +10,19 @@ import (
 	"github.com/JorgeMG117/LolBets/backend/models"
 )
 
-func (s *Server) Leagues(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Teams(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Method)
 	switch r.Method {
 	case "GET":
-        leaguesParam := r.URL.Query().Get("leagues")
-        var leaguesReq []string
-        if leaguesParam != "" {
-            // Parse the "leagues" query parameter into a slice of strings
-            leaguesReq = strings.Split(leaguesParam, ",")
+        teamsParam := r.URL.Query().Get("teams")
+        var teamsReq []string
+        if teamsParam != "" {
+            teamsReq = strings.Split(teamsParam, ",")
         }
 
-        fmt.Println("leaguesReq", leaguesReq)
+        fmt.Println("teamsReq", teamsReq)
 
-        leagues, err := models.GetLeagues(s.Db, leaguesReq)
+        leagues, err := models.GetTeams(s.Db, teamsReq)
         if err != nil {
             // Handle the error and return it as a JSON response
             errorResponse := map[string]string{"error": err.Error()}
