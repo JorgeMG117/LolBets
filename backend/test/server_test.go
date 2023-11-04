@@ -39,7 +39,7 @@ func TestBackend(t *testing.T) {
     // Añadir partidos predeterminados
     // Lanzar servidor
     go func() {
-        if err := server.ExecServer(); err != nil {
+        if err := server.ExecServer(false); err != nil {
             fmt.Fprintf(os.Stderr, "%s\n", err)
             os.Exit(1)
         }
