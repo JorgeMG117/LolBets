@@ -13,4 +13,4 @@ RUN go build -o backend cmd/server/main.go
 EXPOSE 8080
 
 # Set the command to run the executable
-CMD ["./backend --initialize"]
+CMD ["./backend"]
