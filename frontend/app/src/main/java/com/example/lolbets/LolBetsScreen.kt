@@ -117,7 +117,7 @@ internal fun LolBetsBottomAppBar(items: List<BottomNavItem>, modifier: Modifier 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LolBetsApp2(
+fun LolBetsApp(
     mGoogleSignInClient: GoogleSignInClient,
     modifier: Modifier = Modifier,
     viewModel: FocusedGameViewModel = viewModel(),
@@ -150,6 +150,7 @@ fun LolBetsApp2(
         }
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
+        val viewModelGames: GamesViewModel = viewModel()
 
         NavHost(
             navController = navController,
@@ -157,12 +158,18 @@ fun LolBetsApp2(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = LolBetsScreen.Games.name) {
-                GamesScreen(
+                /*GamesScreen(
                     contentPadding = innerPadding,
                     onGameClicked = {
                         viewModel.setGame(it)
                         navController.navigate(LolBetsScreen.Bet.name) },
-                )
+                )*/
+                HomeScreen(
+                    gameUiState = viewModelGames.gameUiState,
+                    contentPadding = innerPadding,
+                    onGameClicked = {
+                        viewModel.setGame(it)
+                        navController.navigate(LolBetsScreen.Bet.name) },)
             }
             composable(route = LolBetsScreen.Highlight.name) {
                 HighlightScreen(
@@ -215,13 +222,3 @@ fun LolBetsApp2(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LolBetsApp(
-    mGoogleSignInClient: GoogleSignInClient,
-    modifier: Modifier = Modifier,
-    //viewModel: GamesViewModel = viewModel()
-) {
-    val viewModel: GamesViewModel = viewModel()
-    HomeScreen(gameUiState = viewModel.gameUiState)
-}

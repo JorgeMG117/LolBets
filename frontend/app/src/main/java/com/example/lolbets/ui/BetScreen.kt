@@ -95,8 +95,8 @@ fun BetScreen(betState: BetUiState, modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun BetPreview() {
     BetScreen(BetUiState(Game(Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100),0 ))
-}
+}*/

@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -29,12 +31,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.lolbets.R
 import com.example.lolbets.model.Game
 import com.example.lolbets.model.League
 import com.example.lolbets.model.Team
 import com.example.lolbets.ui.BetScreen
 import com.example.lolbets.ui.GamesScreen
+import coil.compose.AsyncImage
 
 @Composable
 fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Unit, bet2ButtonColor: Long, onBet2Clicked: () -> Unit, modifier: Modifier = Modifier){
@@ -54,18 +58,27 @@ fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Un
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = LocalContext.current.getString(game.team1.stringResourceId)
+                    text = game.team1.name
                         .replace(" ", "\n"),
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.headlineSmall
+                    //modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontSize = 15.sp
                 )
-                Image(
+                /*Image(
                     painter = painterResource(game.team1.imageResourceId),
                     contentDescription = stringResource(game.team1.stringResourceId),
-                    modifier = Modifier.background(Color.Black),
+                    //modifier = Modifier.background(Color.Black),
                     //.fillMaxWidth()
                     //.height(194.dp),
                     contentScale = ContentScale.Crop
+                )*/
+                AsyncImage(
+                    model = game.team1.image,
+                    contentDescription = game.team1.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(50.dp),
+                        //.clip(CircleShape)
                 )
 
             }
@@ -107,19 +120,19 @@ fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Un
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = painterResource(game.team2.imageResourceId),
-                    contentDescription = stringResource(game.team2.stringResourceId),
-                    modifier = Modifier.background(Color.Black),
-                    //.fillMaxWidth()
-                    //.height(194.dp),
+                AsyncImage(
+                    model = game.team2.image,
+                    contentDescription = game.team2.name,
                     contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(50.dp),
                 )
                 Text(
-                    text = LocalContext.current.getString(game.team2.stringResourceId)
+                    text = game.team2.name
                         .replace(" ", "\n"),
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.headlineSmall
+                    //modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontSize = 15.sp
                 )
             }
             Text(text = "10V-4D", fontWeight = FontWeight.Bold)
@@ -210,11 +223,11 @@ fun GamesList(gamesList: List<Game>, contentPadding: PaddingValues, onGameClicke
     }
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun GameDescription() {
-    GameCard(Game(
+    GameCard(Game(//LocalContext.current.getString(game.team2.stringResourceId)
         Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(
             R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100), 0xffffffff, {}, 0xffffffff, {})
 
-}
+}*/
