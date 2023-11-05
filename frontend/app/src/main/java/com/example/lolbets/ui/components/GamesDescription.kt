@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -58,7 +59,7 @@ fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Un
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = game.team1.name
+                    text = game.team1.code
                         .replace(" ", "\n"),
                     //modifier = Modifier.padding(16.dp),
                     style = MaterialTheme.typography.headlineSmall,
@@ -128,7 +129,7 @@ fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Un
                         .size(50.dp),
                 )
                 Text(
-                    text = game.team2.name
+                    text = game.team2.code
                         .replace(" ", "\n"),
                     //modifier = Modifier.padding(16.dp),
                     style = MaterialTheme.typography.headlineSmall,
@@ -179,22 +180,31 @@ fun GameCard(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Unit, bet2
             Row (
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                AsyncImage(
+                    model = game.league.image,
+                    contentDescription = game.league.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .background(Color.Black)
+                        //.clip(CircleShape)
+                )
                 Text(
-                    text = LocalContext.current.getString(game.league.stringResourceId),
-                    fontWeight = FontWeight.Bold
+                    text = game.league.name,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 5.dp)
                 )
-                Image(
-                    painter = painterResource(game.league.imageResourceId),
-                    contentDescription = stringResource(game.league.stringResourceId),
-                    modifier = Modifier,
-                    //.fillMaxWidth()
-                    //.height(194.dp),
-                    contentScale = ContentScale.Crop
+
+                // Time of the game
+                Text(
+                    text = game.date,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 16.dp)
                 )
-                Text(text = game.date, fontWeight = FontWeight.Bold)
             }
             Text(
-                text = "Best of 1",
+                text = game.blockName,
+                modifier = Modifier.padding(end = 5.dp)
                 //modifier = modifier.align(alignment = Alignment.End)
             )
 
@@ -226,8 +236,10 @@ fun GamesList(gamesList: List<Game>, contentPadding: PaddingValues, onGameClicke
 /*@Preview(showBackground = true)
 @Composable
 fun GameDescription() {
-    GameCard(Game(//LocalContext.current.getString(game.team2.stringResourceId)
-        Team(R.string.team_name_astralis, R.drawable.astralis), Team(R.string.team_name_fnatic, R.drawable.fnatic), League(
-            R.string.league_name_lec, R.drawable.lec), "10 de junio", 100, 100), 0xffffffff, {}, 0xffffffff, {})
+    GameCard(Game(
+        Team("Fnatic", "Fnatic", "https://am-a.akamaihd.net/image?resize=140:&f=http%3A%2F%2Fstatic.lolesports.com%2Fteams%2F1631819669150_fnc-2021-worlds.png"),
+        Team("Fnatic", "Fnatic", "https://am-a.akamaihd.net/image?resize=140:&f=http%3A%2F%2Fstatic.lolesports.com%2Fteams%2F1631819669150_fnc-2021-worlds.png"),
+        League("LEC", "LEC", "EMEA", "https://am-a.akamaihd.net/image?resize=120:&f=http%3A%2F%2Fstatic.lolesports.com%2Fleagues%2F1592516184297_LEC-01-FullonDark.png"),
+        "10 de junio", 100, 0, 0, "Semifinal", "Best of 1"), 0xffffffff, {}, 0xffffffff, {})
 
 }*/

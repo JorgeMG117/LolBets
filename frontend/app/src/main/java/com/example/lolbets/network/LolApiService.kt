@@ -1,8 +1,8 @@
 package com.example.lolbets.network
 
 import com.example.lolbets.model.GameApi
-import com.example.lolbets.model.LeagueApi
-import com.example.lolbets.model.TeamApi
+import com.example.lolbets.model.League
+import com.example.lolbets.model.Team
 import retrofit2.Retrofit
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -29,10 +29,10 @@ interface LolApiService {
     suspend fun getGames(): List<GameApi>
 
     @GET("leagues")
-    suspend fun getLeagues(leaguesList : List<String>): List<LeagueApi>
+    suspend fun getLeagues(@Query("leagues") leaguesList: String): List<League>
 
     @GET("teams")
-    suspend fun getTeams(@Query("teams") teamsList: String): List<TeamApi>
+    suspend fun getTeams(@Query("teams") teamsList: String): List<Team>
 }
 
 /**

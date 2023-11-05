@@ -1,11 +1,10 @@
-package com.example.lolbets.ui
+package com.example.lolbets.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lolbets.R
 import com.example.lolbets.model.Game
 import com.example.lolbets.model.League
 import com.example.lolbets.model.Team
@@ -13,6 +12,10 @@ import com.example.lolbets.network.LolApi
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 
 sealed interface GameUiState {
@@ -27,10 +30,24 @@ class GamesViewModel : ViewModel() {
 
 
     init {
-        getMarsPhotos()
+        getGames()
     }
 
-    fun getMarsPhotos() {
+    private fun formatTimestamp(timestamp: String): String {
+        try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("dd/MM - HH:mm", Locale.getDefault())
+
+            val date = inputFormat.parse(timestamp)
+            return outputFormat.format(date!!)
+        } catch (e: Exception) {
+            // Handle parsing errors
+            e.printStackTrace()
+            return timestamp
+        }
+    }
+
+    fun getGames() {
         viewModelScope.launch {
             gameUiState = GameUiState.Loading
             gameUiState = try {
@@ -59,18 +76,15 @@ class GamesViewModel : ViewModel() {
 
                 }
 
-                println(unknownTeamsList)
-
                 //Pillamos lista con los datos de los equipos que queremos
                 val teamsList = LolApi.retrofitService.getTeams(unknownTeamsList.joinToString(","))
-                println(teamsList)
 
                 //Pillamos lista con los datos de las ligas que queremos
-                //val leaguesList = LolApi.retrofitService.getLeagues(unknownLeaguesList)
+                val leaguesList = LolApi.retrofitService.getLeagues(unknownLeaguesList.joinToString(","))
 
                 //transformamos ambos en un map
                 val teamsMap = teamsList.associateBy { it.name }
-                //val leaguesMap = leaguesList.associateBy { it.name }
+                val leaguesMap = leaguesList.associateBy { it.name }
 
                 //Creamos la lista de games, es la que se mostrara por pantalla
                 var finalGames = listOf<Game>()
@@ -78,10 +92,20 @@ class GamesViewModel : ViewModel() {
                     val teamImage1 = teamsMap[game.team1]?.image
                     val teamImage2 = teamsMap[game.team2]?.image
                     val teamCode1 = teamsMap[game.team1]?.code
-                    val teamCode2 = teamsMap[game.team1]?.code
+                    val teamCode2 = teamsMap[game.team2]?.code
+                    val teamName1 = teamsMap[game.team1]?.name
+                    val teamName2 = teamsMap[game.team2]?.name
+                    val leagueImage = leaguesMap[game.league]?.image
+                    val leagueRegion = leaguesMap[game.league]?.region
+
+                    //Transform date to correct form
+                    val gameDate = formatTimestamp(game.time)
+
                     finalGames = finalGames + Game(
-                        Team(teamCode1!!, teamImage1!!), Team(
-                            teamCode2!!, teamImage2!!), League(R.string.league_name_lec, R.drawable.lec), game.time, game.bets1,  game.bets2)
+                        Team(teamName1!!, teamCode1!!, teamImage1!!),
+                        Team(teamName2!!, teamCode2!!, teamImage2!!), League("0", game.league, leagueRegion!!, leagueImage!!),
+                        gameDate, game.bets1,  game.bets2,
+                        game.completed, game.blockName, game.strategy)
 
                 }
 
