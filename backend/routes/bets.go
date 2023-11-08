@@ -32,8 +32,8 @@ func userBetController(conn *websocket.Conn, chBets chan models.Bet) {
 		mt, message, err := conn.ReadMessage()
 
 		if err != nil {
-			log.Println("{error:" + err.Error() + "}")
-			err = conn.WriteMessage(mt, []byte("{error:"+err.Error()+"}"))
+			log.Println("{\"error\": \"" + err.Error() + "\"}")
+			err = conn.WriteMessage(mt, []byte("{\"error\": \""+err.Error()+"\"}"))
 			if err != nil {
 				log.Println("{error:" + err.Error() + "}")
 				break
@@ -71,7 +71,7 @@ func (s *Server) Bets(w http.ResponseWriter, r *http.Request) {
 	keys, exists := r.URL.Query()["game"]
 
 	if !exists {
-		w.Write([]byte("{error: param game not found}"))
+		w.Write([]byte("{\"error\": \"param game not found\"}"))
 		return
 	}
 	gameId = keys[0]
@@ -79,21 +79,21 @@ func (s *Server) Bets(w http.ResponseWriter, r *http.Request) {
 	gameIdInt, err := strconv.Atoi(gameId)
 
 	if err != nil {
-		w.Write([]byte("{error:" + err.Error() + "}"))
+		w.Write([]byte("{\"error\":\"" + err.Error() + "\"}"))
 		return
 	}
 
 	idx := models.GetIdxOfGame(gameIdInt)
 
 	if idx == -1 {
-		w.Write([]byte("{error: Game doesnt exists}"))
+		w.Write([]byte("{\"error\": \"Game doesnt exists\"}"))
 		return
 	}
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 
 	if err != nil {
-		w.Write([]byte("{error:" + err.Error() + "}"))
+		w.Write([]byte("{\"error\": \"" + err.Error() + "\"}"))
 		return
 	}
 
