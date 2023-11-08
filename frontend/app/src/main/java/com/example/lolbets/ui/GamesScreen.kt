@@ -1,31 +1,31 @@
 package com.example.lolbets.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lolbets.data.GamesData
 import com.example.lolbets.model.Game
 import com.example.lolbets.ui.components.GamesList
+import com.example.lolbets.viewmodel.GameUiState
 
 
 @Composable
 fun HomeScreen(
-    gameUiState: GameUiState, modifier: Modifier = Modifier
+    gameUiState: GameUiState, contentPadding: PaddingValues, onGameClicked: (Game) -> Unit, modifier: Modifier = Modifier
 ) {
     when (gameUiState) {
-        is GameUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is GameUiState.Success -> ResultScreen(
-            gameUiState.games, modifier = modifier.fillMaxWidth()
+        is GameUiState.Loading -> LoadingScreen( modifier = modifier.fillMaxSize())
+
+        is GameUiState.Success -> GamesList(
+            gamesList = gameUiState.games,
+            contentPadding = contentPadding,
+            onGameClicked = onGameClicked,
         )
 
         is GameUiState.Error -> ErrorScreen( modifier = modifier.fillMaxSize())
@@ -36,12 +36,13 @@ fun HomeScreen(
  * ResultScreen displaying number of photos retrieved.
  */
 @Composable
-fun ResultScreen(games: String, modifier: Modifier = Modifier) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier
+fun ResultScreen(games: List<Game>, modifier: Modifier = Modifier) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Text(text = games)
+        items(games) { game ->
+            Text(text = game.date)
+        }
     }
 }
 

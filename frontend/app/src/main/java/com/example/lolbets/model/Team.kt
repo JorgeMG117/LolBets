@@ -2,8 +2,11 @@ package com.example.lolbets.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Team(
-    @StringRes val stringResourceId: Int,
-    @DrawableRes val imageResourceId: Int
+    val name: String,
+    val code: String,
+    val image: String
 )

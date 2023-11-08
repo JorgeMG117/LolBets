@@ -83,4 +83,7 @@ dependencies {
 
     // Kotlin serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+
+    // Load an image
+    implementation("io.coil-kt:coil-compose:2.0.0")
 }

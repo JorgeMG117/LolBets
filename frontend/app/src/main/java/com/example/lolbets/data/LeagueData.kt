@@ -5,7 +5,7 @@ import com.example.lolbets.model.League
 
 class LeagueData {
     fun loadLeagues(): List<League> {
-        return listOf<League>(
+        return listOf<League>()/*
             League(R.string.team_name_koi, R.drawable.koi),
             League(R.string.team_name_fnatic, R.drawable.fnatic),
             League(R.string.team_name_heretics, R.drawable.heretics),
@@ -17,6 +17,6 @@ class LeagueData {
             League(R.string.team_name_sk, R.drawable.sk),
             League(R.string.team_name_excel, R.drawable.xl),
             League(R.string.team_name_vitality, R.drawable.vitality)
-        )
+        )*/
     }
 }

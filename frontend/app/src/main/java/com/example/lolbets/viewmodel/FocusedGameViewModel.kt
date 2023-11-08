@@ -1,4 +1,4 @@
-package com.example.lolbets.ui
+package com.example.lolbets.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.lolbets.data.BetUiState

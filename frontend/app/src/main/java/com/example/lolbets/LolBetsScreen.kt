@@ -1,16 +1,12 @@
 package com.example.lolbets
 
-import android.content.Intent
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,24 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.lolbets.model.BottomNavItem
-import com.example.lolbets.model.Game
-import com.example.lolbets.model.League
-import com.example.lolbets.model.Team
 import com.example.lolbets.model.User
 import com.example.lolbets.ui.BetScreen
-import com.example.lolbets.ui.FocusedGameViewModel
-import com.example.lolbets.ui.GamesScreen
+import com.example.lolbets.viewmodel.FocusedGameViewModel
 import com.example.lolbets.ui.HighlightScreen
 import com.example.lolbets.ui.ProfileScreen
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.lolbets.ui.GamesViewModel
+import com.example.lolbets.viewmodel.GamesViewModel
 import com.example.lolbets.ui.HomeScreen
 
 
@@ -117,7 +108,7 @@ internal fun LolBetsBottomAppBar(items: List<BottomNavItem>, modifier: Modifier 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LolBetsApp2(
+fun LolBetsApp(
     mGoogleSignInClient: GoogleSignInClient,
     modifier: Modifier = Modifier,
     viewModel: FocusedGameViewModel = viewModel(),
@@ -150,6 +141,7 @@ fun LolBetsApp2(
         }
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
+        val viewModelGames: GamesViewModel = viewModel()
 
         NavHost(
             navController = navController,
@@ -157,12 +149,18 @@ fun LolBetsApp2(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = LolBetsScreen.Games.name) {
-                GamesScreen(
+                /*GamesScreen(
                     contentPadding = innerPadding,
                     onGameClicked = {
                         viewModel.setGame(it)
                         navController.navigate(LolBetsScreen.Bet.name) },
-                )
+                )*/
+                HomeScreen(
+                    gameUiState = viewModelGames.gameUiState,
+                    contentPadding = innerPadding,
+                    onGameClicked = {
+                        viewModel.setGame(it)
+                        navController.navigate(LolBetsScreen.Bet.name) },)
             }
             composable(route = LolBetsScreen.Highlight.name) {
                 HighlightScreen(
@@ -215,13 +213,3 @@ fun LolBetsApp2(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LolBetsApp(
-    mGoogleSignInClient: GoogleSignInClient,
-    modifier: Modifier = Modifier,
-    //viewModel: GamesViewModel = viewModel()
-) {
-    val viewModel: GamesViewModel = viewModel()
-    HomeScreen(gameUiState = viewModel.gameUiState)
-}
