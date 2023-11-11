@@ -67,6 +67,7 @@ func ExecServer(intializeDB bool) error {
 		//MaxHeaderBytes: 1 << 20,
 	}
 
+    // Create chanel that will be used to update db with all the info when a game is over
     chUpdateGames := make(chan int, models.MaxGames)
 
     err := models.InitializeGames(s.Db, chUpdateGames)
@@ -77,6 +78,7 @@ func ExecServer(intializeDB bool) error {
 	chBets := make([]chan models.Bet, models.MaxGames)
 
 	for i := 0; i < models.NumGames(); i++ {
+	//for i := 0; i < models.MaxGames; i++ {
 		chBets[i] = make(chan models.Bet)
 		go models.BetController(chBets[i], i, chUpdateGames)
 	}

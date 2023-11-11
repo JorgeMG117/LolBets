@@ -32,7 +32,7 @@ var indexOfGame []int
 // TODO
 func BetController(chBets chan Bet, idxGame int, chUpdateGame chan int) {
 	out := false
-	timeLeft := time.Until(games[idxGame].Time)
+    timeLeft := time.Until(games[idxGame].Time)
     /*
     fmt.Println("Game " + games[idxGame].Team1 + " vs " + games[idxGame].Team2)
     fmt.Println(idxGame)
@@ -49,8 +49,9 @@ func BetController(chBets chan Bet, idxGame int, chUpdateGame chan int) {
 			activeBets[games[idxGame].Id] = append(activeBets[games[idxGame].Id], bet)
 			fmt.Println(games)
         case <-time.After(timeLeft):
+        //case <-time.After(2 * time.Minute):
 			fmt.Println("Bet " + strconv.Itoa(idxGame) + " is over")
-			out = true
+			//out = true
             chUpdateGame<-idxGame
 		}
 	}
@@ -71,6 +72,12 @@ func updateActiveGames(db *sql.DB, chUpdateGame chan int) {
         err := AddBets(db, activeBets[games[idxGame].Id])
         if err != nil {
             fmt.Println("Error AddBets: ", err)
+        }
+
+        // Update game in db
+        err = updateBetsOnGame(db, &games[idxGame])
+        if err != nil {
+            fmt.Println("Error updateBetsOnGame: ", err)
         }
 
         fmt.Println("Removing game " + strconv.Itoa(games[idxGame].Id))
@@ -178,7 +185,7 @@ func InitializeGames(db *sql.DB, chUpdateGames chan int) error {
 		games = append(games, game)
 		indexOfGame = append(indexOfGame, game.Id)
 	}
-
+    
 	initializeActiveBets()
 
     fmt.Println("Games initialized")
@@ -262,6 +269,20 @@ func GetGamesDb(db *sql.DB, league string, team string) ([]Game, error) {
     return games, nil
 }
 
+func GetGameInfo(id int) Game {
+    for _, val := range games {
+        if val.Id == id {
+            return val
+        }
+    }
+    //Return game with id -1
+    return Game{-1, "", "", "", time.Now(), 0, 0, 0, "", ""}
+}
+
+func GetGameInfoByIdx(idx int) Game {
+    // TODO Comprobar idx esta en los rangos
+    return games[idx]
+}
 
 /*
 func AddGame(db *sql.DB, newGame *Game) error {
@@ -298,6 +319,12 @@ func AddMultipleGames(db *sql.DB, newGames []Game) error {
         }
     }
     return nil
+}
+
+func updateBetsOnGame(db *sql.DB, game *Game) error {
+    fmt.Println("Updating game: ", game)
+    _, err := db.Exec("UPDATE Game SET Bets_t1 = ?, Bets_t2 = ? WHERE Id = ?", game.Bets1, game.Bets2, game.Id)
+    return err
 }
 
 // TODO: Maybe just update those who have changed, completed <> 0

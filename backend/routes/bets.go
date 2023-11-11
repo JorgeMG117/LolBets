@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+    "time"
 
 	"github.com/JorgeMG117/LolBets/backend/models"
 	"github.com/gorilla/websocket"
@@ -23,7 +24,54 @@ func isValid(msg []byte) (models.Bet, bool) {
 		log.Println("{error:" + err.Error() + "}")
 		return bet, false
 	}
+    
+    // Check if bet fields are correct
+    if bet.Value <= 0 {
+        log.Println("{\"error\": \"Amount must be greater than 0\"}")
+        return bet, false
+    }
+
+
 	return bet, true
+}
+
+func updateGameInfo(conn *websocket.Conn, idxGame int) {
+    // Lanzar gorutine que actualize la informacion de cada game para el cliente en tiempo real
+    // while not out
+    //      send updated game info
+    //      sleep 1s
+
+
+    // Necesito acceder a la informacion del game
+    // Cuando me hacen el get me pasan el id del game
+    // Soluciones:
+    // - Hacer un getGame que dado el id me saque los valores de game del slice
+	defer conn.Close()
+
+    out := false
+    for !out {
+        game := models.GetGameInfoByIdx(idxGame)
+
+        // Only return game id, and bets
+        gameInfoForClient := struct {
+            Id   int         `json:"id"`
+            Bets1     int       `json:"bets1"`
+            Bets2     int       `json:"bets2"`
+        }{
+            Id:   game.Id,
+            Bets1: game.Bets1,
+            Bets2: game.Bets2,
+        }
+
+        // Send updated game info
+        err := conn.WriteJSON(gameInfoForClient)
+        if err != nil {
+            log.Println("{error:" + err.Error() + "}")
+            return
+        }
+        // Sleep 1s
+        time.Sleep(30 * time.Second)
+    }
 }
 
 func userBetController(conn *websocket.Conn, chBets chan models.Bet) {
@@ -100,4 +148,5 @@ func (s *Server) Bets(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("User conected to bet: " + gameId)
 
 	go userBetController(conn, s.ChBets[idx])
+    go updateGameInfo(conn, idx)
 }
