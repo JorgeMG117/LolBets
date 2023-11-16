@@ -11,9 +11,6 @@ import (
 	"github.com/JorgeMG117/LolBets/backend/models"
 )
 
-func UpdateGames(){
-}
-
 func (s *Server) Games(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Method)
 	switch r.Method {
@@ -37,24 +34,7 @@ func (s *Server) Games(w http.ResponseWriter, r *http.Request) {
 			team = ""
 		}
 
-		games, err := models.GetGames(s.Db, league, team)
-
-        /*
-		if err != nil {
-			w.Write([]byte("{error:" + err.Error() + "}"))
-			return
-		}
-        */
-
-        if err != nil {
-            // Handle the error and return it as a JSON response
-            errorResponse := map[string]string{"error": err.Error()}
-            jsonResponse, _ := json.Marshal(errorResponse)
-            w.Header().Set("Content-Type", "application/json")
-            w.WriteHeader(http.StatusInternalServerError)
-            w.Write(jsonResponse)
-            return
-        }
+        games := s.ActiveGames.GetGames(league, team)
 
         // Convert 'games' into JSON
         jsonResponse, err := json.Marshal(games)

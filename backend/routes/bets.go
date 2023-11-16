@@ -35,7 +35,7 @@ func isValid(msg []byte) (models.Bet, bool) {
 	return bet, true
 }
 
-func updateGameInfo(conn *websocket.Conn, idxGame int) {
+func (s *Server) updateGameInfo(conn *websocket.Conn, idGame int) {
     // Lanzar gorutine que actualize la informacion de cada game para el cliente en tiempo real
     // while not out
     //      send updated game info
@@ -50,7 +50,9 @@ func updateGameInfo(conn *websocket.Conn, idxGame int) {
 
     out := false
     for !out {
-        game := models.GetGameInfoByIdx(idxGame)
+        game := s.ActiveGames.GetGameById(idGame)
+        fmt.Println("Updating game info")
+        fmt.Println("Game: ", game)
 
         // Only return game id, and bets
         gameInfoForClient := struct {
@@ -74,7 +76,7 @@ func updateGameInfo(conn *websocket.Conn, idxGame int) {
     }
 }
 
-func userBetController(conn *websocket.Conn, chBets chan models.Bet) {
+func (s *Server) userBetController(conn *websocket.Conn, idGame int) {
 	defer conn.Close()
 	for {
 		mt, message, err := conn.ReadMessage()
@@ -92,7 +94,9 @@ func userBetController(conn *websocket.Conn, chBets chan models.Bet) {
 
 		if bet, ok := isValid(message); ok {
 
-			chBets <- bet
+            //fmt.Println("Bet is correct")
+
+            s.ActiveGames.PlaceBet(bet, idGame)
 			log.Println(`{"error":"success"}`)
 
 			err = conn.WriteMessage(mt, []byte(`{"error":"success"}`))
@@ -101,6 +105,7 @@ func userBetController(conn *websocket.Conn, chBets chan models.Bet) {
 				break
 			}
 		} else {
+            //fmt.Println("Bet is not correct")
 			err = conn.WriteMessage(mt, []byte(`{"error":"bet is not correct"}`))
 			if err != nil {
 				log.Println("{error:" + err.Error() + "}")
@@ -131,13 +136,6 @@ func (s *Server) Bets(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	idx := models.GetIdxOfGame(gameIdInt)
-
-	if idx == -1 {
-		w.Write([]byte("{\"error\": \"Game doesnt exists\"}"))
-		return
-	}
-
 	conn, err := upgrader.Upgrade(w, r, nil)
 
 	if err != nil {
@@ -147,6 +145,6 @@ func (s *Server) Bets(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("User conected to bet: " + gameId)
 
-	go userBetController(conn, s.ChBets[idx])
-    go updateGameInfo(conn, idx)
+	go s.userBetController(conn, gameIdInt)
+    go s.updateGameInfo(conn, gameIdInt)
 }
