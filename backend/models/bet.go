@@ -11,12 +11,6 @@ type Bet struct {
 	GameId int  `json:"gameId"`
 }
 
-var activeBets map[int][]Bet
-
-func initializeActiveBets() {
-	activeBets = make(map[int][]Bet)
-}
-
 func AddBet(db *sql.DB, bet Bet) error {
     _, err := db.Exec("INSERT INTO Bet(GameId, UserId, Value, Team) VALUES (?, ?, ?, ?)", bet.GameId, bet.UserId, bet.Value, bet.Team)
     if err != nil {

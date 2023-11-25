@@ -5,12 +5,12 @@ import (
 
 	"database/sql"
 
-	"github.com/JorgeMG117/LolBets/backend/models"
+	datastructures "github.com/JorgeMG117/LolBets/backend/data_structures"
 )
 
 type Server struct {
 	Db     *sql.DB
-	ChBets []chan models.Bet
+    ActiveGames *datastructures.ActiveGames
 	//router
 }
 

@@ -116,6 +116,8 @@ func CleanApiData(apiData ApiSchedule, timeFromWhich time.Time) (map[string]mode
 
 		// Check if there is 2 teams
 		teams := event.Match.Teams
+        //fmt.Println(teams)
+        //TODO: If the is not 2 teams, the server dies
 		if len(teams) != 2 {
 			fmt.Println("Error: ", "There is not 2 teams in the game")
 		}

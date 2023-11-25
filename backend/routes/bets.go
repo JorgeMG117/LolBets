@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+    "time"
 
 	"github.com/JorgeMG117/LolBets/backend/models"
 	"github.com/gorilla/websocket"
@@ -23,17 +24,66 @@ func isValid(msg []byte) (models.Bet, bool) {
 		log.Println("{error:" + err.Error() + "}")
 		return bet, false
 	}
+    
+    // Check if bet fields are correct
+    if bet.Value <= 0 {
+        log.Println("{\"error\": \"Amount must be greater than 0\"}")
+        return bet, false
+    }
+
+
 	return bet, true
 }
 
-func userBetController(conn *websocket.Conn, chBets chan models.Bet) {
+func (s *Server) updateGameInfo(conn *websocket.Conn, idGame int) {
+    // Lanzar gorutine que actualize la informacion de cada game para el cliente en tiempo real
+    // while not out
+    //      send updated game info
+    //      sleep 1s
+
+
+    // Necesito acceder a la informacion del game
+    // Cuando me hacen el get me pasan el id del game
+    // Soluciones:
+    // - Hacer un getGame que dado el id me saque los valores de game del slice
+	defer conn.Close()
+
+    out := false
+    for !out {
+        game := s.ActiveGames.GetGameById(idGame)
+        fmt.Println("Updating game info")
+        fmt.Println("Game: ", game)
+
+        // Only return game id, and bets
+        gameInfoForClient := struct {
+            Id   int         `json:"id"`
+            Bets1     int       `json:"bets1"`
+            Bets2     int       `json:"bets2"`
+        }{
+            Id:   game.Id,
+            Bets1: game.Bets1,
+            Bets2: game.Bets2,
+        }
+
+        // Send updated game info
+        err := conn.WriteJSON(gameInfoForClient)
+        if err != nil {
+            log.Println("{error:" + err.Error() + "}")
+            return
+        }
+        // Sleep 1s
+        time.Sleep(30 * time.Second)
+    }
+}
+
+func (s *Server) userBetController(conn *websocket.Conn, idGame int) {
 	defer conn.Close()
 	for {
 		mt, message, err := conn.ReadMessage()
 
 		if err != nil {
-			log.Println("{error:" + err.Error() + "}")
-			err = conn.WriteMessage(mt, []byte("{error:"+err.Error()+"}"))
+			log.Println("{\"error\": \"" + err.Error() + "\"}")
+			err = conn.WriteMessage(mt, []byte("{\"error\": \""+err.Error()+"\"}"))
 			if err != nil {
 				log.Println("{error:" + err.Error() + "}")
 				break
@@ -44,7 +94,9 @@ func userBetController(conn *websocket.Conn, chBets chan models.Bet) {
 
 		if bet, ok := isValid(message); ok {
 
-			chBets <- bet
+            //fmt.Println("Bet is correct")
+
+            s.ActiveGames.PlaceBet(bet, idGame)
 			log.Println(`{"error":"success"}`)
 
 			err = conn.WriteMessage(mt, []byte(`{"error":"success"}`))
@@ -53,6 +105,7 @@ func userBetController(conn *websocket.Conn, chBets chan models.Bet) {
 				break
 			}
 		} else {
+            //fmt.Println("Bet is not correct")
 			err = conn.WriteMessage(mt, []byte(`{"error":"bet is not correct"}`))
 			if err != nil {
 				log.Println("{error:" + err.Error() + "}")
@@ -71,7 +124,7 @@ func (s *Server) Bets(w http.ResponseWriter, r *http.Request) {
 	keys, exists := r.URL.Query()["game"]
 
 	if !exists {
-		w.Write([]byte("{error: param game not found}"))
+		w.Write([]byte("{\"error\": \"param game not found\"}"))
 		return
 	}
 	gameId = keys[0]
@@ -79,25 +132,19 @@ func (s *Server) Bets(w http.ResponseWriter, r *http.Request) {
 	gameIdInt, err := strconv.Atoi(gameId)
 
 	if err != nil {
-		w.Write([]byte("{error:" + err.Error() + "}"))
-		return
-	}
-
-	idx := models.GetIdxOfGame(gameIdInt)
-
-	if idx == -1 {
-		w.Write([]byte("{error: Game doesnt exists}"))
+		w.Write([]byte("{\"error\":\"" + err.Error() + "\"}"))
 		return
 	}
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 
 	if err != nil {
-		w.Write([]byte("{error:" + err.Error() + "}"))
+		w.Write([]byte("{\"error\": \"" + err.Error() + "\"}"))
 		return
 	}
 
 	fmt.Println("User conected to bet: " + gameId)
 
-	go userBetController(conn, s.ChBets[idx])
+	go s.userBetController(conn, gameIdInt)
+    go s.updateGameInfo(conn, gameIdInt)
 }

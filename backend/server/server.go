@@ -7,13 +7,14 @@ import (
 	//"time"
 
 	"github.com/JorgeMG117/LolBets/backend/configs"
-	"github.com/JorgeMG117/LolBets/backend/models"
-	"github.com/JorgeMG117/LolBets/backend/routes"
-    "github.com/JorgeMG117/LolBets/backend/data"
+	"github.com/JorgeMG117/LolBets/backend/data"
+    "github.com/JorgeMG117/LolBets/backend/routes"
+	datastructures "github.com/JorgeMG117/LolBets/backend/data_structures"
+	//"github.com/JorgeMG117/LolBets/backend/models"
 
 	"fmt"
 	"os"
-    "time"   
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -58,6 +59,8 @@ func ExecServer(intializeDB bool) error {
     time.Sleep(time.Second * 30)
 
 
+    fmt.Println("### CREATING SERVER ###")
+
 	//setup thigs
 	serv := &http.Server{
 		Addr:    ":8080",
@@ -67,20 +70,12 @@ func ExecServer(intializeDB bool) error {
 		//MaxHeaderBytes: 1 << 20,
 	}
 
-    chUpdateGames := make(chan int, models.MaxGames)
-
-    err := models.InitializeGames(s.Db, chUpdateGames)
+    ag, err := datastructures.InitializeActiveGames(s.Db)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 	}
+    s.ActiveGames = ag
 
-	chBets := make([]chan models.Bet, models.MaxGames)
-
-	for i := 0; i < models.NumGames(); i++ {
-		chBets[i] = make(chan models.Bet)
-		go models.BetController(chBets[i], i, chUpdateGames)
-	}
-	s.ChBets = chBets
 
 	log.Fatal(serv.ListenAndServe())
 
