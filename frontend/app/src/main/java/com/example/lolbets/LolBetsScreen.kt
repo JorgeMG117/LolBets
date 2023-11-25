@@ -177,7 +177,7 @@ fun LolBetsApp(
                     contentPadding = innerPadding,
                     onGameClicked = {
                         viewModel.setGame(it)
-                        viewModel.connectWebSocket()
+                        viewModel.connectWebSocket(it.id)
                         navController.navigate(LolBetsScreen.Bet.name) },)
             }
             composable(route = LolBetsScreen.Highlight.name) {

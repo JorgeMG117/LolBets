@@ -54,7 +54,7 @@ class FocusedGameViewModel : ViewModel() {
         if(uiState.value.game.betsTeam1 != message.bets1 || uiState.value.game.betsTeam2 != message.bets2) {
             //uiState.value.game.betsTeam1 = message.bets1
             //game = Game(uiState.value.game.betsTeam1)
-            val game = Game(
+            val updatedGame = Game(
                 uiState.value.game.id,
                 uiState.value.game.team1,
                 uiState.value.game.team2,
@@ -68,7 +68,7 @@ class FocusedGameViewModel : ViewModel() {
             )
             _uiState.update { currentState ->
                 currentState.copy(
-                    game = game
+                    game = updatedGame
                 )
             }
         }
@@ -93,11 +93,11 @@ class FocusedGameViewModel : ViewModel() {
 
     private var webSocket: WebSocket? = null
 
-    fun connectWebSocket() {
+    fun connectWebSocket(gameId: Int) {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("ws://10.0.2.2:8080/bets?game=8")
+            .url("ws://10.0.2.2:8080/bets?game=$gameId")
             .build()
 
         val listener = MyWebSocketListener(this)

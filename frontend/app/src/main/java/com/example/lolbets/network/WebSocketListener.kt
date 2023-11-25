@@ -27,7 +27,7 @@ data class BetResponse(
 
 @Serializable
 data class ErrorResponse(
-    @SerialName("error") val errorMessage: String
+    val error: String
 ) : WebsocketResponse()
 
 
@@ -41,29 +41,20 @@ class MyWebSocketListener(private val viewModel: FocusedGameViewModel) : WebSock
     override fun onMessage(webSocket: WebSocket, text: String) {
         //{"id":8,"bets1":10,"bets2":15}
         //{"error":"success"}
-        println("Received message: $text")
-        //val message : Message = Json.decodeFromString(text)
-        val result: WebsocketResponse = try {
-            Json.decodeFromString(text)
+        try {
+            // Try to parse as a SuccessResponse
+            val betResponse: BetResponse = Json.decodeFromString(text)
+            viewModel.updateGameBets(betResponse)
+            println("Received message: $betResponse")
         } catch (e: Exception) {
-            // Handle parsing error
-            println("Unable to parse the JSON string")
-            return
-        }
-
-        when (result) {
-            is BetResponse -> {
-                println("Success: $result")
-                viewModel.updateGameBets(result)
-                // Access fields like result.id, result.bets1, result.bets2
-            }
-            is ErrorResponse -> {
-                println("Error: $result")
-                // Access the error message like result.errorMessage
+            try {
+                // Try to parse as an ErrorResponse
+                val errorResponse: ErrorResponse = Json.decodeFromString(text)
+                println("Received message: $errorResponse")
+            } catch (e: Exception) {
+                println("Unable to parse the JSON string")
             }
         }
-        //viewModel.addMessage(Pair(false, text))
-
     }
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
