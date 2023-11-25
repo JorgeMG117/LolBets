@@ -1,5 +1,7 @@
 package com.example.lolbets
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -7,6 +9,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -14,17 +17,22 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -39,6 +47,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lolbets.viewmodel.GamesViewModel
 import com.example.lolbets.ui.HomeScreen
+import com.example.lolbets.viewmodel.UserViewModel
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lolbets.model.Bet
 
 
 enum class LolBetsScreen(){
@@ -50,7 +62,7 @@ enum class LolBetsScreen(){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun LolBetsTopAppBar(onProfileClicked: () -> Unit, onArrowBackClicked: () -> Unit, modifier: Modifier = Modifier) {
+internal fun LolBetsTopAppBar(user : User, onProfileClicked: () -> Unit, onArrowBackClicked: () -> Unit, modifier: Modifier = Modifier) {
     TopAppBar(
         modifier = modifier,
         title = {
@@ -69,7 +81,8 @@ internal fun LolBetsTopAppBar(onProfileClicked: () -> Unit, onArrowBackClicked: 
             }
         },
         actions = {
-            Text(text = "10$")
+            val coinsString = user.coins.toString()
+            Text(text = "$coinsString\$")
             IconButton(onClick = { onProfileClicked() }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
@@ -114,6 +127,10 @@ fun LolBetsApp(
     viewModel: FocusedGameViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
+    //UserViewModel
+    val viewModelUser : UserViewModel = viewModel()
+    val userState by viewModelUser.userState.collectAsState()
+
     val items = listOf(
         BottomNavItem(
             name = "Home",
@@ -134,7 +151,7 @@ fun LolBetsApp(
 
     Scaffold(
         topBar = {
-            LolBetsTopAppBar( onProfileClicked = { navController.navigate(LolBetsScreen.Profile.name) }, onArrowBackClicked = { navController.navigateUp() }, modifier)
+            LolBetsTopAppBar( userState, onProfileClicked = { navController.navigate(LolBetsScreen.Profile.name) }, onArrowBackClicked = { navController.navigateUp() }, modifier)
         },
         bottomBar = {
             LolBetsBottomAppBar(items, modifier)
@@ -160,6 +177,7 @@ fun LolBetsApp(
                     contentPadding = innerPadding,
                     onGameClicked = {
                         viewModel.setGame(it)
+                        viewModel.connectWebSocket(it.id)
                         navController.navigate(LolBetsScreen.Bet.name) },)
             }
             composable(route = LolBetsScreen.Highlight.name) {
@@ -169,47 +187,21 @@ fun LolBetsApp(
             }
             composable(route = LolBetsScreen.Profile.name) {
                 ProfileScreen(
-                    User(R.string.team_name_koi, R.drawable.koi, 10),
+                    userState,
                     contentPadding = innerPadding,
                 )
             }
             composable(route = LolBetsScreen.Bet.name) {
                 BetScreen(
+                    onBetPlaced = { value ->
+                        viewModelUser.placeBet(value.value)
+                        viewModel.sendMessage(value)
+                    },
                     betState = uiState
                 )
             }
         }
 
-
-        /*val startForResult =
-            rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val intent = result.data
-                    if (result.data != null) {
-                        val task: Task<GoogleSignInAccount> =
-                            GoogleSignIn.getSignedInAccountFromIntent(intent)
-                        task.result
-                        handleSignInResult(task)
-                    }
-                }
-            }*/
-
-        /*Button(
-            /*onClick = {
-                val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
-                startActivityForResult(signInIntent, RC_SIGN_IN)
-            },*/
-            onClick = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding),
-            shape = RoundedCornerShape(6.dp),
-        ) {
-            Text(text = "Sign in with Google", modifier = Modifier.padding(6.dp))
-        }*/
-
-        //LoginScreen(clientIdtest, innerPadding)
-        //BetScreen(innerPadding)
     }
 }
 

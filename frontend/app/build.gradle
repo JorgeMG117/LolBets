@@ -86,4 +86,29 @@ dependencies {
 
     // Load an image
     implementation("io.coil-kt:coil-compose:2.0.0")
+
+    // Websockets, scarlet
+    //implementation 'com.tinder.scarlet:scarlet:0.1.12'
+    // rx
+    //implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+    //implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    //implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
+
+    // Websockets
+    //implementation "io.ktor:ktor-client-websockets:2.3.6"
+    //implementation "io.ktor:ktor-client-json:2.3.6"
+    //implementation "io.ktor:ktor-client-serialization:2.3.6"
+    //implementation "io.ktor:ktor-client-android:2.3.6"
+
+    //implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+
+    //Dagger - Hilt
+    //implementation "com.google.dagger:hilt-android:2.42"
+    //kapt "com.google.dagger:hilt-android-compiler:2.42"
+    //kapt "androidx.hilt:hilt-compiler:1.0.0"
+    //implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    //OkHttp
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
 }

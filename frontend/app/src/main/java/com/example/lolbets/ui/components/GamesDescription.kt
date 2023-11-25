@@ -38,7 +38,6 @@ import com.example.lolbets.model.Game
 import com.example.lolbets.model.League
 import com.example.lolbets.model.Team
 import com.example.lolbets.ui.BetScreen
-import com.example.lolbets.ui.GamesScreen
 import coil.compose.AsyncImage
 
 @Composable
@@ -102,8 +101,10 @@ fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Un
                 ),
                 onClick = { onBet1Clicked() }
             ) {
+                val value: Double = 1.0 + game.betsTeam1.toDouble() / game.betsTeam2.toDouble()
+                val stringValue = String.format("%.1f", value)
                 Text(
-                    text = "1.8",
+                    text = stringValue,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
@@ -155,8 +156,10 @@ fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Un
                 ),
                 onClick = { onBet2Clicked() }
             ) {
+                val value: Double = 1.0 + game.betsTeam2.toDouble() / game.betsTeam1.toDouble()
+                val stringValue = String.format("%.1f", value)
                 Text(
-                    text = "1.8",
+                    text = stringValue,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )

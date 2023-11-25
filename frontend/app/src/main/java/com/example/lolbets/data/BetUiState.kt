@@ -7,7 +7,11 @@ import com.example.lolbets.model.Team
 
 data class BetUiState(
     val game: Game = Game(
-        Team("Fnatic", "Fnatic", "https://www.example.com/image.png"), Team("Fnatic", "Fnatic","https://www.example.com/image.png"), League(
-            "0", "LEC", "EMEA", "https://www.example.com/image.png"), "10 de junio", 100, 100, 0, "",""),
+        5,
+        Team("Fnatic", "Fnatic", "https://www.example.com/image.png"),
+        Team("Fnatic", "Fnatic","https://www.example.com/image.png"),
+        League("0", "LEC", "EMEA", "https://www.example.com/image.png"),
+        "10 de junio", 100, 100, 0, "",""),
     val teamChoice: Int = 0,
+    //val isConnected: Boolean = false
 )

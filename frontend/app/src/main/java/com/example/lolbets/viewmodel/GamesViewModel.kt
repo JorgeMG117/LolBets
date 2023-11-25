@@ -102,6 +102,7 @@ class GamesViewModel : ViewModel() {
                     val gameDate = formatTimestamp(game.time)
 
                     finalGames = finalGames + Game(
+                        game.id,
                         Team(teamName1!!, teamCode1!!, teamImage1!!),
                         Team(teamName2!!, teamCode2!!, teamImage2!!), League("0", game.league, leagueRegion!!, leagueImage!!),
                         gameDate, game.bets1,  game.bets2,
