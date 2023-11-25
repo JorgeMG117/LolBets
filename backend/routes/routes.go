@@ -22,5 +22,6 @@ func (s *Server) Router() http.Handler {
 	mux.HandleFunc("/leagues", s.Leagues)
 	mux.HandleFunc("/teams", s.Teams)
 	mux.HandleFunc("/users", s.Users)
+	mux.HandleFunc("/activeBets", s.ActiveBets)
 	return mux
 }
