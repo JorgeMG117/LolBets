@@ -38,7 +38,6 @@ import com.example.lolbets.model.Game
 import com.example.lolbets.model.League
 import com.example.lolbets.model.Team
 import com.example.lolbets.ui.BetScreen
-import com.example.lolbets.ui.GamesScreen
 import coil.compose.AsyncImage
 
 @Composable

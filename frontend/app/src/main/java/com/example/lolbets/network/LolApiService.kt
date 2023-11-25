@@ -1,5 +1,6 @@
 package com.example.lolbets.network
 
+import com.example.lolbets.model.ErrorResponse
 import com.example.lolbets.model.GameApi
 import com.example.lolbets.model.League
 import com.example.lolbets.model.Team
@@ -33,6 +34,9 @@ interface LolApiService {
 
     @GET("teams")
     suspend fun getTeams(@Query("teams") teamsList: String): List<Team>
+
+    /*@GET("bets")
+    suspend fun betToGame(@Query("game") gameToBet: String): ErrorResponse*/
 }
 
 /**

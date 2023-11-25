@@ -36,10 +36,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.lolbets.data.BetUiState
+import com.example.lolbets.model.Bet
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BetScreen(betState: BetUiState, modifier: Modifier = Modifier) {
+fun BetScreen(betState: BetUiState, onBetPlaced: (Bet) -> Unit, modifier: Modifier = Modifier) {
     Column (
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,6 +49,7 @@ fun BetScreen(betState: BetUiState, modifier: Modifier = Modifier) {
     ) {
         //Row (verticalAlignment = Alignment.CenterVertically,
         //horizontalArrangement = Arrangement.SpaceBetween,)
+        //PlaceBet()
 
         var button1BackgroundColor by remember { mutableStateOf(0xffffffff) }
         var button2BackgroundColor by remember { mutableStateOf(0xffffffff) }
@@ -80,16 +83,27 @@ fun BetScreen(betState: BetUiState, modifier: Modifier = Modifier) {
             modifier
         )
 
-        var text by remember { mutableStateOf("") }
+        var betValue by remember { mutableStateOf("") }
+        //var bet by remember { mutableStateOf(Bet(0, false, 0, 0)) }
 
         OutlinedTextField(
-            value = text,
-            onValueChange = { text = it },
+            value = betValue,
+            onValueChange = { betValue = it },
             label = { Text("Place your bet") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
-        Button(onClick = {  }) {
+        Button(
+            onClick = {
+                println(betValue)
+                var team = true
+                if (button1BackgroundColor == 0xff78bbff) {
+                    team = false
+                }
+                onBetPlaced(Bet(betValue.toInt(), team, 0, 10))
+            },
+            //enabled = betState.isConnected
+        ) {
             Text(text = "Place my bet")
         }
     }

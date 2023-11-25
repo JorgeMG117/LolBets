@@ -32,19 +32,6 @@ fun HomeScreen(
     }
 }
 
-/**
- * ResultScreen displaying number of photos retrieved.
- */
-@Composable
-fun ResultScreen(games: List<Game>, modifier: Modifier = Modifier) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        items(games) { game ->
-            Text(text = game.date)
-        }
-    }
-}
 
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
@@ -61,7 +48,7 @@ fun ErrorScreen(modifier: Modifier = Modifier) {
 
 
 
-@Composable
+/*@Composable
 fun GamesScreen(contentPadding: PaddingValues, onGameClicked: (Game) -> Unit, modifier: Modifier = Modifier) {
     GamesList(
         gamesList = GamesData().loadGames(),
@@ -76,4 +63,4 @@ fun GamesPreview() {
         contentPadding = PaddingValues(0.dp),
         onGameClicked = {}
     )
-}
+}*/
