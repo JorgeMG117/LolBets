@@ -60,6 +60,7 @@ func createDBtables(db *sql.DB) {
             UserId  INT NOT NULL,
             Value   INT NOT NULL,
             Team    TINYINT NOT NULL,
+            Odds    DECIMAL(3, 1) UNSIGNED NOT NULL,
             FOREIGN KEY (GameId) REFERENCES Game(Id),
             FOREIGN KEY (UserId) REFERENCES User(Id)
         );`,

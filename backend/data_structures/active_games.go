@@ -43,7 +43,7 @@ func (ag *ActiveGames) betController(gameId int) {
 	for !out {
 		select {
 		case bet := <-chBets:
-			if bet.Team { //Team1
+			if !bet.Team { //Team1 == false
 				game.Bets1 += bet.Value
 			} else {
 				game.Bets2 += bet.Value
@@ -90,8 +90,24 @@ func (ag *ActiveGames) updateActiveGames(db *sql.DB) {
 	}
 }
 
+//This function is used for testing
+func (ag *ActiveGames) deleteActiveGames() {
+	out := false
+	for !out {
+        idGame := <-ag.chUpdateGame
+
+        fmt.Println("Removing game " + strconv.Itoa(idGame))
+        ag.RemoveGame(idGame)
+        if ag.numGames < MAX_GAMES - 10 {
+            fmt.Println("Trying to fill games")
+            // Fetch db to see if there are more games
+        }
+        ag.PrintGames()
+	}
+}
+
 // Creates a new ActiveGames struct
-func newActiveGames() *ActiveGames {
+func NewActiveGames() *ActiveGames {
     return &ActiveGames{
         games: make([]models.Game, MAX_GAMES),
         chBets: make([]chan models.Bet, MAX_GAMES),
@@ -104,14 +120,24 @@ func newActiveGames() *ActiveGames {
 }
 
 func InitializeActiveGames(db *sql.DB) (*ActiveGames, error) {
-    ag := newActiveGames()
+    ag := NewActiveGames()
 
     err := ag.addMoreActiveGames(db)
     ag.PrintGames()
+
     
     go ag.updateActiveGames(db)
 
     return ag, err
+}
+
+func InitializeEmptyActiveGames() (*ActiveGames) {
+    ag := NewActiveGames()
+
+    //TODO: Launch a goroutine that consumes chUpdateGame so that betController doesnt get blocked  
+    // This function is used for test so that it doest have to use the db
+
+    return ag
 }
 
 
@@ -136,6 +162,7 @@ func (ag *ActiveGames) addMoreActiveGames(db *sql.DB) error {
 // Adds a new game to the list of active games
 func (ag *ActiveGames) AddGame(game models.Game) {
     //TODO Revisar esto
+    //TODO Ver si supera el limite, si no no añadirlo
     for i := 0; i < MAX_GAMES; i++ {
         idx := (i + ag.startIndex) % MAX_GAMES
         if !ag.existsGame[idx] {
@@ -186,6 +213,7 @@ func (ag *ActiveGames) GetGameById(id int) models.Game {
     return ag.games[ag.idToIdx[id]]
 }
 
+
 // Place bet on a game
 func (ag *ActiveGames) PlaceBet(bet models.Bet, idGame int) {
     /*
@@ -195,6 +223,21 @@ func (ag *ActiveGames) PlaceBet(bet models.Bet, idGame int) {
     fmt.Println("Game idx: ", ag.idToIdx[idGame])
     */
     ag.chBets[ag.idToIdx[idGame]] <- bet
+}
+
+//Returns active bets of a user
+func (ag *ActiveGames) GetActiveBets(idUser int) []models.Bet {
+    var response []models.Bet
+
+    for _, bets := range ag.activeBets {
+        for _, bet := range bets {
+            if bet.UserId == idUser {
+                response = append(response, bet)
+            }
+        }
+    }
+
+    return response
 }
 
 // Print games
