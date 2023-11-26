@@ -1,5 +1,6 @@
 package com.example.lolbets.network
 
+import com.example.lolbets.model.ActiveBets
 import com.example.lolbets.model.ErrorResponse
 import com.example.lolbets.model.GameApi
 import com.example.lolbets.model.League
@@ -8,6 +9,7 @@ import retrofit2.Retrofit
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -35,8 +37,9 @@ interface LolApiService {
     @GET("teams")
     suspend fun getTeams(@Query("teams") teamsList: String): List<Team>
 
-    /*@GET("bets")
-    suspend fun betToGame(@Query("game") gameToBet: String): ErrorResponse*/
+    //TODO Ojo si lo devuelve vacio
+    @GET("activeBets")
+    suspend fun getActiveBets(@Query("userId") userId: Int): List<ActiveBets>
 }
 
 /**

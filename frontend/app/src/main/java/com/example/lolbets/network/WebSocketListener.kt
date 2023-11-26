@@ -51,6 +51,7 @@ class MyWebSocketListener(private val viewModel: FocusedGameViewModel) : WebSock
                 // Try to parse as an ErrorResponse
                 val errorResponse: ErrorResponse = Json.decodeFromString(text)
                 println("Received message: $errorResponse")
+                //TODO Show a text to say if the bet was process successfully
             } catch (e: Exception) {
                 println("Unable to parse the JSON string")
             }

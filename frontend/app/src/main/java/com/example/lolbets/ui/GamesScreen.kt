@@ -11,7 +11,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lolbets.data.GamesData
 import com.example.lolbets.model.Game
+import com.example.lolbets.ui.components.ErrorScreen
 import com.example.lolbets.ui.components.GamesList
+import com.example.lolbets.ui.components.LoadingScreen
 import com.example.lolbets.viewmodel.GameUiState
 
 
@@ -33,18 +35,6 @@ fun HomeScreen(
 }
 
 
-@Composable
-fun LoadingScreen(modifier: Modifier = Modifier) {
-    Text(text = "Loading")
-}
-
-/**
- * The home screen displaying error message with re-attempt button.
- */
-@Composable
-fun ErrorScreen(modifier: Modifier = Modifier) {
-    Text(text = "Error")
-}
 
 
 

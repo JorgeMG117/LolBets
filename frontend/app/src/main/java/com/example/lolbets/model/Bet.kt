@@ -7,5 +7,6 @@ data class Bet(
     val value: Int,
     val team: Boolean,
     val userId: Int,
-    val gameId: Int
+    val gameId: Int,
+    val odds: Double,
 )

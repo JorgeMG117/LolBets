@@ -51,6 +51,8 @@ import com.example.lolbets.viewmodel.UserViewModel
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lolbets.model.Bet
+import com.example.lolbets.ui.BetsSummary
+import com.example.lolbets.viewmodel.ActiveBetsViewModel
 
 
 enum class LolBetsScreen(){
@@ -160,6 +162,11 @@ fun LolBetsApp(
         val uiState by viewModel.uiState.collectAsState()
         val viewModelGames: GamesViewModel = viewModel()
 
+        //Active Bets
+        val viewModelActiveBets: ActiveBetsViewModel = viewModel {
+            ActiveBetsViewModel(1)
+        }
+
         NavHost(
             navController = navController,
             startDestination = LolBetsScreen.Games.name,
@@ -181,7 +188,11 @@ fun LolBetsApp(
                         navController.navigate(LolBetsScreen.Bet.name) },)
             }
             composable(route = LolBetsScreen.Highlight.name) {
-                HighlightScreen(
+                /*HighlightScreen(
+                    contentPadding = innerPadding,
+                )*/
+                BetsSummary(
+                    activeBetsUiState = viewModelActiveBets.activeBetsUiState,
                     contentPadding = innerPadding,
                 )
             }
@@ -195,7 +206,8 @@ fun LolBetsApp(
                 BetScreen(
                     onBetPlaced = { value ->
                         viewModelUser.placeBet(value.value)
-                        viewModel.sendMessage(value)
+                        viewModel.sendMessage(value)//Send bet to server
+                        //TODO Add it to active bets, no need to do the request again
                     },
                     betState = uiState
                 )

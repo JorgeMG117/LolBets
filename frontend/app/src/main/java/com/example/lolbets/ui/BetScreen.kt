@@ -1,35 +1,17 @@
 package com.example.lolbets.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.lolbets.R
-import com.example.lolbets.data.GamesData
-import com.example.lolbets.model.Game
-import com.example.lolbets.model.League
-import com.example.lolbets.model.Team
 import com.example.lolbets.ui.components.GameCard
-import com.example.lolbets.ui.components.GamesList
-import com.example.lolbets.ui.components.MatchDescription
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -100,7 +82,7 @@ fun BetScreen(betState: BetUiState, onBetPlaced: (Bet) -> Unit, modifier: Modifi
                 if (button1BackgroundColor == 0xff78bbff) {
                     team = false
                 }
-                onBetPlaced(Bet(betValue.toInt(), team, 0, 10))
+                onBetPlaced(Bet(betValue.toInt(), team, 0, 10, 1.5))//TODO
             },
             //enabled = betState.isConnected
         ) {
