@@ -85,12 +85,6 @@ fun BetsSummaryScreen(userBets:  List<ActiveBets>, contentPadding: PaddingValues
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 18.sp
                             )
-                            Text(
-                                text = "Completed",
-                                color = if (bet.completed == 1) Color.Green else Color.Red,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp
-                            )
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(text = bet.league, fontSize = 16.sp)
@@ -116,6 +110,14 @@ fun BetsSummaryScreen(userBets:  List<ActiveBets>, contentPadding: PaddingValues
         )
         LazyColumn {
             items(recentBets) { bet ->
+                var won = false
+                if(bet.bet.team) {
+                    won = bet.completed == 2
+                }
+                else {
+                    won = bet.completed == 1
+                }
+
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -141,7 +143,7 @@ fun BetsSummaryScreen(userBets:  List<ActiveBets>, contentPadding: PaddingValues
                             )
                             Text(
                                 text = "Completed",
-                                color = if (bet.completed == 1) Color.Green else Color.Red,
+                                color = if (won) Color.Green else Color.Red,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp
                             )

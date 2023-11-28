@@ -184,7 +184,11 @@ fun LolBetsApp(
                     contentPadding = innerPadding,
                     onGameClicked = {
                         viewModel.setGame(it)
-                        viewModel.connectWebSocket(it.id)
+                        viewModel.connectWebSocket(
+                            it.id,
+                            onBetSuccess = {
+                                viewModelActiveBets.addActiveBet(it)
+                        })
                         navController.navigate(LolBetsScreen.Bet.name) },)
             }
             composable(route = LolBetsScreen.Highlight.name) {
@@ -208,7 +212,11 @@ fun LolBetsApp(
                         viewModelUser.placeBet(value.value)
                         viewModel.sendMessage(value)//Send bet to server
                         //TODO Add it to active bets, no need to do the request again
+                        //viewModelActiveBets.addActiveBet(value)
                     },
+                    /*onBetSuccess = {
+                        viewModelActiveBets.addActiveBet(it)
+                    },*/
                     betState = uiState
                 )
             }

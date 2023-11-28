@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import java.net.ConnectException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.lolbets.model.ActiveBets
 import com.example.lolbets.model.League
 import com.example.lolbets.model.Team
 import com.example.lolbets.network.BetResponse
@@ -74,6 +75,15 @@ class FocusedGameViewModel : ViewModel() {
         }
     }
 
+    fun betSucceed() {
+        //Cambiar val a true
+        _uiState.update { currentState ->
+            currentState.copy(
+                betSucceed = true
+            )
+        }
+    }
+
     //Websockets
     private val _socketStatus = MutableLiveData(false)
     val socketStatus: LiveData<Boolean> = _socketStatus
@@ -93,14 +103,14 @@ class FocusedGameViewModel : ViewModel() {
 
     private var webSocket: WebSocket? = null
 
-    fun connectWebSocket(gameId: Int) {
+    fun connectWebSocket(gameId: Int, onBetSuccess: (ActiveBets) -> Unit) {
         val client = OkHttpClient()
 
         val request = Request.Builder()
             .url("ws://10.0.2.2:8080/bets?game=$gameId")
             .build()
 
-        val listener = MyWebSocketListener(this)
+        val listener = MyWebSocketListener(this, onBetSuccess)
         val conn = client.newWebSocket(request, listener)
         webSocket = conn
     }
@@ -113,6 +123,11 @@ class FocusedGameViewModel : ViewModel() {
     }*/
 
     fun sendMessage(message: Bet) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                lastBet = message
+            )
+        }
         println("Sending bet")
         println(message)
         val serializer = Bet.serializer()

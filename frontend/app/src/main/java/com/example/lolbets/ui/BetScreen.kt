@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.lolbets.data.BetUiState
+import com.example.lolbets.model.ActiveBets
 import com.example.lolbets.model.Bet
 
 
@@ -70,7 +71,9 @@ fun BetScreen(betState: BetUiState, onBetPlaced: (Bet) -> Unit, modifier: Modifi
 
         OutlinedTextField(
             value = betValue,
-            onValueChange = { betValue = it },
+            onValueChange = {
+                //betState.TODO Limpiar mensaje de apuesta correcta cuando se escriba algo
+                betValue = it },
             label = { Text("Place your bet") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
@@ -78,15 +81,20 @@ fun BetScreen(betState: BetUiState, onBetPlaced: (Bet) -> Unit, modifier: Modifi
         Button(
             onClick = {
                 println(betValue)
+                //TODO Check betValue is not empty, and all the other checks
                 var team = true
                 if (button1BackgroundColor == 0xff78bbff) {
                     team = false
                 }
                 onBetPlaced(Bet(betValue.toInt(), team, 0, 10, 1.5))//TODO
+                betValue = "" //Clean input field
             },
             //enabled = betState.isConnected
         ) {
             Text(text = "Place my bet")
+        }
+        if(betState.betSucceed) {
+            Text(text = "Bet placed successfully")
         }
     }
 }
