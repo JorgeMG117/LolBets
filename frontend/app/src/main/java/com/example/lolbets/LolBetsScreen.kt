@@ -1,5 +1,10 @@
 package com.example.lolbets
 
+import android.app.Activity.RESULT_OK
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,6 +26,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,10 +55,17 @@ import com.example.lolbets.viewmodel.GamesViewModel
 import com.example.lolbets.ui.HomeScreen
 import com.example.lolbets.viewmodel.UserViewModel
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lolbets.model.Bet
 import com.example.lolbets.ui.BetsSummary
+import com.example.lolbets.ui.sign_in.SignInViewModel
 import com.example.lolbets.viewmodel.ActiveBetsViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import com.example.lolbets.ui.sign_in.GoogleAuthUiClient
+import com.example.lolbets.ui.sign_in.SignInScreen
+import kotlinx.coroutines.launch
 
 
 enum class LolBetsScreen(){
@@ -60,6 +73,7 @@ enum class LolBetsScreen(){
     Games,
     Profile,
     Bet,
+    Login,
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -124,7 +138,7 @@ internal fun LolBetsBottomAppBar(items: List<BottomNavItem>, modifier: Modifier 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LolBetsApp(
-    mGoogleSignInClient: GoogleSignInClient,
+    googleAuthUiClient: GoogleAuthUiClient,
     modifier: Modifier = Modifier,
     viewModel: FocusedGameViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
@@ -169,9 +183,64 @@ fun LolBetsApp(
 
         NavHost(
             navController = navController,
-            startDestination = LolBetsScreen.Games.name,
+            //startDestination = LolBetsScreen.Games.name,
+            startDestination = LolBetsScreen.Login.name,
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable(route = LolBetsScreen.Login.name) {
+                val viewModelLogin = viewModel<SignInViewModel>()
+                val loginState by viewModelLogin.state.collectAsStateWithLifecycle()
+
+                /*LaunchedEffect(key1 = Unit) {
+                    if(googleAuthUiClient.getSignedInUser() != null) {
+                        navController.navigate("profile")
+                    }
+                }*/
+
+                val lifecycleOwner = LocalLifecycleOwner.current
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.StartIntentSenderForResult(),
+                    onResult = { result ->
+                        if(result.resultCode == RESULT_OK) {
+                            lifecycleOwner.lifecycleScope.launch {
+                                val signInResult = googleAuthUiClient.signInWithIntent(
+                                    intent = result.data ?: return@launch
+                                )
+                                viewModelLogin.onSignInResult(signInResult)
+                            }
+                        }
+                    }
+                )
+
+                LaunchedEffect(key1 = loginState.isSignInSuccessful) {
+                    if(loginState.isSignInSuccessful) {
+                        /*Toast.makeText(
+                            applicationContext,
+                            "Sign in successful",
+                            Toast.LENGTH_LONG
+                        ).show()*/
+                        println("Login Success")
+
+                        navController.navigate(LolBetsScreen.Games.name)
+                        viewModelLogin.resetState()
+                    }
+                }
+
+
+                SignInScreen(
+                    state = loginState,
+                    onSignInClick = {
+                        lifecycleOwner.lifecycleScope.launch {
+                            val signInIntentSender = googleAuthUiClient.signIn()
+                            launcher.launch(
+                                IntentSenderRequest.Builder(
+                                    signInIntentSender ?: return@launch
+                                ).build()
+                            )
+                        }
+                    }
+                )
+            }
             composable(route = LolBetsScreen.Games.name) {
                 /*GamesScreen(
                     contentPadding = innerPadding,
@@ -189,7 +258,8 @@ fun LolBetsApp(
                             onBetSuccess = {
                                 viewModelActiveBets.addActiveBet(it)
                         })
-                        navController.navigate(LolBetsScreen.Bet.name) },)
+                        navController.navigate(LolBetsScreen.Bet.name) },
+                )
             }
             composable(route = LolBetsScreen.Highlight.name) {
                 /*HighlightScreen(
