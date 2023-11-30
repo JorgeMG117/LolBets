@@ -12,6 +12,8 @@ import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import android.util.Log
+import com.example.lolbets.model.ActiveBets
+import com.example.lolbets.viewmodel.ActiveBetsViewModel
 import kotlinx.serialization.SerialName
 import okio.ByteString
 
@@ -31,7 +33,7 @@ data class ErrorResponse(
 ) : WebsocketResponse()
 
 
-class MyWebSocketListener(private val viewModel: FocusedGameViewModel) : WebSocketListener() {
+class MyWebSocketListener(private val viewModel: FocusedGameViewModel, private val onBetSuccess: (ActiveBets) -> Unit) : WebSocketListener() {
     override fun onOpen(webSocket: WebSocket, response: Response) {
         println("WebSocket connection opened")
         viewModel.setStatus(true)
@@ -51,6 +53,15 @@ class MyWebSocketListener(private val viewModel: FocusedGameViewModel) : WebSock
                 // Try to parse as an ErrorResponse
                 val errorResponse: ErrorResponse = Json.decodeFromString(text)
                 println("Received message: $errorResponse")
+                //TODO Show a text to say if the bet was process successfully
+                if(errorResponse.error == "success") {
+                    viewModel.betSucceed()
+                    println(viewModel.uiState.value.game.completed)
+                    val activeBet = ActiveBets(viewModel.uiState.value.lastBet, viewModel.uiState.value.game.team1.code, viewModel.uiState.value.game.team2.code, viewModel.uiState.value.game.league.name, viewModel.uiState.value.game.completed)
+                    onBetSuccess(activeBet)
+                    //Añadir active bet
+
+                }
             } catch (e: Exception) {
                 println("Unable to parse the JSON string")
             }
