@@ -64,6 +64,7 @@ import com.example.lolbets.ui.sign_in.SignInViewModel
 import com.example.lolbets.viewmodel.ActiveBetsViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navigation
 import com.example.lolbets.ui.sign_in.GoogleAuthUiClient
 import com.example.lolbets.ui.sign_in.SignInScreen
@@ -178,6 +179,14 @@ fun LolBetsApp(
             )
         },
         bottomBar = {
+            /*val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val sceen = navBackStackEntry!!.id
+            println("fdasjfkl")
+            println(sceen)
+
+            if (sceen != LolBetsScreen.Login.name) {
+                LolBetsBottomAppBar(items, modifier)
+            }*/
             LolBetsBottomAppBar(items, modifier)
         }
     ) { innerPadding ->
@@ -202,6 +211,12 @@ fun LolBetsApp(
                 //Check if user is already logged in
                 LaunchedEffect(key1 = Unit) {
                     if(googleAuthUiClient.getSignedInUser() != null) {
+                        //Cojer tambien info del usuario del backend
+                        viewModelUser.getUserInfo(
+                            googleAuthUiClient.getSignedInUser()
+                        ) {
+                            viewModelActiveBets.updateActiveBets(it)
+                        }
                         navController.navigate(LolBetsScreen.Games.name)
                     }
                 }
@@ -229,6 +244,15 @@ fun LolBetsApp(
                             Toast.LENGTH_LONG
                         ).show()*/
                         println("Login Success")
+                        //Hablar con backend
+                        //enviar que ha avido login e enviar el id, esto nos devuelve el id del usuario y sus coins
+                        viewModelUser.getUserInfo(
+                            googleAuthUiClient.getSignedInUser()
+                        ) {
+                            viewModelActiveBets.updateActiveBets(it)
+                        }
+                        //Update active bets with the new user
+                        viewModelActiveBets.updateActiveBets(userState.id)
 
                         navController.navigate(LolBetsScreen.Games.name)
                         viewModelLogin.resetState()
@@ -287,7 +311,7 @@ fun LolBetsApp(
                 )*/
                 val lifecycleOwner = LocalLifecycleOwner.current
                 ProfileScreen(
-                    userData = googleAuthUiClient.getSignedInUser(),
+                    userData = userState,
                     onSignOut = {
                         lifecycleOwner.lifecycleScope.launch {
                             googleAuthUiClient.signOut()

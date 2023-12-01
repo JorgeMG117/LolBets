@@ -30,7 +30,7 @@ sealed interface ActiveBetsUiState {
     object Loading : ActiveBetsUiState
 }
 
-class ActiveBetsViewModel(private val userId: Int) : ViewModel() {
+class ActiveBetsViewModel(private var userId: Int) : ViewModel() {
     var activeBetsUiState: ActiveBetsUiState by mutableStateOf(ActiveBetsUiState.Loading)
         private set
 
@@ -53,6 +53,12 @@ class ActiveBetsViewModel(private val userId: Int) : ViewModel() {
                 ActiveBetsUiState.Error
             }
         }
+    }
+
+    fun updateActiveBets(newUser: Int) {
+        println(newUser)
+        userId = newUser
+        getActiveBets()
     }
 
     fun addActiveBet(bet: ActiveBets) {

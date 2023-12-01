@@ -72,7 +72,7 @@ fun ProfileScreen(user: User, contentPadding: PaddingValues, modifier: Modifier 
 
 @Composable
 fun ProfileScreen(
-    userData: UserData?,
+    userData: User?,
     onSignOut: () -> Unit
 ) {
     Column(
