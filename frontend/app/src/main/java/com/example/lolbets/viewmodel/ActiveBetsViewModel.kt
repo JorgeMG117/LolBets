@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lolbets.data.BetUiState
 import com.example.lolbets.model.ActiveBets
+import com.example.lolbets.model.Bet
 import com.example.lolbets.model.Game
 import com.example.lolbets.model.League
 import com.example.lolbets.model.Team
@@ -51,6 +52,10 @@ class ActiveBetsViewModel(private var userId: Int) : ViewModel() {
                 ActiveBetsUiState.Error
             } catch (e: HttpException) {
                 ActiveBetsUiState.Error
+            } catch (e: Exception) {
+                ActiveBetsUiState.Success(
+                    listOf()
+                )
             }
         }
     }

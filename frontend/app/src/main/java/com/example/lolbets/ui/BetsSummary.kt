@@ -50,10 +50,19 @@ fun BetsSummaryScreen(userBets:  List<ActiveBets>, contentPadding: PaddingValues
         modifier = modifier.fillMaxWidth()
     ) {
         //Divide the user bets into, active and recent
-        val index = userBets.indexOfFirst { it.completed > 0 }
+        val activeBets: List<ActiveBets>
+        val recentBets: List<ActiveBets>
 
-        val activeBets = userBets.take(index)
-        val recentBets = userBets.drop(index)
+        if(userBets.isEmpty()) {
+            activeBets = userBets
+            recentBets = userBets
+        } else {
+            val index = userBets.indexOfFirst { it.completed > 0 }
+
+            activeBets = userBets.take(index)
+            recentBets = userBets.drop(index)
+        }
+
 
         Text(
             text = "Active Bets",

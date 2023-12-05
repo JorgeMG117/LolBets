@@ -117,6 +117,10 @@ class GamesViewModel : ViewModel() {
                 GameUiState.Error
             } catch (e: HttpException) {
                 GameUiState.Error
+            } catch (e: Exception) {
+                GameUiState.Success(
+                    listOf()
+                )
             }
         }
     }
