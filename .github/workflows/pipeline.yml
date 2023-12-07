@@ -114,3 +114,26 @@ jobs:
       - name: Push Docker image
         run: docker push jorgemg117/lolbets:dev
 
+
+  deploy-to-cloud-run:
+    name: Deploy to Google Cloud Run
+    runs-on: ubuntu-latest
+    needs: build-and-publish
+
+    steps:
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Deploy to Google Cloud Run
+        run: |
+          gcloud run deploy lolbets \
+          --image=jorgemg117/lolbets:dev \
+          --platform=managed \
+          --region=us-central1 \
+          --allow-unauthenticated
+
+
