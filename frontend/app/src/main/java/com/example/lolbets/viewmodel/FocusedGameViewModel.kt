@@ -84,6 +84,14 @@ class FocusedGameViewModel : ViewModel() {
         }
     }
 
+    fun restartBet() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                betSucceed = false
+            )
+        }
+    }
+
     //Websockets
     private val _socketStatus = MutableLiveData(false)
     val socketStatus: LiveData<Boolean> = _socketStatus
@@ -136,6 +144,9 @@ class FocusedGameViewModel : ViewModel() {
 
     // Function to disconnect the WebSocket
     fun disconnectWebSocket() {
+        if(uiState.value.betSucceed) {
+            restartBet()
+        }
         webSocket?.close(1000, "User disconnected")
     }
 

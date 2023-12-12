@@ -1,12 +1,9 @@
 package com.example.lolbets
 
 import android.app.Activity.RESULT_OK
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -14,7 +11,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,10 +18,8 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,12 +27,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -49,23 +40,16 @@ import com.example.lolbets.ui.BetScreen
 import com.example.lolbets.viewmodel.FocusedGameViewModel
 import com.example.lolbets.ui.HighlightScreen
 import com.example.lolbets.ui.ProfileScreen
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lolbets.viewmodel.GamesViewModel
 import com.example.lolbets.ui.HomeScreen
 import com.example.lolbets.viewmodel.UserViewModel
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.lolbets.model.Bet
 import com.example.lolbets.ui.BetsSummary
 import com.example.lolbets.ui.sign_in.SignInViewModel
 import com.example.lolbets.viewmodel.ActiveBetsViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.navigation
 import com.example.lolbets.ui.sign_in.GoogleAuthUiClient
 import com.example.lolbets.ui.sign_in.SignInScreen
 import kotlinx.coroutines.launch
@@ -74,10 +58,15 @@ import kotlinx.coroutines.launch
 enum class LolBetsScreen(){
     App,
     Highlight,
+    Summary,
     Games,
     Profile,
     Bet,
     Login,
+}
+
+fun onScreenChange(focusedGameViewModel: FocusedGameViewModel) {
+    focusedGameViewModel.disconnectWebSocket()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -147,6 +136,10 @@ fun LolBetsApp(
     viewModel: FocusedGameViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
+    //Maybe: Screen view model to manage the botton and up bars?
+    // Use LaunchedEffect to observe the NavController
+    var shouldShowAppBars by remember { mutableStateOf(false) }
+
     //UserViewModel
     val viewModelUser : UserViewModel = viewModel()
     val userState by viewModelUser.userState.collectAsState()
@@ -159,27 +152,33 @@ fun LolBetsApp(
         ),
         BottomNavItem(
             name = "Create",
-            onButtonClicked = { navController.navigate(LolBetsScreen.Highlight.name) },
+            onButtonClicked = { navController.navigate(LolBetsScreen.Summary.name) },
             icon = Icons.Rounded.AddCircle,
         ),
         BottomNavItem(
             name = "Settings",
-            onButtonClicked = { navController.navigate(LolBetsScreen.Profile.name) },
+            onButtonClicked = { navController.navigate(LolBetsScreen.Highlight.name) },
             icon = Icons.Rounded.Settings,
         ),
     )
 
     Scaffold(
         topBar = {
-            LolBetsTopAppBar(
-                userState,
-                onProfileClicked = { navController.navigate(LolBetsScreen.Profile.name) },
-                onArrowBackClicked = { navController.navigateUp() },
-                modifier
-            )
+            if (shouldShowAppBars) {
+                LolBetsTopAppBar(
+                    userState,
+                    onProfileClicked = { navController.navigate(LolBetsScreen.Profile.name) },
+                    onArrowBackClicked = {
+                        onScreenChange(viewModel)
+                        navController.navigateUp()
+                    },
+                    modifier
+                )
+            }
         },
         bottomBar = {
-            /*val navBackStackEntry by navController.currentBackStackEntryAsState()
+            if (shouldShowAppBars) {
+                /*val navBackStackEntry by navController.currentBackStackEntryAsState()
             val sceen = navBackStackEntry!!.id
             println("fdasjfkl")
             println(sceen)
@@ -187,7 +186,8 @@ fun LolBetsApp(
             if (sceen != LolBetsScreen.Login.name) {
                 LolBetsBottomAppBar(items, modifier)
             }*/
-            LolBetsBottomAppBar(items, modifier)
+                LolBetsBottomAppBar(items, modifier)
+            }
         }
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
@@ -217,6 +217,9 @@ fun LolBetsApp(
                         ) {
                             viewModelActiveBets.updateActiveBets(it)
                         }
+
+                        shouldShowAppBars = true
+
                         navController.navigate(LolBetsScreen.Games.name)
                     }
                 }
@@ -251,6 +254,9 @@ fun LolBetsApp(
                         ) {
                             viewModelActiveBets.updateActiveBets(it)
                         }
+
+                        shouldShowAppBars = true
+
                         //Update active bets with the new user
                         viewModelActiveBets.updateActiveBets(userState.id)
 
@@ -299,6 +305,20 @@ fun LolBetsApp(
                 /*HighlightScreen(
                     contentPadding = innerPadding,
                 )*/
+                HighlightScreen(
+                    gameUiState = viewModelGames.gameUiState,
+                    contentPadding = innerPadding,
+                    onGameClicked = {
+                        viewModel.setGame(it)
+                        viewModel.connectWebSocket(
+                            it.id,
+                            onBetSuccess = {
+                                viewModelActiveBets.addActiveBet(it)
+                            })
+                        navController.navigate(LolBetsScreen.Bet.name) },
+                )
+            }
+            composable(route = LolBetsScreen.Summary.name) {
                 BetsSummary(
                     activeBetsUiState = viewModelActiveBets.activeBetsUiState,
                     contentPadding = innerPadding,
@@ -321,6 +341,8 @@ fun LolBetsApp(
                                 Toast.LENGTH_LONG
                             ).show()*/
 
+                            shouldShowAppBars = false
+
                             navController.navigate(LolBetsScreen.Login.name)
                         }
                     }
@@ -329,6 +351,7 @@ fun LolBetsApp(
             composable(route = LolBetsScreen.Bet.name) {
                 BetScreen(
                     onBetPlaced = { value ->
+                        //TODO Check if bet is valid
                         viewModelUser.placeBet(value.value)
                         viewModel.sendMessage(value)//Send bet to server
                         //TODO Add it to active bets, no need to do the request again
