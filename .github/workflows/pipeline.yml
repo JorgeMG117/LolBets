@@ -128,9 +128,9 @@ jobs:
 
     - uses: google-github-actions/setup-gcloud@main
       with:
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        service_account_key: ${{ secrets.GCP_CLOUD_KEY }}
         project_id: ${{ env.PROJECT_ID }}
-        export_default_credentials: true
+        #export_default_credentials: true
 
     - name: Build Docker Image
       run: docker build -t $IMAGE_NAME:latest backend/.
