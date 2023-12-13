@@ -137,7 +137,6 @@ jobs:
 
     - name: Configure Docker Client
       run: |-
-        echo ${{ secrets.GCP_CLOUD_KEY }}
         gcloud auth configure-docker --quiet
         echo ${{ secrets.GCP_CLOUD_KEY }} > key.json
         gcloud auth activate-service-account --key-file=key.json
