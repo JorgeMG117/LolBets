@@ -69,6 +69,9 @@ fun BetScreen(betState: BetUiState, onBetPlaced: (Bet) -> Unit, modifier: Modifi
         var betValue by remember { mutableStateOf("") }
         //var bet by remember { mutableStateOf(Bet(0, false, 0, 0)) }
 
+        //TODO Quiza añadir que se elimine el mensaje de bet succesful
+        //El mensaje de bet successful deveria desaparecer cuando cambias de pantalla(se cierra socket) o
+        // se escribe un nuevo valor, selecciona nuevo equipo
         OutlinedTextField(
             value = betValue,
             onValueChange = {
