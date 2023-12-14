@@ -203,6 +203,10 @@ func UpdateApiToDatabase(db *sql.DB, apiData ApiSchedule) {
 	*/
 	fmt.Println("Adding new games...")
 	for _, game := range newGames {
+        // Set initial bets for new games
+        game.Bets1 = 100
+        game.Bets2 = 100
+
 		fmt.Println(game)
 		err := models.AddGame(db, &game)
 		if err != nil {
