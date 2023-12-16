@@ -44,6 +44,8 @@ import com.example.lolbets.viewmodel.GameUiState
 
 @Composable
 fun BetsSummaryScreen(userBets:  List<ActiveBets>, contentPadding: PaddingValues, modifier: Modifier = Modifier) {
+    println("En BetsSummaryScreen")
+    println(userBets)
     Column (
         //verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -59,8 +61,14 @@ fun BetsSummaryScreen(userBets:  List<ActiveBets>, contentPadding: PaddingValues
         } else {
             val index = userBets.indexOfFirst { it.completed > 0 }
 
-            activeBets = userBets.take(index)
-            recentBets = userBets.drop(index)
+            if(index == -1) {//All the elements are just active bets
+                activeBets = userBets
+                recentBets = emptyList()
+            }
+            else {
+                activeBets = userBets.take(index)
+                recentBets = userBets.drop(index)
+            }
         }
 
 

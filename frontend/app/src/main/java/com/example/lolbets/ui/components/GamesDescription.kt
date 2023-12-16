@@ -40,6 +40,14 @@ import com.example.lolbets.model.Team
 import com.example.lolbets.ui.BetScreen
 import coil.compose.AsyncImage
 
+fun getOddsTeam1(game : Game) : Double {
+    return 1.0 + game.betsTeam2.toDouble() / game.betsTeam1.toDouble()
+}
+
+fun getOddsTeam2(game : Game) : Double {
+    return 1.0 + game.betsTeam1.toDouble() / game.betsTeam2.toDouble()
+}
+
 @Composable
 fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Unit, bet2ButtonColor: Long, onBet2Clicked: () -> Unit, modifier: Modifier = Modifier){
     Row(
@@ -101,7 +109,7 @@ fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Un
                 ),
                 onClick = { onBet1Clicked() }
             ) {
-                val value: Double = 1.0 + game.betsTeam2.toDouble() / game.betsTeam1.toDouble()
+                val value: Double = getOddsTeam1(game)
                 val stringValue = String.format("%.1f", value)
                 Text(
                     text = stringValue,
@@ -156,7 +164,7 @@ fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Un
                 ),
                 onClick = { onBet2Clicked() }
             ) {
-                val value: Double = 1.0 + game.betsTeam1.toDouble() / game.betsTeam2.toDouble()
+                val value: Double = getOddsTeam2(game)
                 val stringValue = String.format("%.1f", value)
                 Text(
                     text = stringValue,

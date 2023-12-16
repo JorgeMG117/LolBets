@@ -18,9 +18,10 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-private const val BASE_URL = "http://10.0.2.2:8080"
-    //"https://android-kotlin-fun-mars-server.appspot.com"
-
+private const val BASE_URL = "https://lolbets-image-y5oknlrakq-no.a.run.app:443"
+//https://lolbets-image-y5oknlrakq-no.a.run.app
+//http://10.0.2.2:8080
+//https://lolesports.com/schedule?leagues=lec,emea_masters,superliga,cblol-brazil,lck,lcl,lco,lcs,ljl-japan,lla,lpl,pcs,turkiye-sampiyonluk-ligi,vcs,wqs,cblol_academy,esports_balkan_league,elite_series,greek_legends,hitpoint_masters,lck_challengers_league,north_american_challenger_league,lcs_challengers_qualifiers,lfl,liga_portuguesa,nlc,pg_nationals,primeleague,ultraliga,arabian_league,tft_esports
 /**
  * Use the Retrofit builder to build a retrofit object using a kotlinx.serialization converter
  */

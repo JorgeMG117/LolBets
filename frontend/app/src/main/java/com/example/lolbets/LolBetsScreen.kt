@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -146,19 +147,19 @@ fun LolBetsApp(
 
     val items = listOf(
         BottomNavItem(
-            name = "Home",
+            name = "Games",
             onButtonClicked = { navController.navigate(LolBetsScreen.Games.name) },
             icon = Icons.Rounded.Home,
         ),
         BottomNavItem(
-            name = "Create",
+            name = "Bets",
             onButtonClicked = { navController.navigate(LolBetsScreen.Summary.name) },
             icon = Icons.Rounded.AddCircle,
         ),
         BottomNavItem(
-            name = "Settings",
+            name = "Highlights",
             onButtonClicked = { navController.navigate(LolBetsScreen.Highlight.name) },
-            icon = Icons.Rounded.Settings,
+            icon = Icons.Rounded.Star,
         ),
     )
 
@@ -195,7 +196,7 @@ fun LolBetsApp(
 
         //Active Bets
         val viewModelActiveBets: ActiveBetsViewModel = viewModel {
-            ActiveBetsViewModel(1)
+            ActiveBetsViewModel(2)
         }
 
         NavHost(
@@ -205,6 +206,7 @@ fun LolBetsApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = LolBetsScreen.Login.name) {
+                //navController.navigate(LolBetsScreen.Games.name)
                 val viewModelLogin = viewModel<SignInViewModel>()
                 val loginState by viewModelLogin.state.collectAsStateWithLifecycle()
 
@@ -216,6 +218,7 @@ fun LolBetsApp(
                             googleAuthUiClient.getSignedInUser()
                         ) {
                             viewModelActiveBets.updateActiveBets(it)
+                            viewModel.setUserId(it)
                         }
 
                         shouldShowAppBars = true
@@ -253,6 +256,7 @@ fun LolBetsApp(
                             googleAuthUiClient.getSignedInUser()
                         ) {
                             viewModelActiveBets.updateActiveBets(it)
+                            viewModel.setUserId(it)
                         }
 
                         shouldShowAppBars = true

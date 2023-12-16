@@ -94,7 +94,7 @@ class ActiveBetsViewModel(private var userId: Int) : ViewModel() {
         updatedList.add(0, bet)
         //println(updatedList.size)
         activeBetsUiState = ActiveBetsUiState.Success(updatedList)
-
+        
 
     }
 }

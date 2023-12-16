@@ -20,6 +20,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.example.lolbets.data.BetUiState
 import com.example.lolbets.model.ActiveBets
 import com.example.lolbets.model.Bet
+import com.example.lolbets.ui.components.getOddsTeam1
+import com.example.lolbets.ui.components.getOddsTeam2
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,13 +85,41 @@ fun BetScreen(betState: BetUiState, onBetPlaced: (Bet) -> Unit, modifier: Modifi
 
         Button(
             onClick = {
-                println(betValue)
-                //TODO Check betValue is not empty, and all the other checks
+                var placeBet = true
+                var betValueInt = 0
+                try {
+                    betValueInt = betValue.toInt()
+                    if(betValueInt <= 0) {
+                        placeBet = false
+                    }
+                } catch (e: NumberFormatException) {
+                    placeBet = false
+                }
                 var team = true
                 if (button1BackgroundColor == 0xff78bbff) {
                     team = false
                 }
-                onBetPlaced(Bet(betValue.toInt(), team, 0, 10, 1.5))//TODO
+                else if (button2BackgroundColor == 0xff78bbff) {
+                    team = true
+                }
+                else {//No team selected
+                    placeBet = false
+                }
+
+                if(placeBet) {
+                    val odds : Double
+                    if(team) {
+                        odds = getOddsTeam2(betState.game)
+                    }
+                    else {
+                        odds = getOddsTeam1(betState.game)
+                    }
+                    //println(betState.userId)
+                    onBetPlaced(Bet(betValueInt, team, betState.userId, betState.game.id, odds))
+                }
+                else {
+                    //TODO Show error text
+                }
                 betValue = "" //Clean input field
             },
             //enabled = betState.isConnected

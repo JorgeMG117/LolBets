@@ -51,6 +51,14 @@ class FocusedGameViewModel : ViewModel() {
         }
     }
 
+    fun setUserId(userId: Int) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                userId = userId
+            )
+        }
+    }
+
     fun updateGameBets(message: BetResponse) {
         if(uiState.value.game.betsTeam1 != message.bets1 || uiState.value.game.betsTeam2 != message.bets2) {
             //uiState.value.game.betsTeam1 = message.bets1
@@ -115,7 +123,7 @@ class FocusedGameViewModel : ViewModel() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("ws://10.0.2.2:8080/bets?game=$gameId")
+            .url("wss://lolbets-image-y5oknlrakq-no.a.run.app:443/bets?game=$gameId")
             .build()
 
         val listener = MyWebSocketListener(this, onBetSuccess)

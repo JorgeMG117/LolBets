@@ -17,5 +17,6 @@ data class BetUiState(
     //val isConnected: Boolean = false
     //val que marca si la bet a sido efectuada correctamente
     val betSucceed: Boolean = false,
-    val lastBet: Bet = Bet(0,false,0,0,0.0)
+    val lastBet: Bet = Bet(0,false,0,0,0.0),
+    val userId: Int = 0,
 )
