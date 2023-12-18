@@ -40,6 +40,12 @@ class ActiveBetsViewModel(private var userId: Int) : ViewModel() {
     }
 
     private fun getActiveBets() {
+        if(userId == 0) { //It has been called when initializing te app, I dont want to do get petition
+            activeBetsUiState = ActiveBetsUiState.Success(
+                listOf()
+            )
+            return
+        }
         viewModelScope.launch {
             activeBetsUiState = ActiveBetsUiState.Loading
             activeBetsUiState = try {
@@ -94,7 +100,7 @@ class ActiveBetsViewModel(private var userId: Int) : ViewModel() {
         updatedList.add(0, bet)
         //println(updatedList.size)
         activeBetsUiState = ActiveBetsUiState.Success(updatedList)
-        
+
 
     }
 }

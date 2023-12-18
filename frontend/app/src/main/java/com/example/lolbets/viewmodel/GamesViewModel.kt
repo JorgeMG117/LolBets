@@ -47,6 +47,25 @@ class GamesViewModel : ViewModel() {
         }
     }
 
+    fun updateGame(game: Game) {
+        // Loop games searching where game.Id is the same
+        if (gameUiState is GameUiState.Success) {
+            val currentState = gameUiState as GameUiState.Success
+            val games = currentState.games.toMutableList()
+
+            // Find the index of the game to update
+            val gameIndex = games.indexOfFirst { it.id == game.id }
+
+            // If the game is found, update it
+            if (gameIndex != -1) {
+                games[gameIndex] = game
+
+                // Update the UI state with the new list of games
+                gameUiState = GameUiState.Success(games)
+            }
+        }
+    }
+
     fun getGames() {
         viewModelScope.launch {
             gameUiState = GameUiState.Loading

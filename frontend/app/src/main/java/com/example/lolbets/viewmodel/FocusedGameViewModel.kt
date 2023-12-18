@@ -38,7 +38,7 @@ import okhttp3.WebSocketListener
 import okio.ByteString
 import java.util.concurrent.TimeUnit
 
-class FocusedGameViewModel : ViewModel() {
+class FocusedGameViewModel(private val onFocusedOut: (Game) -> Unit) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BetUiState())
     val uiState: StateFlow<BetUiState> = _uiState.asStateFlow()
@@ -152,6 +152,10 @@ class FocusedGameViewModel : ViewModel() {
 
     // Function to disconnect the WebSocket
     fun disconnectWebSocket() {
+        //onDisconnectBet: (ActiveBets) -> Unit
+        // Update game odds from Games list
+        onFocusedOut(uiState.value.game)
+
         if(uiState.value.betSucceed) {
             restartBet()
         }

@@ -39,13 +39,18 @@ import com.example.lolbets.model.League
 import com.example.lolbets.model.Team
 import com.example.lolbets.ui.BetScreen
 import coil.compose.AsyncImage
+import kotlin.math.round
 
 fun getOddsTeam1(game : Game) : Double {
-    return 1.0 + game.betsTeam2.toDouble() / game.betsTeam1.toDouble()
+    val scale = 100.0
+    val values = 1.0 + game.betsTeam2.toDouble() / game.betsTeam1.toDouble()
+    return round(values * scale) / scale
 }
 
 fun getOddsTeam2(game : Game) : Double {
-    return 1.0 + game.betsTeam1.toDouble() / game.betsTeam2.toDouble()
+    val scale = 100.0
+    val values = 1.0 + game.betsTeam1.toDouble() / game.betsTeam2.toDouble()
+    return round(values * scale) / scale
 }
 
 @Composable
@@ -110,7 +115,7 @@ fun MatchDescription(game : Game, bet1ButtonColor: Long, onBet1Clicked: () -> Un
                 onClick = { onBet1Clicked() }
             ) {
                 val value: Double = getOddsTeam1(game)
-                val stringValue = String.format("%.1f", value)
+                val stringValue = String.format("%.2f", value)
                 Text(
                     text = stringValue,
                     fontWeight = FontWeight.Bold,

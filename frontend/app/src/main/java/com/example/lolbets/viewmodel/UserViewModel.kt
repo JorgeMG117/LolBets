@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
 
-    private val _userState = MutableStateFlow(User(0, "R.drawable.koi", 1000, "Jiasf", "https://yt3.ggpht.com/ytc/APkrFKZKkpVjHnMHEb-DJNkgiz8lbI4Xmhq9-xnqDAXK_bg=s600-c-k-c0x00ffffff-no-rj-rp-mo"))
+    private val _userState = MutableStateFlow(User(2, "R.drawable.koi", 1000, "Jiasf", "https://yt3.ggpht.com/ytc/APkrFKZKkpVjHnMHEb-DJNkgiz8lbI4Xmhq9-xnqDAXK_bg=s600-c-k-c0x00ffffff-no-rj-rp-mo"))
     val userState: StateFlow<User> = _userState.asStateFlow()
 
     fun placeBet(value: Int) {

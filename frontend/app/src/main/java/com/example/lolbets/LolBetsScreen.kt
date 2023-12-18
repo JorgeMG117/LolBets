@@ -105,7 +105,7 @@ internal fun LolBetsTopAppBar(user : User, onProfileClicked: () -> Unit, onArrow
 
 
 @Composable
-internal fun LolBetsBottomAppBar(items: List<BottomNavItem>, modifier: Modifier = Modifier) {
+internal fun LolBetsBottomAppBar(items: List<BottomNavItem>, onNavigationClicked: () -> Unit, modifier: Modifier = Modifier) {
     // NavController is passed via parameter
     //val backStackEntry = navController.currentBackStackEntryAsState()
     var selectedItem by remember { mutableStateOf(0) }
@@ -121,6 +121,7 @@ internal fun LolBetsBottomAppBar(items: List<BottomNavItem>, modifier: Modifier 
                 //onClick = { selectedItem = index },
                 onClick = {
                     selectedItem = index
+                    onNavigationClicked()
                     item.onButtonClicked()
                 },
 
@@ -134,12 +135,27 @@ internal fun LolBetsBottomAppBar(items: List<BottomNavItem>, modifier: Modifier 
 fun LolBetsApp(
     googleAuthUiClient: GoogleAuthUiClient,
     modifier: Modifier = Modifier,
-    viewModel: FocusedGameViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
     //Maybe: Screen view model to manage the botton and up bars?
     // Use LaunchedEffect to observe the NavController
     var shouldShowAppBars by remember { mutableStateOf(false) }
+
+    val viewModelGames: GamesViewModel = viewModel()
+
+    //Active Bets
+    val viewModelActiveBets: ActiveBetsViewModel = viewModel {
+        ActiveBetsViewModel(0)
+    }
+
+    // Focused game view model
+    val viewModel: FocusedGameViewModel = viewModel {
+        FocusedGameViewModel(
+            {
+                viewModelGames.updateGame(it)
+            }
+        )
+    }
 
     //UserViewModel
     val viewModelUser : UserViewModel = viewModel()
@@ -187,17 +203,11 @@ fun LolBetsApp(
             if (sceen != LolBetsScreen.Login.name) {
                 LolBetsBottomAppBar(items, modifier)
             }*/
-                LolBetsBottomAppBar(items, modifier)
+                LolBetsBottomAppBar(items, {onScreenChange(viewModel)}, modifier)
             }
         }
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
-        val viewModelGames: GamesViewModel = viewModel()
-
-        //Active Bets
-        val viewModelActiveBets: ActiveBetsViewModel = viewModel {
-            ActiveBetsViewModel(2)
-        }
 
         NavHost(
             navController = navController,

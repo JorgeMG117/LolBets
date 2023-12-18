@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -44,143 +46,106 @@ import com.example.lolbets.viewmodel.GameUiState
 
 @Composable
 fun BetsSummaryScreen(userBets:  List<ActiveBets>, contentPadding: PaddingValues, modifier: Modifier = Modifier) {
-    println("En BetsSummaryScreen")
-    println(userBets)
-    Column (
-        //verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxWidth()
-    ) {
-        //Divide the user bets into, active and recent
-        val activeBets: List<ActiveBets>
-        val recentBets: List<ActiveBets>
+    //Divide the user bets into, active and recent
+    val activeBets: List<ActiveBets>
+    val recentBets: List<ActiveBets>
 
-        if(userBets.isEmpty()) {
+    if(userBets.isEmpty()) {
+        activeBets = userBets
+        recentBets = userBets
+    } else {
+        val index = userBets.indexOfFirst { it.completed > 0 }
+
+        if(index == -1) {//All the elements are just active bets
             activeBets = userBets
-            recentBets = userBets
-        } else {
-            val index = userBets.indexOfFirst { it.completed > 0 }
-
-            if(index == -1) {//All the elements are just active bets
-                activeBets = userBets
-                recentBets = emptyList()
-            }
-            else {
-                activeBets = userBets.take(index)
-                recentBets = userBets.drop(index)
-            }
+            recentBets = emptyList()
         }
+        else {
+            activeBets = userBets.take(index)
+            recentBets = userBets.drop(index)
+        }
+    }
+    val combinedList = mutableListOf<Any>()
+    combinedList.add("Active Bets")
+    combinedList.addAll(activeBets)
+    combinedList.add("Recent Results")
+    combinedList.addAll(recentBets)
 
-
-        Text(
-            text = "Active Bets",
-            fontWeight = FontWeight.Bold,
-            fontSize = 30.sp
-        )
-        LazyColumn {
-            items(activeBets) { bet ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        items(combinedList) { item ->
+            when (item) {
+                is String -> {
+                    // This is a header
+                    Text(
+                        text = item,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 30.sp
                     )
-                ) {
-                    Column(
+                }
+
+                is ActiveBets -> {
+                    // This is a bet item
+                    val bet = item
+                    var won = false
+                    if(bet.bet.team) {
+                        won = bet.completed == 2
+                    }
+                    else {
+                        won = bet.completed == 1
+                    }
+
+                    Card(
                         modifier = Modifier
-                            .padding(16.dp)
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 6.dp
+                        )
                     ) {
-                        Row(
+                        Column(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                                .padding(16.dp)
                         ) {
-                            Text(
-                                text = "${bet.team1} vs ${bet.team2}",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp
-                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "${bet.team1} vs ${bet.team2}",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 18.sp
+                                )
+                                if (bet.completed != 0) {
+                                    Text(
+                                        text = "Completed",
+                                        color = if (won) Color.Green else Color.Red,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 16.sp
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(text = bet.league, fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(text = "Bet Value: ${bet.bet.value}", fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(text = "Odds: ${bet.bet.odds}", fontSize = 16.sp)
                         }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = bet.league, fontSize = 16.sp)
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(text = "Bet Value: ${bet.bet.value}", fontSize = 16.sp)
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(text = "Odds: ${bet.bet.odds}", fontSize = 16.sp)
                     }
                 }
             }
         }
-        //Tal y como lo tengo, las apuestas del usuario, solo se guardan en la BD cuando
-        //se ha acabado el partido
-        //Tengo las apuestas en una lista mientras tanto
-        //Habra que hacer un get que me devuelva las ag.activeBets de un usuario
-
-        //Que quiero mostrar?
-        //Valor, Equipo,
-        Text(
-            text = "Recent Results",
-            fontWeight = FontWeight.Bold,
-            fontSize = 30.sp
-        )
-        LazyColumn {
-            items(recentBets) { bet ->
-                var won = false
-                if(bet.bet.team) {
-                    won = bet.completed == 2
-                }
-                else {
-                    won = bet.completed == 1
-                }
-
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
-                    )
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(16.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = "${bet.team1} vs ${bet.team2}",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp
-                            )
-                            Text(
-                                text = "Completed",
-                                color = if (won) Color.Green else Color.Red,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = bet.league, fontSize = 16.sp)
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(text = "Bet Value: ${bet.bet.value}", fontSize = 16.sp)
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(text = "Odds: ${bet.bet.odds}", fontSize = 16.sp)
-                    }
-                }
-            }
-        }
+    }
         //Esto tiene que salir de la BD, ya que es en la BD donde se guarda quien ha ganado
         //Una vez que acabe el game, se meteran las activeBets en la BD
         //Aun asi aun no se sabe el resultado del partido, ya que guardamos el game en la BD
         //pero el resultado aun no se sabe, hay que esperar a que se ejecute una funcion en el
         //backend que pregunte a la api y actualize la BD
-    }
 }
 
 @Composable
