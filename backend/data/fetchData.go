@@ -9,38 +9,37 @@ import (
 	//"os"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
-    "os"
 
 	//"github.com/JorgeMG117/LolBets/backend/configs"
 	"github.com/JorgeMG117/LolBets/backend/models"
 	//"github.com/joho/godotenv"
 )
 
-
 // Reads an api_schedule.json file and returns the games in it
 func ReadApiSchedule(filename string) ApiSchedule {
-    // Open our jsonFile
-    jsonFile, err := os.Open(filename)
-    // if we os.Open returns an error then handle it
-    if err != nil {
-        fmt.Println(err)
-    }
-    fmt.Println("Successfully Opened api_schedule.json")
-    // defer the closing of our jsonFile so that we can parse it later on
-    defer jsonFile.Close()
+	// Open our jsonFile
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("Successfully Opened api_schedule.json")
+	// defer the closing of our jsonFile so that we can parse it later on
+	defer jsonFile.Close()
 
-    // read our opened jsonFile as a byte array.
-    byteValue, _ := ioutil.ReadAll(jsonFile)
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-    var apiSchedule ApiSchedule
-    err = json.Unmarshal(byteValue, &apiSchedule)
-    if err != nil {
-        fmt.Println(err)
-    }
+	var apiSchedule ApiSchedule
+	err = json.Unmarshal(byteValue, &apiSchedule)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    return apiSchedule
+	return apiSchedule
 }
 
 func getApi(url string) []byte {
@@ -95,7 +94,10 @@ func getApi(url string) []byte {
 }
 
 func GetScheduleApi() ApiSchedule {
-	result := getApi("https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=en-US&leagueId=98767975604431411%2C110988878756156222")
+	/*
+		98767991302996019%2C100695891328981122%2C105266074488398661%2C98767991332355509%2C98767991310872058%2C98767991355908944%2C105709090213554609%2C98767991299243165%2C98767991349978712%2C101382741235120470%2C98767991314006698%2C104366947889790212%2C98767991343597634%2C107213827295848783%2C110988878756156222%2C98767991325878492%2C98767975604431411%2C105549980953490846%2C105266111679554379%2C107407335299756365%2C105266108767593290%2C105266106309666619%2C98767991335774713%2C109511549831443335%2C109518549825754242%2C105266103462388553%2C105266101075764040%2C105266098308571975%2C105266094998946936%2C105266091639104326%2C105266088231437431%2C109545772895506419
+	*/
+	result := getApi("https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=en-US&leagueId=98767991302996019%2C100695891328981122%2C105266074488398661%2C98767991332355509%2C98767991310872058%2C98767991355908944%2C105709090213554609%2C98767991299243165%2C98767991349978712%2C101382741235120470%2C98767991314006698%2C104366947889790212%2C98767991343597634%2C107213827295848783%2C110988878756156222%2C98767991325878492%2C98767975604431411%2C105549980953490846%2C105266111679554379%2C107407335299756365%2C105266108767593290%2C105266106309666619%2C98767991335774713%2C109511549831443335%2C109518549825754242%2C105266103462388553%2C105266101075764040%2C105266098308571975%2C105266094998946936%2C105266091639104326%2C105266088231437431%2C109545772895506419")
 
 	var values ApiSchedule
 	fmt.Println("Error: ", json.Unmarshal(result, &values))
@@ -109,15 +111,15 @@ func CleanApiData(apiData ApiSchedule, timeFromWhich time.Time) (map[string]mode
 
 	for _, event := range apiData.Data.Schedule.Events {
 		// Check if the game is before the timeFromWhich, that means we already have it in the database with all the info
-        // If timeFromWhich contains time of first uncompleted game we have to use the equal to pass that game
+		// If timeFromWhich contains time of first uncompleted game we have to use the equal to pass that game
 		if event.StartTime.Before(timeFromWhich) {
 			continue
 		}
 
 		// Check if there is 2 teams
 		teams := event.Match.Teams
-        //fmt.Println(teams)
-        //TODO: If the is not 2 teams, the server dies
+		//fmt.Println(teams)
+		//TODO: If the is not 2 teams, the server dies
 		if len(teams) != 2 {
 			fmt.Println("Error: ", "There is not 2 teams in the game")
 		}
