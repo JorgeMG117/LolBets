@@ -17,6 +17,7 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
+// Check if bet is valid
 func isValid(msg []byte) (models.Bet, bool) {
 	var bet models.Bet
 	err := json.Unmarshal(msg, &bet)
@@ -76,7 +77,7 @@ func (s *Server) updateGameInfo(conn *websocket.Conn, idGame int) {
     }
 }
 
-func (s *Server) userBetController(conn *websocket.Conn, idGame int) {
+func (s *Server) userBetController(conn *websocket.Conn, idGame int, userId int) {
 	defer conn.Close()
 	for {
 		mt, message, err := conn.ReadMessage()
@@ -96,8 +97,40 @@ func (s *Server) userBetController(conn *websocket.Conn, idGame int) {
 
             //fmt.Println("Bet is correct")
 
+            userCoins, err := models.GetCoinsById(s.Db, userId)
+            if err != nil {
+                log.Println("{error:" + err.Error() + "}")
+                break
+            }
+
+            if userCoins < bet.Value {
+                err = conn.WriteMessage(mt, []byte(`{"error":"not enough coins"}`))
+                if err != nil {
+                    log.Println("{error:" + err.Error() + "}")
+                    break
+                }
+                continue
+            }
+
+            newCoins := userCoins - bet.Value
+            models.UpdateCoinsById(s.Db, userId, newCoins)
+
             s.ActiveGames.PlaceBet(bet, idGame)
 			log.Println(`{"error":"success"}`)
+
+            // Take coins from user
+            // Dos opciones:
+            // Cuando devuelva el usuario, restarle al numero de coins el valor de las active bets
+                // Implicario:
+                    // Cuando apuesto, para ver si es valid tambien tendria que recorrer sus active bets
+                    // cuando me pidan el usuario recorrer active bets tambien
+
+            // Actualizar el dinero directamente en la bd y cuando me vuelvan ha pedir el usuario o otra apuesta ya tienes el valor actualizado
+                    
+
+
+            // TODO Ver si cuando se completa un game, se añaden las apuestas que se han hecho y se restan las coins adecuadamente
+
 
 			err = conn.WriteMessage(mt, []byte(`{"error":"success"}`))
 			if err != nil {
@@ -136,6 +169,24 @@ func (s *Server) Bets(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var userId string
+
+	keys, exists = r.URL.Query()["userId"]
+
+	if !exists {
+		w.Write([]byte("{\"error\": \"param userId not found\"}"))
+		return
+	}
+	userId = keys[0]
+
+    userIdInt, err := strconv.Atoi(userId)
+
+    if err != nil {
+        w.Write([]byte("{\"error\":\"" + err.Error() + "\"}"))
+        return
+    }
+
+
 	conn, err := upgrader.Upgrade(w, r, nil)
 
 	if err != nil {
@@ -143,8 +194,8 @@ func (s *Server) Bets(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("User conected to bet: " + gameId)
+    fmt.Println("User " + userId + " connected to game " + gameId)
 
-	go s.userBetController(conn, gameIdInt)
+	go s.userBetController(conn, gameIdInt, userIdInt)
     go s.updateGameInfo(conn, gameIdInt)
 }

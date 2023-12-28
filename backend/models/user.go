@@ -28,3 +28,18 @@ func GetUserByGoogleId(db *sql.DB, googleId string) (*User, error) {
     }
     return &user, nil
 }
+
+func GetCoinsById(db *sql.DB, id int) (int, error) {
+    var coins int
+    err := db.QueryRow("SELECT Coins FROM User WHERE Id = ?", id).Scan(&coins)
+    if err != nil {
+        return 0, err
+    }
+    return coins, nil
+}
+
+func UpdateCoinsById(db *sql.DB, id int, coins int) error {
+    _, err := db.Exec("UPDATE User SET Coins = ? WHERE Id = ?", coins, id)
+    return err
+}
+

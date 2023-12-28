@@ -116,28 +116,28 @@ func UpdateApiToDatabase(db *sql.DB, apiData ApiSchedule) {
 		//fmt.Println("There si no already completed last game:", err)
         fmt.Fprintf(os.Stderr, "GetLastCompletedGameTime: %s\n", err)
 	}
-    fmt.Println("Games from DB before last completed game:", lastGameTime)
+    // fmt.Println("Games from DB before last completed game:", lastGameTime)
 
 	// Pillar todos los resultados de la api
     //TODO: Problema: Al limpiar partidos el ultimo que ya esta completado es el de la hora entonces no se limpia y se intenta volver a añadir
 	gamesApi, teamsApi := CleanApiData(apiData, lastGameTime)
-    fmt.Println("Games from API:", gamesApi)
+    //fmt.Println("Games from API:", gamesApi)
 
 	// Pillar todos los partidos incompletos de la bd
 	unfinishedGames, err := models.GetUnfinishedGames(db)
 	if err != nil {
         fmt.Fprintf(os.Stderr, "GetUnfinishedGames: %s\n", err)
 	}
-    fmt.Println("Unfinished games:", unfinishedGames)
+    // fmt.Println("Unfinished games:", unfinishedGames)
 
     //TODO: maybe change it for an updateGames list that appends the ones that have to be updated
 	// See what games stored in the db are completed to update them
 	for i := range unfinishedGames {
         v := &unfinishedGames[i]
 		key := v.League + v.Time.String()
-        fmt.Println("Key:", key)
+        // fmt.Println("Key:", key)
 		apiGame := gamesApi[key]
-        fmt.Println("Api game:", apiGame)
+        // fmt.Println("Api game:", apiGame)
 		if apiGame.Completed == 1 { //Game has been played and team 1 won
             // Comprobar si estan en el mismo orden
             if v.Team1 == apiGame.Team1 {
@@ -158,15 +158,16 @@ func UpdateApiToDatabase(db *sql.DB, apiData ApiSchedule) {
 		delete(teamsApi, v.Team2)
 	}
 
-    fmt.Println("Unfinished games:", unfinishedGames)
-	// Modificar en la bd unfinishedGames
+    // fmt.Println("Unfinished games that are going to be updated: ", unfinishedGames)
+	// Modificar en la bd unfinishedGames, solo cambiaran aquellos que hayan sido completados
 	//go models.UpdateMultipleGames(db, unfinishedGames)
+    //TODO: I could do this in the earlier loop
     err = models.UpdateMultipleGames(db, unfinishedGames)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "UpdateMultipleGames: %s\n", err)
 	}
 
-    fmt.Println("Games from API after updating unfinished games:", gamesApi)
+    //fmt.Println("Games from API after updating unfinished games:", gamesApi)
 	// Now on apiGames we have only the games that are not in the db yet
 	var newGames []models.Game
 	for _, game := range gamesApi {

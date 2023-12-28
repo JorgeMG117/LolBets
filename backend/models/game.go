@@ -112,9 +112,29 @@ func UpdateMultipleGames(db *sql.DB, games []Game) error {
 
 func UpdateGame(db *sql.DB, game *Game) error {
     fmt.Println("Updating game: ", game)
-    fmt.Println("Completed: ", game.Completed)
-    fmt.Println("Id: ", game.Id)
     _, err := db.Exec("UPDATE Game SET Bets_t1 = ?, Bets_t2 = ?, Completed = ? WHERE Id = ?", game.Bets1, game.Bets2, game.Completed, game.Id)
+    if err != nil {
+        return err
+    }
+
+    // Update coins of users
+    query := `
+        UPDATE User u
+        JOIN (
+            SELECT b.UserId, SUM(b.Value * b.Odds) AS TotalWinnings
+            FROM Bet b
+            INNER JOIN Game g ON b.GameId = g.Id
+            WHERE b.GameId = ?
+            AND (
+                (b.Team = 0 AND g.Completed = 1) OR 
+                (b.Team = 1 AND g.Completed = 2)
+            )
+            GROUP BY b.UserId
+        ) AS WinningBets ON u.Id = WinningBets.UserId
+        SET u.Coins = u.Coins + WinningBets.TotalWinnings;
+        `
+    _, err = db.Exec(query, game.Id)
+
     return err
 }
 
