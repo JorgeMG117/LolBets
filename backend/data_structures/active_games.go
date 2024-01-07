@@ -128,6 +128,22 @@ func InitializeActiveGames(db *sql.DB) (*ActiveGames, error) {
     
     go ag.updateActiveGames(db)
 
+    go func() {
+        for {
+            time.Sleep(2 * time.Hour)
+
+            if ag.numGames < MAX_GAMES - 10 {
+                fmt.Println("Trying to fill games")
+                // Fetch db to see if there are more games
+                err := ag.addMoreActiveGames(db)
+                if err != nil {
+                    fmt.Println("Error addMoreActiveGames: ", err)
+                }
+            }
+        }
+    }()
+
+
     return ag, err
 }
 
@@ -144,16 +160,31 @@ func InitializeEmptyActiveGames() (*ActiveGames) {
 func (ag *ActiveGames) addMoreActiveGames(db *sql.DB) error {
     //Get the last game time
     lastTime := time.Now()
+    // It might happend that the database has now new games that are earlier than the last game
+    // in the active games list. Because of this, we have to check the database for new games
+    // and see if they are not already in the active games list and add them
+    /*
     for _, game := range ag.games {
         if game.Time.After(lastTime) {
             lastTime = game.Time
         }
     }
+    */
 
     games, err := models.GetActiveGames(db, lastTime, MAX_GAMES - ag.numGames)
 
+    // Check if there are new games
+    var newGames []models.Game // Assuming Game is the type of elements in games
+    for _, game := range games {
+        if _, ok := ag.idToIdx[game.Id]; !ok {
+            // Game does not exist in the map, so we keep it
+            newGames = append(newGames, game)
+        }
+        // If the game exists in the map, it's skipped and not added to newGames
+    }
+
     if err == nil {
-        ag.AddMultipleGames(games)
+        ag.AddMultipleGames(newGames)
     }
 
     return err
